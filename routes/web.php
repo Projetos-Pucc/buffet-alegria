@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+    Route::get('/packages/{$id}', [PackageController::class, 'find'])->name('packages.show');
+    Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+    Route::post('/packages/store', [PackageController::class, 'store'])->name('packages.store');
+    Route::delete('/packages/delete', [PackageController::class,'delete'])->name('packages.delete');
+    Route::put('/packages/update',[PackageController::class,'put'])->name('packages.update');
 });
 
 require __DIR__.'/auth.php';
