@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use PhpParser\Node\Expr\Cast\Bool_;
+use ValueError;
 
 class User extends Authenticatable
 {
@@ -45,7 +46,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public static $user_permissions = ["user", "commercial", "operational", "admnistrative"];
+
     public function booking() {
         return $this->hasMany(Booking::class);
+    }
+
+    public function hasPermission(string $permission) {
+        return $this->permission === $permission;
+    }
+
+    public function assignPermission(string $permission) {
+        if(array_search($permission, self::$user_permissions)) {
+            $this->permission = $permission;
+        } else {
+            throw new ValueError('Permission not found.');
+        }
     }
 }
