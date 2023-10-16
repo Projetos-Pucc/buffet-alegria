@@ -28,10 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/teste1', [PackageController::class, 'create'])->name('package.teste1');
-    Route::get('/teste2', [PackageController::class, 'index'])->name('package.teste2');
-    Route::get('/teste3', [PackageController::class, 'update'])->name('package.teste3');
 });
 
 require __DIR__.'/auth.php';
