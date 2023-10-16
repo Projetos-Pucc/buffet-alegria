@@ -17,22 +17,41 @@ class PackageController extends Controller
         return view('packages.create');
     }
 
-    public function find(string|int $id, Package $package) {
-        $pk = $package->find($id);
+    public function find(string|int $id, Package $pk) {
+        $package = $pk->find($id);
 
-        return view('packages.show', compact('pk'));
+
+        return view('packages.show', compact('package'));
     }
 
     public function store(Request $request, Package $package) {
-        $pk = $package->create($request->all());
+        $package->create($request->all());
 
         return redirect()->route('packages.index');
     }
     public function delete(Request $request, Package $package){
-        $id = $request->only(['id']);
-        $package->delete($id);
+        $package->delete($request->id);
 
         return redirect()->route('packages.index');
         
+    }
+    public function edit(Request $request, Package $pk) {
+        if(!$package = $pk->find($request->id)){
+            return back();
+        }
+
+        return view('packages.update', compact('package'));
+    }
+
+    public function update(Request $request, Package $pk){
+        if(!$package = $pk->find($request->id)){
+            return back();
+        }
+        
+        $package->update($request->only([
+            'name_package','food_description','beverages_description','photo_1','photo_2','photo_3','slug'
+        ]));
+        return redirect()->route('packages.index');
+
     }
 }
