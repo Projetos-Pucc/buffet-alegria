@@ -1,5 +1,11 @@
 <h1>Pacote: {{$package->name_package}} </h1>
 
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        {{ $error }}
+    @endforeach
+@endif
+
 <form action="{{ route('packages.update', $package->id) }}" method="POST">
 
     @csrf
