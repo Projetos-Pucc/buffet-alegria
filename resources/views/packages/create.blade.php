@@ -1,3 +1,10 @@
+<h1>Criar Pacote</h1>
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        {{ $error }}
+    @endforeach
+@endif
+
 <form action="{{ route('packages.store') }}" method="POST" enctype="multipart/form-data">>
 
     @csrf

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Packages\PackagesUpdateRequest;
 use App\Models\Package;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class PackageController extends Controller
         return view('packages.show', compact('package'));
     }
 
-    public function store(Request $request, Package $package)
+    public function store(PackagesUpdateRequest $request, Package $package)
     {
 
         // $request->validate([
