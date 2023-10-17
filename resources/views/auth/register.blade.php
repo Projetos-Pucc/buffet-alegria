@@ -5,24 +5,56 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <style>
         body{
-            [x-cloak] {
-			display: none;
-		    }
             background-image: url("https://img.elo7.com.br/product/zoom/1E8793D/papel-de-parede-bolinhas-coloridas-1331-promocao-em-papel-de-parede-bolinhas-coloridas.jpg");
-            background-repeat: no-repeat;
             background-size: cover;
-        }
-        container-box{
-            background-color: white;
-        }
+			display: flex;
+    		justify-content: center; /* Centraliza horizontalmente */
+			scroll-behavior: smooth;
+		}
+		#cabecalho{
+			text-align: center;
+			background-color: #cffafe;
+			padding:0%;
+			margin: 10px;
+		}
+		.buttons{
+			inline-size: flex; 
+			text-align: right;
+		}
+		#registro{
+			background-color:white; 
+			padding: 10%;
+			margin: 2.5%;
+		} 
+		::placeholder{
+			color: black
+		}
+
     </style>
 
 </head>
 <body class="h-full">
 <div class=" min-h-full">
 
-    <!-- component -->
-<!-- This is an example component -->
+<!-- Cabeçalho -->
+
+<h1 id="cabecalho" class="font-sans text-5xl font-semibold leading-tight tracking-normal antialiased text-aling-center">
+	BUFFET ALEGRIA 
+</h1>
+
+<div class="buttons">
+	
+	<button class="bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-l">
+		<a href="{{route("login")}}">Logar	</a>
+	</button>
+	<button class="bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-r">
+		<a href="#registro">Registrar</a>
+	</button>
+</div>
+
+<!-- Fim cabeçalho-->
+
+<!-- Calendário -->
 <div>
 
 	<link rel="dns-prefetch" href="//unpkg.com" />
@@ -36,7 +68,7 @@
 		}
 	</style>
 
-<div class="antialiased sans-serif bg-gray-100 h-screen">
+<div class="antialiased sans-serif h-screen">
 	<div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak>
 		<div class="container mx-auto px-4 py-2 md:py-24">
 			  
@@ -144,23 +176,61 @@
 				days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
 				events: [
+
 					{
-						event_date: new Date(2020, 3, 1),
-						event_title: "April Fool's Day",
-						event_theme: 'blue'
+						event_date: new Date(2023, 9, 13),
+						event_title: "Livre - 9:00",
+						event_theme: 'green'
 					},
 
 					{
-						event_date: new Date(2020, 3, 10),
-						event_title: "Birthday",
+						event_date: new Date(2023, 9, 13),
+						event_title: "Livre - 14:00",
+						event_theme: 'green'
+					},
+
+					{
+						event_date: new Date(2023, 9, 13),
+						event_title: "Livre - 19:00",
+						event_theme: 'green'
+					},
+
+					{
+						event_date: new Date(2023, 9, 14),
+						event_title: "Festa Maria - 13:00",
 						event_theme: 'red'
 					},
 
 					{
-						event_date: new Date(2020, 3, 16),
-						event_title: "Upcoming Event",
+						event_date: new Date(2023, 9, 14),
+						event_title: "Festa Pedro - 14:00",
+						event_theme: 'red'
+					},
+
+					{
+						event_date: new Date(2023, 9, 14),
+						event_title: "Festa João - 19:00",
+						event_theme: 'red'
+					},
+
+					{
+						event_date: new Date(2023, 9, 29),
+						event_title: "Livre - 9:00",
 						event_theme: 'green'
-					}
+					},
+
+					{
+						event_date: new Date(2023, 9, 29),
+						event_title: "Livre - 14:00",
+						event_theme: 'green'
+					},
+
+					{
+						event_date: new Date(2023, 9, 29),
+						event_title: "Festa Luiza - 19:00",
+						event_theme: 'red'
+					},
+
 				],
 				event_title: '',
 				event_date: '',
@@ -216,11 +286,13 @@
 						return;
 					}
 
-					this.events.push({
-						event_date: this.event_date,
-						event_title: this.event_title,
+					const obj = {
+						event_date: new Date(2023, 9, 1),
+						event_title: `dasda`,
 						event_theme: this.event_theme
-					});
+					}
+
+					this.events.push(obj);
 
 					console.log(this.events);
 
@@ -256,7 +328,11 @@
 	</script>
   </div>
 
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+<!-- Fim calendário -->
+
+<!-- Registro -->
+
+<div id="registro" class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img class="mx-auto h-10 w-auto" src="https://img.freepik.com/vetores-premium/balao-de-helio-voando-em-bolas-de-ar-isoladas-no-fundo-branco-feliz-aniversario-feriado_458444-964.jpg?w=826" alt="Your Company">
       <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Registro</h2>
@@ -266,39 +342,53 @@
       <form class="space-y-6" action="#" method="POST">
 
         <div>
-            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nome</label>
+            <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nome</label>
             <div class="mt-2">
-              <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+				<input id="name" name="name" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+			</div>
+        </div>
+
+		<div>
+            <label for="surname" class="block text-sm font-medium leading-6 text-gray-900">Sobrenome</label>
+            <div class="mt-2">
+				<input id="surname" name="surname" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+			</div>
         </div>
 
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
           <div class="mt-2">
-            <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input id="email" name="email" type="email" autocomplete="email" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
           </div>
         </div>
   
         <div>
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
-            <div class="text-sm">
-              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
-            </div>
           </div>
           <div class="mt-2">
-            <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
           </div>
         </div>
+
+		<div>
+			<div class="flex items-center justify-between">
+			  <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Confirmação da senha</label>
+			</div>
+			<div class="mt-2">
+			  <input id="confirm_password" name="confirm_password" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+			</div>
+		  </div>
   
         <div class="mt-2">
-          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Registrar</button>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-cyan-300 px-3 py-1.5 text-sm font-semibold leading-6 text-cyan-950 shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">Registrar</button>
         </div>
       </form>
   
-      <p class="mt-10 text-center text-sm text-gray-500">
+      <p class="mt-10 text-center text-sm text-gray-700">
         Já registrado?
-        <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Entrar</a>
+        <a href="{{route("login")}}" class="font-semibold leading-6 text-cyan-400 hover:text-cyan-950">Entrar</a>
       </p>
     </div>
   </div>
-  
+<!-- Fim registro -->
