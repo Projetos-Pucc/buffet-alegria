@@ -13,7 +13,7 @@
 		}
 		#cabecalho{
 			text-align: center;
-			background-color: #cffafe;
+			background-color: #ffffff;
 			padding:0%;
 			margin: 10px;
 		}
@@ -176,7 +176,6 @@
 				days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
 				events: [
-
 					{
 						event_date: new Date(2023, 9, 13),
 						event_title: "Livre - 9:00",
