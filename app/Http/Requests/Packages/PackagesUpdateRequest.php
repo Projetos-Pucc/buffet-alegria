@@ -41,7 +41,6 @@ class PackagesUpdateRequest extends FormRequest
 
     }
 
-    
         return $rules;
     }
 }
