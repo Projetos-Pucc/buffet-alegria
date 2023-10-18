@@ -45,7 +45,7 @@
 <div class="buttons">
 	
 	<button class="bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-l">
-		<a href="{{route("login")}}">Logar	</a>
+		<a href="{{route('login')}}">Logar	</a>
 	</button>
 	<button class="bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-r">
 		<a href="#registro">Registrar</a>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -53,5 +54,13 @@ Route::middleware('auth')->group(function () {
     //     $this->middleware('mesma coisa de cima', ['except'=>['metodos', 'que', 'nao', 'executarao', 'o', 'middleware']]);
     // }
 });
+
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/{id}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+    Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
+    Route::post('/bookings/store', [BookingController::class, 'store'])->name('bookings.store');
+    Route::delete('/bookings/delete', [BookingController::class,'delete'])->name('bookings.delete');
+    Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
+    Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
 
 require __DIR__.'/auth.php';
