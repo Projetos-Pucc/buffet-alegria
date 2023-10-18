@@ -6,6 +6,7 @@ use App\DTO\Packages\CreatePackageDTO;
 use App\DTO\Packages\UpdatePackageDTO;
 use App\Repositories\Contract\PackageRepository;
 use stdClass;
+use ValueError;
 
 class PackageService {
 
@@ -15,6 +16,15 @@ class PackageService {
     ){}
     
     public function create(CreatePackageDTO $dto) {
+        // slug can't has spaces
+        $dto->slug = explode(' ', $dto->slug);
+        $dto->slug = implode('-', $dto->slug);
+
+        $slug_exists = $this->package->findOne('slug', $dto->slug);
+        if($slug_exists) {
+            throw new ValueError('Slug already exists');
+        }
+        
         return $this->package->create($dto);
     }
 
@@ -23,7 +33,7 @@ class PackageService {
     }
 
     public function find($id) {
-        return $this->package->findOne($id);
+        return $this->package->findOneById($id);
     }
 
     public function delete($id) {

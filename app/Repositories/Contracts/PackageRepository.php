@@ -8,7 +8,8 @@ use stdClass;
 
 interface PackageRepository {
     public function getAll(string $filter = null): array;
-    public function findOne(string $id): stdClass|null;
+    public function findOneById(string $id): stdClass|null;
+    public function findOne(...$filters): stdClass|null;
     public function delete(string $id): void;
     public function create(CreatePackageDTO $dto): stdClass;
     public function update(UpdatePackageDTO $dto): stdClass|null;

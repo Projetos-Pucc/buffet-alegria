@@ -2,6 +2,8 @@
 
 namespace App\DTO\Packages;
 
+use App\Http\Requests\Packages\PackagesUpdateRequest;
+
 class CreatePackageDTO {
     public function __construct(
         public string $name_package,
@@ -12,4 +14,15 @@ class CreatePackageDTO {
         public string $photo_2,
         public string $photo_3,
     ) {}
+
+    public static function makeFromRequest(PackagesUpdateRequest $request):self {
+        return new self($request->name_package,
+        $request->slug,
+        $request->food_description,
+        $request->beverages_description,
+        $request->photo_1,
+        $request->photo_2,
+        $request->photo_3,
+    );
+    }
 }

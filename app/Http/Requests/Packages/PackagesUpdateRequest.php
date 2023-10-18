@@ -22,7 +22,8 @@ class PackagesUpdateRequest extends FormRequest
     public function rules(): array
     {
         $rules = [           
-        'name_package' => 'required|max:255|unique:packages',
+        'name_package' => 'required|max:255',
+        'slug'=>'required|max:255|unique:packages',
         'food_description'=>'required',
         'beverages_description' => 'required',
             'images' => 'required',
