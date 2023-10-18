@@ -27,7 +27,7 @@ class PackageController extends Controller
 
     public function find(string $id)
     {
-        if($package = $this->service->find($id)){
+        if(!$package = $this->service->find($id)){
             return back();
         }
 

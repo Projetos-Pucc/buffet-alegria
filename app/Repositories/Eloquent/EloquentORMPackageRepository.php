@@ -14,7 +14,7 @@ class EloquentORMPackageRepository implements PackageRepository {
     ){}
 
     public function getAll(string $filter = null): array {
-        return $this->package->get();
+        return $this->package->get()->toArray();
     }
 
     public function findOne(string $id): stdClass|null {
@@ -40,7 +40,5 @@ class EloquentORMPackageRepository implements PackageRepository {
             return null;
         }
         $package->update((array)$dto);
-        
-
     }
 }

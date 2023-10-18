@@ -14,20 +14,11 @@ class PackageService {
 
     ){}
     
-    // public function getAll(string $filter = null): array{
-    //     return $this->repository->getAll();
-    // }
-
-    // public function findOne(string $id): stdClass|null{
-    //     return $this->repository->findOne($id);
-
-    // }
-
     public function create(CreatePackageDTO $dto) {
         return $this->package->create($dto);
     }
 
-    public function getAll() {
+    public function getAll(): array {
         return $this->package->getAll();
     }
 
