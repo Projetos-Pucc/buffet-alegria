@@ -26,6 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+    Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');
+    Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+    Route::post('/packages/store', [PackageController::class, 'store'])->name('packages.store');
+    Route::delete('/packages/delete', [PackageController::class,'delete'])->name('packages.delete');
+    Route::put('/packages/{id}',[PackageController::class,'update'])->name('packages.update');
+    Route::get('/packages/{id}', [PackageController::class, 'find'])->name('packages.show');
     /**
      * Formatos de utilização dos middlewares de permissionamento:
      * - Pela definição da rota
