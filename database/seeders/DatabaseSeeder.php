@@ -17,49 +17,49 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(1)->create();
 
-        User::factory()->create([
+        $operational = User::factory()->create([
             'name' => 'Operacional',
             'email' => 'operacional@buffetalegria.com',
             'email_verified_at' => now(),
-            "permission" => "operational",
             'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
             'remember_token' => Str::random(10),
         ]);
+        $operational->assignRole('operational');
 
-        User::factory()->create([
+        $administrative= User::factory()->create([
             'name' => 'Administrativo',
             'email' => 'administracao@buffetalegria.com',
             'email_verified_at' => now(),
-            "permission" => "administrative",
             'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
             'remember_token' => Str::random(10),
         ]);
+        $administrative->assignRole('administrative');
 
-        User::factory()->create([
+        $commercial= User::factory()->create([
             'name' => 'Comercial',
             'email' => 'comercial@buffetalegria.com',
             'email_verified_at' => now(),
-            "permission" => "commercial",
             'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
             'remember_token' => Str::random(10),
         ]);
+        $commercial->assignRole('commercial');
 
-        User::factory()->create([
+        $support = User::factory()->create([
             'name' => 'Suporte',
             'email' => 'suporte@buffetalegria.com',
             'email_verified_at' => now(),
-            "permission" => "commercial",
             'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
             'remember_token' => Str::random(10),
         ]);
+        $support->assignRole('commercial');
 
-        User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Guilherme',
             'email' => 'guilherme@gmail.com',
             'email_verified_at' => now(),
-            "permission" => "user",
             'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
             'remember_token' => Str::random(10),
         ]);
+        $user->assignRole('user');
     }
 }
