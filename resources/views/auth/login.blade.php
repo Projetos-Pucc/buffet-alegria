@@ -13,9 +13,10 @@
 		}
 		
 		#logar{
-			background-color:white; 
-			padding: 10%;
-			margin: 2.5%;
+      background-color: #ffffff;
+      width: 100%;
+      margin: 2.5%;
+      max-width: 800px;
 		} 
 
     </style>
