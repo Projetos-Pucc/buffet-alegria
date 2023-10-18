@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Packages\PackagesUpdateRequest;
 use App\Models\Package;
+use App\Services\PackageService;
 use Illuminate\Http\Request;
 
 class PackageController extends Controller
 {
-    public function index(Package $package)
+    public function __construct(
+        protected PackageService $service
+        ){}
+    
+    public function index()
     {
-        $packages = $package->all();
+        $packages = $this->service->getAll();
 
         return view('packages.index', compact('packages'));
     }
@@ -20,10 +25,11 @@ class PackageController extends Controller
         return view('packages.create');
     }
 
-    public function find(string|int $id, Package $pk)
+    public function find(string $id)
     {
-        $package = $pk->find($id);
-
+        if($package = $this->service->find($id)){
+            return back();
+        }
 
         return view('packages.show', compact('package'));
     }
@@ -62,30 +68,30 @@ class PackageController extends Controller
 
         return redirect()->route('packages.index');
     }
-    public function delete(Request $request, Package $package)
+    public function delete(Request $request)
     {
-        $package->delete($request->id);
+        $this->service->delete($request->id);
 
         return redirect()->route('packages.index');
     }
-    public function edit(Request $request, Package $pk)
+    public function edit(Request $request)
     {
-        if (!$package = $pk->find($request->id)) {
+        if (!$package = $this->service->find($request->id)) {
             return back();
         }
 
         return view('packages.update', compact('package'));
     }
 
-    public function update(Request $request, Package $pk)
+    public function update(Request $request)
     {
-        if (!$package = $pk->find($request->id)) {
+        if (!$package = $this->service->find($request->id)) {
             return back();
         }
 
-        $package->update($request->only([
-            'name_package', 'food_description', 'beverages_description', 'photo_1', 'photo_2', 'photo_3', 'slug'
-        ]));
+        // $package= $this->service->update($request->only([
+        //     'name_package', 'food_description', 'beverages_description', 'photo_1', 'photo_2', 'photo_3', 'slug'
+        // ]));
         return redirect()->route('packages.index');
     }
 }
