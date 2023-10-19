@@ -20,6 +20,12 @@ Um sistema web gerenciador de buffets para festas infantis desenvolvido com Lara
 https://www.docker.com/
 ```
 
+### Instalação do NodeJS: 
+*Instalar o NodeJS no seu computador:*
+```
+https://www.docker.com/
+```
+
 ### Clonar repositório do Github
 *Pelo site do github:*
 ```
@@ -43,7 +49,7 @@ APP_URL=http://localhost:8989
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=laravel
+DB_DATABASE=buffet_alegria
 DB_USERNAME=root
 DB_PASSWORD=root
 ```
@@ -80,6 +86,12 @@ Inicializar os valores base no banco de dados
 ```sh
 php artisan db:seed
 ```
+
+Fora do terminal docker, executar
+```sh
+npm run dev
+```
+
 
 Acessar o projeto
 [http://localhost:8989](http://localhost:8989)
