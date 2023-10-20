@@ -379,7 +379,7 @@
 			  <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Confirmação da senha</label>
 			</div>
 			<div class="mt-2">
-			  <input id="confirm_password" name="confirm_password" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+			  <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
 			</div>
 			<x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
 		  </div>
@@ -391,7 +391,7 @@
   
       <p class="mt-10 text-center text-sm text-gray-700">
         Já registrado?
-        <a href="{{route("login")}}" class="font-semibold leading-6 text-cyan-400 hover:text-cyan-950">Entrar</a>
+        <a href="{{route('login')}}" class="font-semibold leading-6 text-cyan-400 hover:text-cyan-950">Entrar</a>
       </p>
     </div>
   </div>
