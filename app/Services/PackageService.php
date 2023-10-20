@@ -10,6 +10,8 @@ use ValueError;
 
 class PackageService {
 
+    public static string $image_repository = 'app/public/packages';
+
     public function __construct(
         protected PackageRepository $package
 
@@ -25,7 +27,7 @@ class PackageService {
 
     private function uploadImage($image) {
         $imageName = time() . rand(1, 99) . '.' . $image->extension();
-        $image->move(storage_path('images'), $imageName);
+        $image->move(storage_path(self::$image_repository), $imageName);
 
         return $imageName;
     }

@@ -14,15 +14,26 @@
     <input type="text" name="slug" placeholder="slug" value="{{$package->slug}}">
     <textarea name="food_description" id="" cols="30" rows="10" placeholder="food_description">{{$package->food_description}}</textarea>
     <textarea name="beverages_description" id="" cols="30" rows="10" placeholder="beverages_description">{{$package->beverages_description}}</textarea>
-{{-- 
-    <input type="file" name="photo_1" id="" value="{{$package->photo_1}}">
-    <input type="file" name="photo_2" id="" value="{{$package->photo_2}}">
-    <input type="file" name="photo_3" id="" value="{{$package->photo_3}}"> --}}
 
-    <input type="text" name="photo_1" value="{{$package->photo_1}}">
-    <input type="text" name="photo_2" value="{{$package->photo_2}}">
-    <input type="text" name="photo_3" value="{{$package->photo_3}}">
-
+    <div>
+        <label for="photo_1">
+            <img src="{{asset('storage/packages/'.$package->photo_1)}}" alt="">
+        </label>
+        <input type="file" name="photo_1" id="photo_1" value="">
+    </div>
+    <div>
+    <label for="photo_2">
+        <img src="{{asset('storage/packages/'.$package->photo_2)}}" alt="">
+        </label>
+        <input type="file" name="photo_2" id="photo_2" >
+    </div>
+    <div>
+    <label for="photo_3">
+            <img src="{{asset('storage/packages/'.$package->photo_3)}}" alt="">
+        </label>
+        <input type="file" name="photo_3" id="photo_3" >
+    </div>
+    
     <button type="submit">Editar</button>
 
 </form>
