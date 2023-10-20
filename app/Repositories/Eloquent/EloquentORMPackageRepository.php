@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\DTO\Packages\CreatePackageDTO;
 use App\DTO\Packages\UpdatePackageDTO;
+use App\DTO\Packages\UpdatePackageImageDTO;
 use App\Models\Package;
 use App\Repositories\Contract\PackageRepository;
 use stdClass;
@@ -39,11 +40,18 @@ class EloquentORMPackageRepository implements PackageRepository {
         if(!$package = $this->package->find($dto->id)){
             return null;
         }
-        $package->update((array)$dto);
+        return $package->update((array)$dto);
+    }
+
+    public function updateImage(UpdatePackageImageDTO $dto): stdClass|null {
+        if(!$package = $this->package->find($dto->id)){
+            return null;
+        }
+        return $package->update((array)$dto);
     }
 
     public function findOne(...$filters): stdClass|null {
-        $package = $this->package->get()->where(...$filters);
+        $package = $this->package->get()->where(...$filters)->first();
         if (!$package) {
             return null;
         }

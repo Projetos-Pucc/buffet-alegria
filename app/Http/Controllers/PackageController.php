@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Packages\CreatePackageDTO;
 use App\Http\Requests\Packages\PackagesUpdateRequest;
-use App\Models\Package;
 use App\Services\PackageService;
 use Illuminate\Http\Request;
 
@@ -34,37 +34,9 @@ class PackageController extends Controller
         return view('packages.show', compact('package'));
     }
 
-    public function store(PackagesUpdateRequest $request, Package $package)
+    public function store(PackagesUpdateRequest $request)
     {
-
-        // $request->validate([
-        //     'images' => 'required',
-        //     'images.*' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-        // ]);
-        // ^^ fazer acima com o StorePackageRequest $request
-
-
-        // $file = $request->file('images');
-        // dd($file);
-        // $extension = $file->getClientOriginalExtension();
-        // dd($file, $extension);
-        $images = [];
-        if ($request->has('images')) {
-            if (count($request->images) !== 3) {
-                return redirect()->route('packages.index');
-            }
-            $image_index = 1;
-            foreach ($request->images as $key => $image) {
-                $imageName = time() . rand(1, 99) . '.' . $image->extension();
-                $image->move(storage_path('images'), $imageName);
-
-                $img_db = "photo_" . $image_index;
-                $image_index++;
-                $request->merge([$img_db => $imageName]);
-            }
-        }
-        $data = $request->except('images');
-        $package->create($data);
+        $this->service->create(CreatePackageDTO::makeFromRequest($request));
 
         return redirect()->route('packages.index');
     }
