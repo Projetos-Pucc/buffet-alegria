@@ -12,7 +12,7 @@
                     <a href="{{ route('bookings.create') }}">Agendar Aniversario</a>
                     <ul>
                         @foreach($bookings as $value)
-                            <li>{{ $value['name_package'] }}</li>
+                            <li>{{ $value['name_birthdayperson'] }}</li>
                             <li><a href="{{ route('bookings.show', [$value['id']])}}">Ir</a></li>
                         @endforeach
                     </ul>
