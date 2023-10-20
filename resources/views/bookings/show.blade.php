@@ -1,1 +1,1 @@
-<a href="{{ route('packages.edit', [$package->id]) }}">Editar</a>
+<a href="{{ route('bookings.edit', [$booking->id]) }}">Editar</a>

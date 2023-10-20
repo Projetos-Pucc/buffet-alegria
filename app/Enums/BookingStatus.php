@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum SupportStatus: string {
+enum BookingStatus: string {
     case A = "Aprovado";
     case P = "Pendente";
     case F = "Finalizado";

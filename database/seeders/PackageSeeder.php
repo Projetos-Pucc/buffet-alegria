@@ -20,7 +20,9 @@ class PackageSeeder extends Seeder
             'photo_1'=>'photo1',
             'photo_2'=>'photo2',
             'photo_3'=>'photo3',
-            'slug'=>'uniao'
+            'slug'=>'uniao',
+            'status'=>true,
+            'price'=>55
         ]);
         Package::factory()->create([
             'name_package'=>'Pacote Familia',
@@ -29,7 +31,9 @@ class PackageSeeder extends Seeder
             'photo_1'=>'photo1',
             'photo_2'=>'photo2',
             'photo_3'=>'photo3',
-            'slug'=>'familia'
+            'slug'=>'familia',
+            'status'=>true,
+            'price'=>55
         ]);
 
         Package::factory()->create([
@@ -39,7 +43,9 @@ class PackageSeeder extends Seeder
             'photo_1'=>'photo1',
             'photo_2'=>'photo2',
             'photo_3'=>'photo3',
-            'slug'=>'alegria'
+            'slug'=>'alegria',
+            'status'=>true,
+            'price'=>55
         ]);
     }
 }

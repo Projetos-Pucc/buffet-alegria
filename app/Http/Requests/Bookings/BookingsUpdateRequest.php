@@ -25,11 +25,10 @@ class BookingsUpdateRequest extends FormRequest
             'name_birthdayperson' => 'required|max:255',
             'years_birthdayperson' => 'required|max:255',
             'qnt_invited' => 'required',
-            'id_reservation' => 'required',
-            'id_package' => 'required',
-            'status' => 'required', // depois
             'package_id' => 'required',
-            'price' => 'required'
+            'party_start'=> 'required|date|after:today',
+            'party_end'=> 'required|date|after:today',
+            'user_id'=>'nullable',
         ];
         return $rules;
     }

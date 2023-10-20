@@ -56,6 +56,10 @@ class PackageService {
         return $this->package->create($dto);
     }
 
+    public function getAllByStatus(bool $status = true):array {
+        return $this->package->getAll($status);
+    }
+
     public function getAll(): array {
         return $this->package->getAll();
     }

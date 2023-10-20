@@ -26,8 +26,9 @@ class PackagesUpdateRequest extends FormRequest
         'slug'=>'required|max:255|unique:packages',
         'food_description'=>'required',
         'beverages_description' => 'required',
-            'images' => 'required',
-            'images.*' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+        'images' => 'required',
+        'images.*' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+        'price'=>'required|numeric'
         // 'photo_1' =>'required|max:255',
         // 'photo_2' =>'required|max:255',
         // 'photo_3' =>'required|max:255'

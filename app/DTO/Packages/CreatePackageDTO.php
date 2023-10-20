@@ -11,6 +11,8 @@ class CreatePackageDTO {
         public string $food_description,
         public string $beverages_description,
         public array $images,
+        public string $status,
+        public float $price
     ) {}
 
     public static function makeFromRequest(PackagesUpdateRequest $request):self {
@@ -19,6 +21,8 @@ class CreatePackageDTO {
         $request->food_description,
         $request->beverages_description,
         $request->images,
+        $request->status,
+        $request->price
     );
     }
 } 
