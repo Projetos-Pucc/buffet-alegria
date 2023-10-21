@@ -5,13 +5,15 @@ namespace App\Services;
 use App\DTO\Bookings\CreateBookingDTO;
 use App\DTO\Bookings\UpdateBookingDTO;
 use App\Repositories\Contract\BookingRepository;
+use App\Repositories\Contract\PackageRepository;
 use stdClass;
 
 class BookingService
 {
 
     public function __construct(
-        protected BookingRepository $booking
+        protected BookingRepository $booking,
+        protected PackageRepository $package
 
     ) {
     }

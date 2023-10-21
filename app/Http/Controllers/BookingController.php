@@ -9,6 +9,7 @@ use App\Services\BookingService;
 use App\Services\PackageService;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 use ValueError;
 
 class BookingController extends Controller
@@ -53,26 +54,43 @@ class BookingController extends Controller
         $partyEnd = new DateTime($request->party_end);
         $partyEnd->format('Y-m-d H:i:s');
 
+        $erros = new MessageBag();
+
+        if($partyEnd > $partyDate) {
+            $erros->add('party_end', 'Party can not end before start.');
+            return back()->withErrors($erros);
+        }
+
         $todayDate = date('Y-m-d H:i:s');
         
         $maxDate = new DateTime(date('Y-m-d H:i:s', strtotime($todayDate . " +".self::$min_days." days")));
         
         if ($partyDate <= $maxDate) {
-            throw new ValueError("Party should be scheduled with a minimum of ".self::$min_days." days");
+            $erros->add('party_start', "Party should be scheduled with a minimum of ".self::$min_days." days");
+            return back()->withErrors($erros);
+            // throw new ValueError("Party should be scheduled with a minimum of ".self::$min_days." days");
         }
         
         // validar se a data ja existe
-        $booking_exists = $booking->where('party_start', $partyDate)->first();
-        if($booking_exists) {
+        $booking_exists = $booking->where('party_start', $partyDate);
+        if(count($booking_exists) !== 0) {
             // TODO: validar se o status esta confirmado antes
-            throw new ValueError("Party already exists in this time");
+            foreach ($booking_exists as $booking) {
+                if($booking->status != BookingStatus::P) {
+                    $erros->add('booking', "Party already exists in this time");
+                    return back()->withErrors($erros);
+                    // throw new ValueError("Party already exists in this time");
+                }
+            }
         }
 
         
         $package = $this->package->find($request->package_id);
         
         if(!$package) {
-            throw new ValueError("Package not found");
+            $erros->add('package', "Package not found");
+            return back()->withErrors($erros);
+            // throw new ValueError("Package not found");
         }
         
         $price = $request->qnt_invited * $package->price;
