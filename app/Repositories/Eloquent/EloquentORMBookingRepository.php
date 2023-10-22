@@ -49,4 +49,5 @@ class EloquentORMBookingRepository implements BookingRepository {
         }
         return (object) $booking->toArray();
     }
+
 }

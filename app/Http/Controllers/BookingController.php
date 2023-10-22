@@ -22,6 +22,13 @@ class BookingController extends Controller
 
     public static int $min_days = 5; //numero minimo de dias para poder criar uma festa
 
+    public function calendar(Booking $booking) {
+        $data = $booking
+                        ->get();
+                        // ->where('status', BookingStatus::A)
+        return response()->json($data);
+    }
+
     public function index()
     {
         $bookings = $this->service->getAll();

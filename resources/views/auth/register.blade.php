@@ -2,6 +2,9 @@
 <head>
     <meta charset="UTF-8">
     <title>BUFFET ALEGRIA</title>
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <style>
         body{
@@ -167,6 +170,28 @@
 		const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+		const SITEURL = "{{ url('/') }}";
+		
+		async function getEvents() {
+			const csrf = document.querySelector('meta[name="csrf-token"]').content
+			const data = await axios.get(SITEURL+'/bookings/calendar',{
+				headers: {
+					'X-CSRF-TOKEN': csrf
+				}
+			})
+			const events = data.data.map((dt)=>{
+				const date = new Date(dt.party_start);
+				console.log(date)
+				return {
+					event_date: date,
+					event_title: "Ocupado - " + date.getHours() + ":" + date.getMinutes(),
+					event_theme: 'red'
+				}
+			})
+
+			return events;
+		}
+		
 		function app() {
 			return {
 				month: '',
@@ -175,61 +200,69 @@
 				blankdays: [],
 				days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
+				// events: [
+				// 	{
+				// 		event_date: new Date(2023, 9, 13),
+				// 		event_title: "Livre - 9:00",
+				// 		event_theme: 'green'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 13),
+				// 		event_title: "Livre - 14:00",
+				// 		event_theme: 'green'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 13),
+				// 		event_title: "Livre - 19:00",
+				// 		event_theme: 'green'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 14),
+				// 		event_title: "Festa Maria - 13:00",
+				// 		event_theme: 'red'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 14),
+				// 		event_title: "Festa Pedro - 14:00",
+				// 		event_theme: 'red'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 14),
+				// 		event_title: "Festa João - 19:00",
+				// 		event_theme: 'red'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 29),
+				// 		event_title: "Livre - 9:00",
+				// 		event_theme: 'green'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 29),
+				// 		event_title: "Livre - 14:00",
+				// 		event_theme: 'green'
+				// 	},
+
+				// 	{
+				// 		event_date: new Date(2023, 9, 29),
+				// 		event_title: "Festa Luiza - 19:00",
+				// 		event_theme: 'red'
+				// 	},
+
+				// ],
 				events: [
-					{
-						event_date: new Date(2023, 9, 13),
-						event_title: "Livre - 9:00",
-						event_theme: 'green'
-					},
-
-					{
-						event_date: new Date(2023, 9, 13),
-						event_title: "Livre - 14:00",
-						event_theme: 'green'
-					},
-
-					{
-						event_date: new Date(2023, 9, 13),
-						event_title: "Livre - 19:00",
-						event_theme: 'green'
-					},
-
-					{
-						event_date: new Date(2023, 9, 14),
-						event_title: "Festa Maria - 13:00",
-						event_theme: 'red'
-					},
-
-					{
-						event_date: new Date(2023, 9, 14),
-						event_title: "Festa Pedro - 14:00",
-						event_theme: 'red'
-					},
-
-					{
-						event_date: new Date(2023, 9, 14),
-						event_title: "Festa João - 19:00",
-						event_theme: 'red'
-					},
-
-					{
-						event_date: new Date(2023, 9, 29),
-						event_title: "Livre - 9:00",
-						event_theme: 'green'
-					},
-
-					{
-						event_date: new Date(2023, 9, 29),
-						event_title: "Livre - 14:00",
-						event_theme: 'green'
-					},
-
 					{
 						event_date: new Date(2023, 9, 29),
 						event_title: "Festa Luiza - 19:00",
 						event_theme: 'red'
 					},
-
+					getEvents()
 				],
 				event_title: '',
 				event_date: '',
