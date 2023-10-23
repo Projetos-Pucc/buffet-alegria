@@ -63,7 +63,7 @@ class BookingController extends Controller
 
         $erros = new MessageBag();
 
-        if($partyEnd > $partyDate) {
+        if($partyEnd < $partyDate) {
             $erros->add('party_end', 'Party can not end before start.');
             return back()->withErrors($erros);
         }
@@ -79,7 +79,7 @@ class BookingController extends Controller
         }
         
         // validar se a data ja existe
-        $booking_exists = $booking->where('party_start', $partyDate);
+        $booking_exists = $booking->where('party_start', $partyDate)->get();
         if(count($booking_exists) !== 0) {
             // TODO: validar se o status esta confirmado antes
             foreach ($booking_exists as $booking) {
