@@ -57,7 +57,7 @@ class EloquentORMPackageRepository implements PackageRepository
         return (object)$package->toArray();
     }
 
-    public function update(UpdatePackageDTO $dto): stdClass|null
+    public function update(UpdatePackageDTO $dto): bool|null
     {
         if (!$package = $this->package->find($dto->id)) {
             return null;

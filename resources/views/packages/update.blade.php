@@ -33,7 +33,7 @@
         </label>
         <input type="file" name="photo_3" id="photo_3" >
     </div>
-    
+    <input type="number" name ="price" min="0.01" max="10000.00" step="0.01" placeholder="Insira o preco"/>
     <button type="submit">Editar</button>
 
 </form>

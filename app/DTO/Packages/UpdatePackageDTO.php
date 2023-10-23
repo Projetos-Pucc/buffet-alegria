@@ -11,7 +11,7 @@ class UpdatePackageDTO {
         public string $slug,
         public string $food_description,
         public string $beverages_description,
-        public string $status,
+        public bool $status,
         public float $price
     ) {}
 
@@ -22,7 +22,6 @@ class UpdatePackageDTO {
         $request->slug,
         $request->food_description,
         $request->beverages_description,
-        $request->images,
         $request->status ?? true,
         $request->price
     );

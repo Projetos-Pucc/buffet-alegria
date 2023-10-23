@@ -171,6 +171,7 @@
 		const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 		const SITEURL = "{{ url('/') }}";
+		let i = 0;
 		
 		async function getEvents() {
 			const csrf = document.querySelector('meta[name="csrf-token"]').content
@@ -188,9 +189,19 @@
 					event_theme: 'red'
 				}
 			})
-
+			console.log(events)
+			if(i == 0) {
+				teste() 
+				i++
+			}
 			return events;
 		}
+
+		function teste() {
+			const a = document.querySelector('[x-data=app()]')
+			console.log(a)
+		}
+		
 		
 		function app() {
 			return {
@@ -256,14 +267,7 @@
 				// 	},
 
 				// ],
-				events: [
-					{
-						event_date: new Date(2023, 9, 29),
-						event_title: "Festa Luiza - 19:00",
-						event_theme: 'red'
-					},
-					getEvents()
-				],
+				events: getEvents(),
 				event_title: '',
 				event_date: '',
 				event_theme: 'blue',

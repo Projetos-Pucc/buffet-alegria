@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Bookings\UpdateBookingDTO;
 use App\Enums\BookingStatus;
 use App\Http\Requests\Bookings\BookingsUpdateRequest;
 use App\Models\Booking;
@@ -9,7 +10,6 @@ use App\Services\BookingService;
 use App\Services\PackageService;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 use ValueError;
 
 class BookingController extends Controller
@@ -23,10 +23,8 @@ class BookingController extends Controller
     public static int $min_days = 5; //numero minimo de dias para poder criar uma festa
 
     public function calendar(Booking $booking) {
-        $data = $booking
-                        ->get();
-                        // ->where('status', BookingStatus::A)
-        return response()->json($data);
+        $bookings = $booking->get();
+        return response()->json($bookings);
     }
 
     public function index()
@@ -61,43 +59,26 @@ class BookingController extends Controller
         $partyEnd = new DateTime($request->party_end);
         $partyEnd->format('Y-m-d H:i:s');
 
-        $erros = new MessageBag();
-
-        if($partyEnd < $partyDate) {
-            $erros->add('party_end', 'Party can not end before start.');
-            return back()->withErrors($erros);
-        }
-
         $todayDate = date('Y-m-d H:i:s');
         
         $maxDate = new DateTime(date('Y-m-d H:i:s', strtotime($todayDate . " +".self::$min_days." days")));
         
         if ($partyDate <= $maxDate) {
-            $erros->add('party_start', "Party should be scheduled with a minimum of ".self::$min_days." days");
-            return back()->withErrors($erros);
-            // throw new ValueError("Party should be scheduled with a minimum of ".self::$min_days." days");
+            throw new ValueError("Party should be scheduled with a minimum of ".self::$min_days." days");
         }
         
         // validar se a data ja existe
-        $booking_exists = $booking->where('party_start', $partyDate)->get();
-        if(count($booking_exists) !== 0) {
+        $booking_exists = $booking->where('party_start', $partyDate)->first();
+        if($booking_exists) {
             // TODO: validar se o status esta confirmado antes
-            foreach ($booking_exists as $booking) {
-                if($booking->status != BookingStatus::P) {
-                    $erros->add('booking', "Party already exists in this time");
-                    return back()->withErrors($erros);
-                    // throw new ValueError("Party already exists in this time");
-                }
-            }
+            throw new ValueError("Party already exists in this time");
         }
 
         
         $package = $this->package->find($request->package_id);
         
         if(!$package) {
-            $erros->add('package', "Package not found");
-            return back()->withErrors($erros);
-            // throw new ValueError("Package not found");
+            throw new ValueError("Package not found");
         }
         
         $price = $request->qnt_invited * $package->price;
@@ -139,15 +120,20 @@ class BookingController extends Controller
         return view('bookings.update', compact('booking'));
     }
 
-    public function update(Request $request)
+    public function update(BookingsUpdateRequest $request)
     {
-        if (!$booking = $this->service->find($request->id)) {
+        // if (!$booking = $this->service->find($request->id)) {
+        //     return back();
+        // }
+
+        $booking= $this->service->update(
+            UpdateBookingDTO::makeFromRequest($request)
+        );
+        if(!$booking){
             return back();
         }
 
-        // $package= $this->service->update($request->only([
-        //     'name_package', 'food_description', 'beverages_description', 'photo_1', 'photo_2', 'photo_3', 'slug'
-        // ]));
+
         return redirect()->route('bookings.index');
     }
 }

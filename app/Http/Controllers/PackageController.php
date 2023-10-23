@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Packages\CreatePackageDTO;
+use App\DTO\Packages\UpdatePackageDTO;
 use App\Http\Requests\Packages\PackagesUpdateRequest;
 use App\Services\PackageService;
 use Illuminate\Http\Request;
@@ -55,9 +56,12 @@ class PackageController extends Controller
         return view('packages.update', compact('package'));
     }
 
-    public function update(Request $request)
+    public function update(PackagesUpdateRequest $request)
     {
-        if (!$package = $this->service->find($request->id)) {
+        $package= $this->service->update(
+            UpdatePackageDTO::makeFromRequest($request)
+        );
+        if(!$package){
             return back();
         }
 
