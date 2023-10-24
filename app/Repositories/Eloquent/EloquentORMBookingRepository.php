@@ -18,7 +18,7 @@ class EloquentORMBookingRepository implements BookingRepository {
     }
 
     public function findOneById(string $id): stdClass|null {
-        $booking = $this->booking->find($id);
+        $booking = $this->booking->with('package')->with('user')->find($id);
         if (!$booking) {
             return null;
         }
@@ -43,7 +43,7 @@ class EloquentORMBookingRepository implements BookingRepository {
     }
 
     public function findOne(...$filters): stdClass|null {
-        $booking = $this->booking->where(...$filters)->get()->first();
+        $booking = $this->booking->with('package')->with('user')->where(...$filters)->get()->first();
         if (!$booking) {
             return null;
         }

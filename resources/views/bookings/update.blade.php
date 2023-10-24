@@ -1,16 +1,32 @@
-<h1>Pacote: {{$package->name_package}} </h1>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Aniversariante {{$booking->name_birthdayperson}}
+        </h2>
+    </x-slot>
 
-@if ($errors->any())
-    @foreach ($errors->all() as $error)
-        {{ $error }}
-    @endforeach
-@endif
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <h1>Reserva: {{$booking->id}} </h1>
 
-<form action="{{ route('bookings.update', $booking->id) }}" method="POST">
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
+                    @endif
 
-    @csrf
-    @method('put')
+                    <form action="{{ route('bookings.update', $booking->id) }}" method="POST">
 
-    <button type="submit">Editar</button>
+                        @csrf
+                        @method('put')
 
-</form>
+                        <button type="submit">Editar</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
