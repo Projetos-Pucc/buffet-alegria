@@ -11,6 +11,12 @@
                 <div class="p-6 text-gray-900">
                     <form class="w-full max-w-lg" action="{{ route('bookings.store') }}" method="POST">
 
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}
+                            @endforeach
+                        @endif
+
                         @csrf
 
                         <div class="flex flex-wrap -mx-3 mb-6">

@@ -43,7 +43,7 @@ class EloquentORMBookingRepository implements BookingRepository {
     }
 
     public function findOne(...$filters): stdClass|null {
-        $booking = $this->booking->get()->where(...$filters);
+        $booking = $this->booking->where(...$filters)->get()->first();
         if (!$booking) {
             return null;
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Bookings\CreateBookingDTO;
 use App\DTO\Bookings\UpdateBookingDTO;
 use App\Enums\BookingStatus;
 use App\Http\Requests\Bookings\BookingsUpdateRequest;
@@ -9,7 +10,10 @@ use App\Models\Booking;
 use App\Services\BookingService;
 use App\Services\PackageService;
 use DateTime;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use TypeError;
 use ValueError;
 
 class BookingController extends Controller
@@ -19,8 +23,6 @@ class BookingController extends Controller
         protected PackageService $package
     ) {
     }
-
-    public static int $min_days = 5; //numero minimo de dias para poder criar uma festa
 
     public function calendar(Booking $booking) {
         $bookings = $booking->get();
@@ -50,60 +52,23 @@ class BookingController extends Controller
         return view('bookings.show', compact('booking'));
     }
 
-    public function store(BookingsUpdateRequest $request, Booking $booking)
+    public function store(BookingsUpdateRequest $request)
     {
-        // validar se a data é menor que hoje + min_days (5 dias)
-        $partyDate = new DateTime($request->party_start);
-        $partyDate->format('Y-m-d H:i:s');
-
-        $partyEnd = new DateTime($request->party_end);
-        $partyEnd->format('Y-m-d H:i:s');
-
-        $todayDate = date('Y-m-d H:i:s');
-        
-        $maxDate = new DateTime(date('Y-m-d H:i:s', strtotime($todayDate . " +".self::$min_days." days")));
-        
-        if ($partyDate <= $maxDate) {
-            throw new ValueError("Party should be scheduled with a minimum of ".self::$min_days." days");
+        $retornos = new MessageBag();
+    
+        try {
+            $this->service->create(CreateBookingDTO::makeFromRequest($request));
+            $retornos->add('msg', 'Aniversario criado com sucesso!');
+            return redirect()->route('bookings.index');
+        } catch (TypeError $e) {
+            // Captura uma exceção de tipo (TypeError)
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
+        } catch (Exception $e) {
+            // Captura outras exceções
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
         }
-        
-        // validar se a data ja existe
-        $booking_exists = $booking->where('party_start', $partyDate)->first();
-        if($booking_exists) {
-            // TODO: validar se o status esta confirmado antes
-            throw new ValueError("Party already exists in this time");
-        }
-
-        
-        $package = $this->package->find($request->package_id);
-        
-        if(!$package) {
-            throw new ValueError("Package not found");
-        }
-        
-        $price = $request->qnt_invited * $package->price;
-        
-        // $user_id = auth()->user()->id;
-        // $request->user_id = $user_id;
-        // $request->price = $price;
-        // $request->status = BookingStatus::fromValue('P');
-        
-        $data = [
-            "name_birthdayperson"=>$request->name_birthdayperson,
-            "years_birthdayperson"=>$request->years_birthdayperson,
-            "qnt_invited"=>$request->qnt_invited,
-            "party_start"=>$partyDate,
-            "party_end"=>$partyEnd,
-            "status"=>BookingStatus::P->name,
-            "user_id"=>auth()->user()->id,
-            "package_id"=>$package->id,
-            "price"=>$price,
-        ];
-
-        
-        $booking->create((array)$data);
-
-        return redirect()->route('bookings.index');
     }
     public function delete(Request $request)
     {
