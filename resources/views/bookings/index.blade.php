@@ -50,6 +50,7 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_start'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_end'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                    <td><a href="{{route('bookings.update',[$booking['id']])}}">Editar</a></td>
                                         @php
                                         $class = '';
                                         if ($booking['status'] === 'A') {

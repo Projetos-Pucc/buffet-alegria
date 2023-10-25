@@ -81,8 +81,10 @@ class BookingController extends Controller
         if (!$booking = $this->service->find($request->id)) {
             return back();
         }
+        $packages = $this->package->getAllByStatus(true);
 
-        return view('bookings.update', compact('booking'));
+
+        return view('bookings.update', compact('booking','packages'));
     }
 
     public function update(BookingsUpdateRequest $request)
