@@ -78,7 +78,7 @@
 			</style>
 
 			<div class="antialiased sans-serif h-screen">
-				<div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak id="container-calendario">
+				<div x-data="app()" x-init="[initDate(), getNoOfDays(), inicializar()]" x-cloak id="container-calendario">
 					<div class="container mx-auto px-4 py-2 md:py-24">
 
 						<!-- <div class="font-bold text-gray-800 text-xl mb-4">

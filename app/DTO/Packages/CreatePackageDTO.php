@@ -21,7 +21,7 @@ class CreatePackageDTO {
         $request->food_description,
         $request->beverages_description,
         $request->images,
-        $request->status,
+        $request->status ?? true,
         $request->price
     );
     }

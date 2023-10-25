@@ -50,7 +50,6 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_start'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_end'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                    <td><a href="{{route('bookings.update',[$booking['id']])}}">Editar</a></td>
                                         @php
                                         $class = '';
                                         if ($booking['status'] === 'A') {
@@ -67,7 +66,10 @@
                                         @endphp
                                         <span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking['status']) }}</span>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                        <a href="{{route('bookings.update',[$booking['id']])}}">Editar</a>
+                                        <a>X</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             @endif

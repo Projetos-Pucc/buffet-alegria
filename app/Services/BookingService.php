@@ -40,7 +40,7 @@ class BookingService
             throw new TypeError("Party should be scheduled with a minimum of ".self::$min_days." days");
         }
 
-        if($partyEnd > $partyDate) {
+        if($partyEnd < $partyDate) {
             throw new TypeError('Party can not end before start');
         }
         

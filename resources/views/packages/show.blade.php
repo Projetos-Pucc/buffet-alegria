@@ -16,9 +16,9 @@
                     Descricao 2 {{$package->beverages_description}}<br>
                     <!-- Imagens -->
 
-                    <img src="{{asset('storage/packages/'.$package->photo_1)}}" alt="">
-                    <img src="{{asset('storage/packages/'.$package->photo_2)}}" alt="">
-                    <img src="{{asset('storage/packages/'.$package->photo_3)}}" alt="">
+                    <img src="{{asset('storage/packages/'.$package->photo_1)}}" alt="foto1">
+                    <img src="{{asset('storage/packages/'.$package->photo_2)}}" alt="foto2">
+                    <img src="{{asset('storage/packages/'.$package->photo_3)}}" alt="foto3">
                 </div>
             </div>
         </div>
