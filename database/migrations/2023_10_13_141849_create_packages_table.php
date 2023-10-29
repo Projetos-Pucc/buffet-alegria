@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('photo_1');
             $table->string('photo_2');
             $table->string('photo_3');
+            $table->boolean('status');
+            $table->float('price');
             $table->string('slug')->unique();
             $table->timestamps();
         });

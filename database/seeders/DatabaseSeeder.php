@@ -17,6 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(1)->create();
 
+        $this->call([
+            PermissionsSeeder::class,
+            PackageSeeder::class
+        ]);
+
         $operational = User::factory()->create([
             'name' => 'Operacional',
             'email' => 'operacional@buffetalegria.com',

@@ -47,13 +47,30 @@ services:
 
     phpmyadmin: 
         image: phpmyadmin/phpmyadmin
+        restart: always
         ports: 
-        - 8090:80
+            - 8090:80
         environment:
-        - PMA_HOST=localhost
-        - PMA_PORT=3388
+            PMA_ARBITRARY: 1
+            UPLOAD_LIMIT: 10000000000
+            PMA_HOST: 'mysql'
+            PMA_USER: '${DB_USERNAME}'
+            PMA_PASSWORD: '${DB_PASSWORD}'
         networks:
             - laravel
+
+    # phpmyadmin:
+    #     image: phpmyadmin:latest
+    #     ports:
+    #         - 8090:80
+    #     environment:
+    #         # - PMA_HOST: mysql
+    #         - PMA_HOST=db
+    #         - PMA_PORT=3388
+    #         - PMA_PASSWORD=${DB_PASSWORD}
+    #     restart: unless-stopped
+    #     volumes:
+    #         - ./.docker/mysql/dbdata:/var/lib/mysql
 
     # redis
     redis:

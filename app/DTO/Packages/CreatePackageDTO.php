@@ -10,9 +10,9 @@ class CreatePackageDTO {
         public string $slug,
         public string $food_description,
         public string $beverages_description,
-        public string $photo_1,
-        public string $photo_2,
-        public string $photo_3,
+        public array $images,
+        public string $status,
+        public float $price
     ) {}
 
     public static function makeFromRequest(PackagesUpdateRequest $request):self {
@@ -20,9 +20,9 @@ class CreatePackageDTO {
         $request->slug,
         $request->food_description,
         $request->beverages_description,
-        $request->photo_1,
-        $request->photo_2,
-        $request->photo_3,
+        $request->images,
+        $request->status ?? true,
+        $request->price
     );
     }
-}
+} 

@@ -48,8 +48,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public static $user_permissions = ["user", "commercial", "operational", "admnistrative"];
-
     public function booking() {
         return $this->hasMany(Booking::class);
     }
