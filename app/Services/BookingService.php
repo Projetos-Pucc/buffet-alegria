@@ -56,7 +56,7 @@ class BookingService
 
     private function validate_day(DateTime $partyEnd, DateTime $partyStart)
     {
-        [$partyDate,$partyEnd,$maxDate]= $this->format_booking_date($partyEnd,$partyStart);
+        ['partyDate'=>$partyDate,'partyEnd'=>$partyEnd,'maxDate'=>$maxDate]= $this->format_booking_date($partyEnd,$partyStart);
 
         if ($partyDate <= $maxDate) {
             throw new TypeError("Party should be scheduled with a minimum of ".self::$min_days." days");
@@ -89,7 +89,7 @@ class BookingService
     {
         try{
             $this->validate($dto);
-            [$partyDate,$partyEnd]= $this->format_booking_date($dto->party_end,$dto->party_start);
+            ['partyDate'=>$partyDate,'partyEnd'=>$partyEnd]= $this->format_booking_date($dto->party_end,$dto->party_start);
 
             $data = [
             "name_birthdayperson"=>$dto->name_birthdayperson,
@@ -129,7 +129,7 @@ class BookingService
     {
         try{
             $this->validate($dto);
-            [$partyDate,$partyEnd]= $this->format_booking_date($dto->party_end,$dto->party_start);
+            ['partyDate'=>$partyDate,'partyEnd'=>$partyEnd]= $this->format_booking_date($dto->party_end,$dto->party_start);
 
             $data = [
             "id"=>$dto->id,
