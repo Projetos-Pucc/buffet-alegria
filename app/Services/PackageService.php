@@ -17,12 +17,15 @@ class PackageService {
 
     ){}
 
-    private function validateSlug($slug) {
-        $slug = str_replace(' ', '-', $slug);
+    private function format_slug(string $slug) {
+        return str_replace(' ', '-', $slug);
 
+    }
+
+    private function validate_slug_exists($slug) {
+        $slug = $this->format_slug($slug);
         $slug_exists = $this->package->findOne('slug', $slug);
-        if($slug_exists) return false;
-        return $slug;
+        return $slug_exists;
     }
 
     private function uploadImage($image) {
@@ -34,7 +37,7 @@ class PackageService {
     
     public function create(CreatePackageDTO $dto) {
         // slug can't has spaces
-        $slug = $this->validateSlug($dto->slug);
+        $slug = $this->validate_slug_exists($dto->slug);
 
         if(!$slug) throw new ValueError('Slug already exists');
 
@@ -73,11 +76,11 @@ class PackageService {
     }
 
     public function update(UpdatePackageDTO $dto) {
-        $slug = $this->validateSlug($dto->slug);
+        $package_exists = $this->validate_slug_exists($dto->slug);
 
-        if(!$slug) throw new ValueError('Slug already exists');
+        if($package_exists && $package_exists->id != $dto->id) throw new ValueError('Slug already exists');
 
-        $dto->slug = $slug;
+        $dto->slug = $this->format_slug($dto->slug);
 
         return $this->package->update($dto);
     }
