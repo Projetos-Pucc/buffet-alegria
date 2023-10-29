@@ -123,7 +123,7 @@ class BookingService
 
     public function delete($id)
     {
-        $this->booking->delete($id);
+        return $this->booking->delete($id);
     }
     public function update(UpdateBookingDTO $dto)
     {

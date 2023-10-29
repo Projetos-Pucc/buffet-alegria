@@ -10,7 +10,7 @@ interface BookingRepository {
     public function getAll(string $filter = null): array;
     public function findOneById(string $id): stdClass|null;
     public function findOne(...$filters): stdClass|null;
-    public function delete(string $id): void;
+    public function delete(string $id): bool|null;
     public function create(CreateBookingDTO $dto): stdClass;
     public function update(UpdateBookingDTO $dto): bool|null;
 }

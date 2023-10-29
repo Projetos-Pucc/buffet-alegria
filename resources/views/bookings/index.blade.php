@@ -67,8 +67,12 @@
                                         <span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking['status']) }}</span>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{route('bookings.update',[$booking['id']])}}">Editar</a>
-                                        <a>X</a>
+                                        <a href="{{route('bookings.edit',[$booking['id']])}}">Editar</a>
+                                        <form action="{{route('bookings.delete',[$booking['id']])}}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" value="{{$booking['id']}}" name="id">X</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

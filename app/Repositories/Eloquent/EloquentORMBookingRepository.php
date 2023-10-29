@@ -25,9 +25,12 @@ class EloquentORMBookingRepository implements BookingRepository {
         return (object) $booking->toArray();
     }
 
-    public function delete(string $id): void {
+    public function delete(string $id): bool|null {
         //validate if booking exists
-        $this->booking->delete($id);
+        if (!$this->findOneById($id)) {
+            return null;
+        }
+        return $this->booking->destroy($id);
     }
 
     public function create(CreateBookingDTO $dto): stdClass {
