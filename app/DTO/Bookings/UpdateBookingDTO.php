@@ -12,12 +12,12 @@ class UpdateBookingDTO {
         public string $name_birthdayperson,
         public string $years_birthdayperson,
         public int $qnt_invited,
-        public float $price, 
-        public string $status,
         public int $user_id, 
         public int $package_id,
         public DateTime $party_start,
         public DateTime $party_end,
+        public string $status,
+        public float $price=0,
     ) {}
 
     public static function makeFromRequest(BookingsUpdateRequest $request):self {
@@ -26,12 +26,11 @@ class UpdateBookingDTO {
             $request->name_birthdayperson,
             $request->years_birthdayperson,
             (int)$request->qnt_invited,
-            $request->prices,
-            $request->status ?? BookingStatus::P->name,
-            (int)$request->user_id,
+            (int)$request->user_id ?? auth()->user()->id,
             (int)$request->package_id,
-            $request->party_start,
-            $request->party_end
+            new DateTime($request->party_start),
+            new DateTime($request->party_end),
+            $request->status ?? BookingStatus::P->name,
         );
     }
 }

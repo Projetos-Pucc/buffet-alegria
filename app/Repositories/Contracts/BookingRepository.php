@@ -12,5 +12,5 @@ interface BookingRepository {
     public function findOne(...$filters): stdClass|null;
     public function delete(string $id): void;
     public function create(CreateBookingDTO $dto): stdClass;
-    public function update(UpdateBookingDTO $dto): stdClass|null;
+    public function update(UpdateBookingDTO $dto): bool|null;
 }

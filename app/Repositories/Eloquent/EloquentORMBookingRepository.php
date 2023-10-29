@@ -35,11 +35,11 @@ class EloquentORMBookingRepository implements BookingRepository {
         return (object)$booking->toArray();
     }
     
-    public function update(UpdateBookingDTO $dto): stdClass|null {
+    public function update(UpdateBookingDTO $dto): bool|null {
         if(!$booking = $this->booking->find($dto->id)){
             return null;
         }
-        $booking->update((array)$dto);
+        return $booking->update((array)$dto);
     }
 
     public function findOne(...$filters): stdClass|null {
