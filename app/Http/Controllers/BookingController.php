@@ -88,19 +88,23 @@ class BookingController extends Controller
     }
 
     public function update(BookingsUpdateRequest $request)
-    {
-        // if (!$booking = $this->service->find($request->id)) {
-        //     return back();
-        // }
-
-        $booking= $this->service->update(
-            UpdateBookingDTO::makeFromRequest($request)
-        );
-        if(!$booking){
-            return back();
+    {        
+        $retornos = new MessageBag();
+    
+        try {
+            $booking= $this->service->update(
+                UpdateBookingDTO::makeFromRequest($request)
+            );
+            $retornos->add('msg', 'Aniversario atualizado com sucesso!');
+            return redirect()->route('bookings.index');
+        } catch (TypeError $e) {
+            // Captura uma exceção de tipo (TypeError)
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
+        } catch (Exception $e) {
+            // Captura outras exceções
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
         }
-
-
-        return redirect()->route('bookings.index');
     }
 }
