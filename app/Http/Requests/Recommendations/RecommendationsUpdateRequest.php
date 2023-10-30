@@ -4,14 +4,14 @@ namespace App\Http\Requests\Recomendations;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RecommendationUpdateRequest extends FormRequest
+class RecommendationsUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class RecommendationUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'content'=>'max:255|required'
         ];
     }
 }
