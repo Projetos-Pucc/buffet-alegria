@@ -1,13 +1,9 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Reservas') }}
-        </h2>
-    </x-slot>
+<x-app-layout >
+    @include('layouts.header')
 
-    <div class="py-12">
+    <div class="bg-amber-100 py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class=" overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="text-right mb-5">
                         <a href="{{ route('bookings.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agendar Aniversario</a>
@@ -15,7 +11,7 @@
                     
                     <div class="overflow-auto">
                     <table class="w-full">
-                        <thead class="bg-gray-50 border-b-2 border-gray-200">
+                        <thead class="bg-amber-300 border-b-2 border-amber-200">
                             <tr>
                                 <!-- w-24 p-3 text-sm font-semibold tracking-wide text-left -->
                                 <th class="w-20 p-3 text-sm font-semibold tracking-wide text-center">ID</th>
@@ -36,7 +32,7 @@
                             </tr>
                             @else
                                 @foreach($bookings as $booking)
-                                <tr class="bg-white">
+                                <tr class="bg-gray-100">
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('bookings.show', [$booking['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking['id'] }}</a>
                                     </td>
