@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Recomendations\RecommendationUpdateRequest;
+use App\Http\Requests\Recomendations\RecommendationsUpdateRequest;
 use App\Services\RecommendationService;
 use Illuminate\Http\Request;
 
@@ -38,7 +38,7 @@ class RecommendationController extends Controller
         return view('recommendations.show');
     }
 
-    public function store(RecommendationUpdateRequest $request)
+    public function store(RecommendationsUpdateRequest $request)
     {
         return redirect()->route('recommendations.index');
     }
@@ -53,7 +53,7 @@ class RecommendationController extends Controller
         return view('recommendations.update');
     }
 
-    public function update(RecommendationUpdateRequest $request)
+    public function update(RecommendationsUpdateRequest $request)
     {
         
         return redirect()->route('recommendations.index');

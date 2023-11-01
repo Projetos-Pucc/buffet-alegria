@@ -7,7 +7,7 @@ use App\DTO\Recommendation\UpdateRecommendationDTO;
 use stdClass;
 
 interface RecommendationRepository {
-    public function getaAll(string $filter = null): array;
+    public function getAll(string $filter = null): array;
     public function findOneById(string $id): stdClass|null;
     public function findOne(...$filters): stdClass|null;
     public function create(CreateRecommendationDTO $dto): stdClass;
