@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Recommendation\CreateRecommendationDTO;
+use App\DTO\Recommendation\UpdateRecommendationDTO;
 use App\Http\Requests\Recomendations\RecommendationsUpdateRequest;
 use App\Services\RecommendationService;
 use Illuminate\Http\Request;
@@ -14,16 +16,7 @@ class RecommendationController extends Controller
     
     public function index()
     {
-        $recommendations = [
-            [
-                'id'=>1,
-                'content'=>'teste'
-            ],
-            [
-                'id'=>2,
-                'content'=>'teste2'
-            ]
-        ];
+        $recommendations = $this->service->getAll();
 
         return view('recommendations.index', compact('recommendations'));
     }
@@ -40,22 +33,29 @@ class RecommendationController extends Controller
 
     public function store(RecommendationsUpdateRequest $request)
     {
+        $this->service->create(CreateRecommendationDTO::makeFromRequest($request));
+
         return redirect()->route('recommendations.index');
     }
+
     public function delete(Request $request)
     {
-
+        $this->service->delete($request->id);
         return redirect()->route('recommendations.index');
     }
-    public function edit(Request $request)
-    {
 
+    public function edit(Request $request)
+    {   
+        if(!$recommendations = $this->find($request->id)){
+            return back();
+        }
+        
         return view('recommendations.update');
     }
 
     public function update(RecommendationsUpdateRequest $request)
     {
-        
+        $this->service->update(UpdateRecommendationDTO::makeFromRequest($request));
         return redirect()->route('recommendations.index');
     }
 }
