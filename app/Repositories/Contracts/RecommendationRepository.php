@@ -12,6 +12,6 @@ interface RecommendationRepository {
     public function findOne(...$filters): stdClass|null;
     public function create(CreateRecommendationDTO $dto): stdClass;
     public function update(UpdateRecommendationDTO $dto): bool|null;
-    public function delete(string $id): void;
+    public function delete(string $id): bool|null;
 
 }

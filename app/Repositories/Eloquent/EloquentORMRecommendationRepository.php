@@ -57,9 +57,12 @@ class EloquentORMRecommendationRepository implements RecommendationRepository {
         return $recommendation->update((array)$dto);
     }
 
-    public function delete(string $id): void
+    public function delete(string $id): bool|null
     {
-        $this->recommendation->delete($id);
+        if(!$this->findOneById($id)){
+            return null;
+        }
+        return $this->recommendation->destroy($id);
         
     }
 }

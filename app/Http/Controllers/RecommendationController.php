@@ -44,6 +44,7 @@ class RecommendationController extends Controller
     public function delete(Request $request)
     {
         $this->service->delete($request->id);
+
         return redirect()->route('recommendations.index');
     }
 

@@ -39,7 +39,11 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                     <a href="{{ route('recommendations.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['content'] }}</a>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                        <form action="{{ route('recommendations.delete', [$value['id']])}}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" value="{{$value['id']}}" name="id">X</button></form></td>
                                 </tr>
                                 @endforeach
                             @endif
