@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Recomendations;
+namespace App\Http\Requests\Recommendations;
 
 use Illuminate\Foundation\Http\FormRequest;
 

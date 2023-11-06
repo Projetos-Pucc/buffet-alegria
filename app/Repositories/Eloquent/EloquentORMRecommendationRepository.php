@@ -13,7 +13,7 @@ class EloquentORMRecommendationRepository implements RecommendationRepository {
         protected Recommendation $recommendation
     ){}
 
-    public function getAll(?string $filter = null): array
+    public function getAll(string $filter = null): array
     {
         return $this->recommendation
             ->where(function ($query) use ($filter){

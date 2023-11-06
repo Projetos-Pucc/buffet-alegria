@@ -2,7 +2,7 @@
 
 namespace App\DTO\Recommendation;
 
-use App\Http\Requests\Recomendations\RecommendationsUpdateRequest;
+use App\Http\Requests\Recommendations\RecommendationsUpdateRequest;
 
 class UpdateRecommendationDTO {
     public function __construct(

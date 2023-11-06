@@ -11,7 +11,8 @@
                 <div class="p-6 text-gray-900">
                     <a href="{{ route('recommendations.edit', [$recommendation->id]) }}">Editar</a>
                     <br>
-                    Conteudo {{$recommendation->content}}<br>
+                    Conteúdo:
+                    {{$recommendation->content}}<br>
 
                 </div>
             </div>

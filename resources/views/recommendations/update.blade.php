@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Pacote: {{$recommendation->id}}
+            Recomendação: {{$recommendation->id}}
         </h2>
     </x-slot>
 
@@ -15,7 +15,7 @@
                         @endforeach
                     @endif
 
-                    <form class="w-full max-w-lg" action="{{ route('recommendations.update', $package->id) }}" method="POST" enctype="multipart/form-data">
+                    <form class="w-full max-w-lg" action="{{ route('recommendations.update', $recommendation->id) }}" method="POST" enctype="multipart/form-data">
 
                         @csrf
                         @method('put')
@@ -25,7 +25,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das bebidas
                                 </label>
-                                <textarea name="beverages_description" id="" cols="30" rows="5" placeholder="beverages_description">{{ old('content') ?? $recommendation->content }}</textarea>
+                                <textarea name="content" id="" cols="30" rows="5" placeholder="content">{{ old('content') ?? $recommendation->content }}</textarea>
                             </div>
                         </div>
 
