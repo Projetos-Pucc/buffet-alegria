@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\OpenScheduleController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -22,7 +23,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar');
+Route::get('/bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar'); //API
+Route::get('/schedules/open/{day}', [OpenScheduleController::class, 'getSchedulesByDay'])->name('schedules.open');
+// Route::get('/schedules/open/{day}', )->name('schedules.open');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,6 +47,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/bookings/delete/{id}', [BookingController::class,'delete'])->name('bookings.delete');
     Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
     Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
+    
+    Route::get('/schedules', function() {
+        dd('teste');
+    })->name('schedules.index');
+    
     /**
      * Formatos de utilização dos middlewares de permissionamento:
      * - Pela definição da rota

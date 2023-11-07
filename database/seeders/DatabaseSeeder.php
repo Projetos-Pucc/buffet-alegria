@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\BookingStatus;
+use App\Models\Booking;
+use App\Models\OpenSchedule;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -26,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Operacional',
             'email' => 'operacional@buffetalegria.com',
             'email_verified_at' => now(),
-            'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
+            'password' => '$2y$10$d1GtfTTungciG2JXfgIHyuUv61Z7aJU736cdXxvfvgxVpPXVjY99C', // password = 'teste123'
             'remember_token' => Str::random(10),
         ]);
         $operational->assignRole('operational');
@@ -35,7 +38,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Administrativo',
             'email' => 'administracao@buffetalegria.com',
             'email_verified_at' => now(),
-            'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
+            'password' => '$2y$10$d1GtfTTungciG2JXfgIHyuUv61Z7aJU736cdXxvfvgxVpPXVjY99C', // password = 'teste123'
             'remember_token' => Str::random(10),
         ]);
         $administrative->assignRole('administrative');
@@ -44,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Comercial',
             'email' => 'comercial@buffetalegria.com',
             'email_verified_at' => now(),
-            'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
+            'password' => '$2y$10$d1GtfTTungciG2JXfgIHyuUv61Z7aJU736cdXxvfvgxVpPXVjY99C', // password = 'teste123'
             'remember_token' => Str::random(10),
         ]);
         $commercial->assignRole('commercial');
@@ -53,7 +56,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Suporte',
             'email' => 'suporte@buffetalegria.com',
             'email_verified_at' => now(),
-            'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
+            'password' => '$2y$10$d1GtfTTungciG2JXfgIHyuUv61Z7aJU736cdXxvfvgxVpPXVjY99C', // password = 'teste123'
             'remember_token' => Str::random(10),
         ]);
         $support->assignRole('commercial');
@@ -62,9 +65,42 @@ class DatabaseSeeder extends Seeder
             'name' => 'Guilherme',
             'email' => 'guilherme@gmail.com',
             'email_verified_at' => now(),
-            'password' => '$2y$12$Z/vhVO3e.UXKaG11EWgxc.EL7uej3Pi1M0Pq0orF5cbFGtyVh0V3C', // password
+            'password' => '$2y$10$d1GtfTTungciG2JXfgIHyuUv61Z7aJU736cdXxvfvgxVpPXVjY99C', // password = 'teste123'
             'remember_token' => Str::random(10),
         ]);
         $user->assignRole('user');
+
+        OpenSchedule::create(
+            ['time'=>"12:00:00", 'hours'=>3]
+        );
+        OpenSchedule::create(
+            ['time'=>"16:00:00", 'hours'=>2]
+        );
+        OpenSchedule::create(
+            ['time'=>"19:00:00", 'hours'=>3]
+        );
+
+        Booking::create([
+            "name_birthdayperson"=>"nome1",
+            "years_birthdayperson"=>5,
+            "qnt_invited"=>5,
+            "party_day"=>date('Y-m-d', strtotime("2023-11-15")),
+            "open_schedule_id"=>1,
+            "status"=>"A",
+            "user_id"=>1,
+            "package_id"=>1,
+            "price"=>50,
+        ]);
+        Booking::create([
+            "name_birthdayperson"=>"nome1",
+            "years_birthdayperson"=>5,
+            "qnt_invited"=>5,
+            "party_day"=>date('Y-m-d', strtotime("2023-11-15")),
+            "open_schedule_id"=>3,
+            "status"=>"A",
+            "user_id"=>1,
+            "package_id"=>1,
+            "price"=>50,
+        ]);
     }
 }

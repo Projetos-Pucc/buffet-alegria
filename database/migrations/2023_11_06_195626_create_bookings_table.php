@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('name_birthdayperson', 255);
             $table->string('years_birthdayperson', 255);
             $table->integer('qnt_invited'); 
-            $table->dateTimeTz('party_start', 0);
-            $table->dateTimeTz('party_end', 0);
+            $table->date('party_day', 0);
+            $table->foreignId('open_schedule_id')->constrained(
+                table: 'open_schedules', indexName: 'bookings_open_schedule_id'
+            );
             $table->enum('status', array_column(BookingStatus::cases(), 'name'));
             $table->foreignId('user_id')->constrained(
                 table: 'users', indexName: 'bookings_user_id'

@@ -8,6 +8,7 @@ use App\Enums\BookingStatus;
 use App\Http\Requests\Bookings\BookingsUpdateRequest;
 use App\Models\Booking;
 use App\Services\BookingService;
+use App\Services\OpenScheduleService;
 use App\Services\PackageService;
 use DateTime;
 use Exception;
@@ -20,7 +21,7 @@ class BookingController extends Controller
 {
     public function __construct(
         protected BookingService $service,
-        protected PackageService $package
+        protected PackageService $package,
     ) {
     }
 
@@ -92,9 +93,7 @@ class BookingController extends Controller
         $retornos = new MessageBag();
     
         try {
-            $booking= $this->service->update(
-                UpdateBookingDTO::makeFromRequest($request)
-            );
+            $this->service->update(UpdateBookingDTO::makeFromRequest($request));
             $retornos->add('msg', 'Aniversario atualizado com sucesso!');
             return redirect()->route('bookings.index');
         } catch (TypeError $e) {
