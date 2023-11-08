@@ -98,7 +98,7 @@
     <script>
         const party_day = document.querySelector("#party_day")
         const party_time = document.querySelector("#open_schedule_id")
-        const packages = document.querySelectorAll("[name=package_id]")
+        const packages = document.querySelectorAll("input[name=package_id]")
         const price = document.querySelector("#preco")
         const qtd_invited = document.querySelector("#qnt_invited")
 
@@ -106,10 +106,25 @@
 
         let package = {}
 
-        // async function execute() {
-        //     console.log(party_day.value)
-        // }
-        // execute()
+        async function execute() {
+            const pk = document.querySelector('input[name=package_id]:checked')
+            if(pk) {
+                const invited = qtd_invited.value ?? 0
+                const package_local = await getPackage(pk.value)
+                package = package_local;
+    
+                price.innerHTML = invited * package_local.price
+            } else {
+                price.innerHTML = 0
+            }
+
+            if(party_day.value) {
+                const dates = await getDates(party_day.value)
+
+                printDates(dates)
+            }
+        }
+        execute()
 
         async function getPackage(package_id) {
             const csrf = document.querySelector('meta[name="csrf-token"]').content
@@ -170,6 +185,10 @@
 
             const dates = await getDates(this.value)
 
+            printDates(dates)
+        });
+
+        function printDates(dates) {
             const options = dates.map((date)=>{
                 const party_date = new Date("1970-01-01T" + date.time + "Z");
                 party_date.setHours(party_date.getHours() + date.hours);
@@ -186,6 +205,6 @@
                 option.value = options[i].value
                 party_time.appendChild(option);
             }
-        });
+        }
     </script>
 </x-app-layout>

@@ -18,6 +18,10 @@ class OpenScheduleService
         return $this->open_schedules->getOpenSchedulesByDay($day);
     }
 
+    public function getSchedulesByDayUpdate(DateTime $day, int $booking_id): array  {
+        return $this->open_schedules->getOpenSchedulesByDayUpdate($day, $booking_id);
+    }
+
     public function getAll(): array {
         return $this->open_schedules->getAll();
     }

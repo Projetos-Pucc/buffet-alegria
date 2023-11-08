@@ -16,8 +16,15 @@ class OpenScheduleController extends Controller
 
     public function getSchedulesByDay(Request $request) {
         $dataFormatada = DateTime::createFromFormat("Y-m-d", $request->day);
-        if(!$dataFormatada) throw new Error('nao deu');
-        $schedules = $this->open_schedules->getSchedulesByDay($dataFormatada);
+        if(!$dataFormatada) throw new Error('Invalid time');
+
+        $update = $request->query('update'); // Se existir valor para update retorna o dia junto
+        if(isset($update)) {
+            $schedules = $this->open_schedules->getSchedulesByDayUpdate($dataFormatada, (int) $update);
+        } else {
+            $schedules = $this->open_schedules->getSchedulesByDay($dataFormatada);
+        }
+
         return response()->json($schedules);
     }
 

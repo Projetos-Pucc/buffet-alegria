@@ -23,7 +23,7 @@ class BookingController extends Controller
         protected BookingService $service,
         protected PackageService $package,
     ) {
-        $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store']]);
+        $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store', 'edit', 'update']]);
     }
 
     public function calendar(Booking $booking) {
@@ -100,11 +100,13 @@ class BookingController extends Controller
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());
-            return back()->withErrors($retornos);
+            dd($e);
+            // return back()->withErrors($retornos);
         } catch (Exception $e) {
             // Captura outras exceções
             $retornos->add('errors', $e->getMessage());
-            return back()->withErrors($retornos);
+            // return back()->withErrors($retornos);
+            dd($e);
         }
     }
 }

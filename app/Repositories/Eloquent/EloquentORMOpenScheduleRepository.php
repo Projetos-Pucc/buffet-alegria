@@ -32,6 +32,31 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
             ->toArray();
     }
 
+    public function getOpenSchedulesByDayUpdate(DateTime $day, int $booking_id): array
+    {
+        $day = $day->format('Y-m-d');
+        return $this->open_schedules
+            ->leftJoin('bookings', function ($join) use ($day) {
+                $join->on('open_schedules.id', '=', 'bookings.open_schedule_id')
+                    ->where('bookings.party_day', '=', $day);
+            })
+            ->where(function ($query) use ($booking_id) {
+                $query->whereNull('bookings.open_schedule_id')
+                    ->orWhere('bookings.id', '=', $booking_id);
+            })
+            ->select('open_schedules.*')
+            ->get()
+            ->map(function ($item) use ($booking_id) {
+                if ($item->id === $booking_id) {
+                    $item->special_id = $item->id;
+                } else {
+                    $item->special_id = null;
+                }
+                return $item;
+            })
+            ->toArray();
+    }
+
     public function findByHour(string $hour): stdClass {
         return (object)$this->open_schedules->find((int)$hour)->toArray();
     }
