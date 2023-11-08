@@ -3,18 +3,27 @@
         @if(request()->routeIs('bookings.index'))
             @php
                 $name = 'Reservas';
-                $create = 'Agendar Aniversario';
+                $create = 'Agendar Aniversaário';
+                $route = 'bookings.create';
             @endphp
         @elseif(request()->routeIs('packages.index'))
             @php
                 $name = 'Pacotes';
                 $create = 'Criar pacotes';
+                $route = 'packages.create';
                 @endphp
         @elseif(request()->routeIs('dashboard'))
             @php
                 $name = 'Dashboard';
-                $create = 'Agendar aniversário'
+                $create = 'Agendar Aniversário';
+                $route = 'bookings.create';
                 @endphp
+        @elseif(request()->routeIs('packages.create'))
+        @php
+            $name = 'Pacote: {{$package->name_package}}';
+            $create = 'Editar';
+            $route = 'packages.update';
+            @endphp
         @endif
         <div>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -23,15 +32,11 @@
             <div class="hidden md:block">
             <div class="ml-400 flex items-center md:ml-30">
                 <!-- Profile dropdown -->
-                  <div class="relative ml-3">
-                    <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-black bg-amber-300 hover:text-black hover:bg-amber-500 focus:outline-none transition ease-in-out duration-150">
-                            <div>
-                                <a href="{{ route('bookings.create') }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">{{$create}}</a>
-                            </div>
-                        </button>
-                    </div>
-                  </div>
+                <div class="flex items-center ml-auto">
+             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-black bg-amber-300 hover:text-black hover:bg-amber-500 focus:outline-none transition ease-in-out duration-150">
+             <a href="{{ route($route) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">{{$create}}</a>
+             </button>
+            </div>
             </div>
             </div>
         </div>
