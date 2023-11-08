@@ -14,7 +14,9 @@ class EloquentORMBookingRepository implements BookingRepository {
     ){}
 
     public function getAll(string $filter = null): array {
-        return $this->booking->with('package')->with('user')->get()->toArray();
+        return $this->booking->with(['open_schedule'=>function ($query) {
+            $query->orderBy('time', 'asc');
+        }, 'package', 'user'])->orderBy('party_day', 'asc')->get()->toArray();
     }
 
     public function findOneById(string $id): stdClass|null {

@@ -157,13 +157,13 @@
 
 					async function getEvents() {
 						const csrf = document.querySelector('meta[name="csrf-token"]').content
-						const data = await axios.get(SITEURL + '/bookings/calendar', {
+						const data = await axios.get(SITEURL + '/api/bookings/calendar', {
 							headers: {
 								'X-CSRF-TOKEN': csrf
 							}
 						})
 						const events = data.data.map((dt) => {
-							const date = new Date(dt.party_start);
+							const date = new Date(dt.party_day+"T"+dt.open_schedule.time);
 							const minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`
 							return {
 								event_date: date,
@@ -186,7 +186,8 @@
 								try {
 									const registros = await getEvents();
 									this.events = registros;
-									console.log('Página carregada. Eventos:', this.eventos);
+									console.log(registros)
+									console.log('Página carregada. Eventos:', this.events);
 								} catch (error) {
 									console.error('Erro na inicialização:', error);
 								}

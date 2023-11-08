@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('recommendations.index')" :active="request()->routeIs('recommendations.index')">
                         {{ __('Recomendações') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('schedules.index')" :active="request()->routeIs('schedules.index')">
+                        {{ __('Horarios') }}
+                    </x-nav-link>
                 </div>
             </div>
 

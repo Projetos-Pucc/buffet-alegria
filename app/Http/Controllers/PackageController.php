@@ -35,6 +35,15 @@ class PackageController extends Controller
         return view('packages.show', compact('package'));
     }
 
+    public function find_api(string $id)
+    {
+        if(!$package = $this->service->find($id)){
+            return (object)[];
+        }
+
+        return response()->json($package);
+    }
+
     public function store(PackagesUpdateRequest $request)
     {
         $this->service->create(CreatePackageDTO::makeFromRequest($request));

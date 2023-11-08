@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\OpenScheduleController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecommendationController;
@@ -23,9 +24,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar');
+Route::get('/api/bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar'); //API
+Route::get('/api/packages/{id}', [PackageController::class, 'find_api'])->name('bookings.findapi'); //API
+Route::get('/schedules/open/{day}', [OpenScheduleController::class, 'getSchedulesByDay'])->name('schedules.open');
+// Route::get('/schedules/open/{day}', )->name('schedules.open');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -53,6 +57,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/recommendations/delete/{id}', [RecommendationController::class,'delete'])->name('recommendations.delete');
     Route::put('/recommendations/{id}',[RecommendationController::class,'update'])->name('recommendations.update');
     Route::get('/recommendations/{id}', [RecommendationController::class, 'find'])->name('recommendations.show');
+    
+    Route::get('/schedules', [OpenScheduleController::class, 'index'])->name('schedules.index');
+    Route::get('/schedules/{id}/edit', [OpenScheduleController::class, 'edit'])->name('schedules.edit');
+    Route::get('/schedules/create', [OpenScheduleController::class, 'create'])->name('schedules.create');
+    Route::post('/schedules/store', [OpenScheduleController::class, 'store'])->name('schedules.store');
+    Route::delete('/schedules/delete/{id}', [OpenScheduleController::class,'delete'])->name('schedules.delete');
+    Route::put('/schedules/{id}',[OpenScheduleController::class,'update'])->name('schedules.update');
+    Route::get('/schedules/{id}', [OpenScheduleController::class, 'find'])->name('schedules.show');
+    
     /**
      * Formatos de utilização dos middlewares de permissionamento:
      * - Pela definição da rota
