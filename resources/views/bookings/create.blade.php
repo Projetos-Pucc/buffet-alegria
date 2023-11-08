@@ -69,7 +69,7 @@
 
                         <div>
                             <label for="party_day">Data de começo</label>
-                            <input required type="date" id="party_day" name="party_day">
+                            <input required type="date" id="party_day" name="party_day" value="{{old('party_day')}}">
                             <x-input-error :messages="$errors->get('party_day')" class="mt-2" />
                         </div>
 
@@ -81,9 +81,9 @@
                             </select>
                         </div>
 
-                        <!-- <div>
+                        <div>
                             <p>Preço final: R$ <span id="preco">0</span></p>
-                        </div> -->
+                        </div>
                         <!--integrar com js dps e fazer o calculo do preço aqui tb! -->
 
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
@@ -98,8 +98,47 @@
     <script>
         const party_day = document.querySelector("#party_day")
         const party_time = document.querySelector("#open_schedule_id")
+        const packages = document.querySelectorAll("[name=package_id]")
+        const price = document.querySelector("#preco")
+        const qtd_invited = document.querySelector("#qnt_invited")
 
         const SITEURL = "{{ url('/') }}";
+
+        let package = {}
+
+        // async function execute() {
+        //     console.log(party_day.value)
+        // }
+        // execute()
+
+        async function getPackage(package_id) {
+            const csrf = document.querySelector('meta[name="csrf-token"]').content
+            const data = await axios.get(SITEURL + '/api/packages/'+package_id, {
+                headers: {
+                    'X-CSRF-TOKEN': csrf
+                }
+            })
+            
+            return data.data;
+        }
+
+        packages.forEach((pk)=>{
+            pk.addEventListener('change', async (e) => {
+                const invited = qtd_invited.value ?? 0
+                const package_local = await getPackage(e.target.value)
+                package = package_local;
+
+                price.innerHTML = invited * package_local.price
+            })
+        })
+
+        qtd_invited.addEventListener('change', async(e)=>{
+            if(Object.keys(package).length !== 0) {
+                price.innerHTML = e.target.value * package.price
+            } else {
+                price.innerHTML = 0
+            }
+        })
 
         async function getDates(day) {
             const csrf = document.querySelector('meta[name="csrf-token"]').content
@@ -120,6 +159,8 @@
             while (party_time.options.length > 1) {
                 party_time.remove(1); // Remova a segunda opção em diante (índice 1)
             }
+            console.log(escolhida, agora)
+            console.log(this.value)
             if (escolhida < agora) {
                 this.value = [agora.getFullYear(), agora.getMonth() + 1, agora.getDate()].map(v => v < 10 ? '0' + v : v).join('-');
                 //adicionar regra de negocio de min days com arquivo de configuração

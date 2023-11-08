@@ -26,7 +26,7 @@ class BookingController extends Controller
     }
 
     public function calendar(Booking $booking) {
-        $bookings = $booking->get();
+        $bookings = $booking->with(['open_schedule'])->get();
         return response()->json($bookings);
     }
 
