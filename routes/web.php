@@ -28,7 +28,7 @@ Route::get('/api/packages/{id}', [PackageController::class, 'find_api'])->name('
 Route::get('/schedules/open/{day}', [OpenScheduleController::class, 'getSchedulesByDay'])->name('schedules.open');
 // Route::get('/schedules/open/{day}', )->name('schedules.open');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -48,10 +48,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/bookings/delete/{id}', [BookingController::class,'delete'])->name('bookings.delete');
     Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
     Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
-    
-    Route::get('/schedules', function() {
-        dd('teste');
-    })->name('schedules.index');
+
+    Route::get('/schedules', [OpenScheduleController::class, 'index'])->name('schedules.index');
+    Route::get('/schedules/{id}/edit', [OpenScheduleController::class, 'edit'])->name('schedules.edit');
+    Route::get('/schedules/create', [OpenScheduleController::class, 'create'])->name('schedules.create');
+    Route::post('/schedules/store', [OpenScheduleController::class, 'store'])->name('schedules.store');
+    Route::delete('/schedules/delete/{id}', [OpenScheduleController::class,'delete'])->name('schedules.delete');
+    Route::put('/schedules/{id}',[OpenScheduleController::class,'update'])->name('schedules.update');
+    Route::get('/schedules/{id}', [OpenScheduleController::class, 'find'])->name('schedules.show');
     
     /**
      * Formatos de utilização dos middlewares de permissionamento:

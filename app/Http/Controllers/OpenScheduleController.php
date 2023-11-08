@@ -20,4 +20,19 @@ class OpenScheduleController extends Controller
         $schedules = $this->open_schedules->getSchedulesByDay($dataFormatada);
         return response()->json($schedules);
     }
+
+    public function index(){
+        $schedules = $this->open_schedules->getAll();
+
+        return view('schedules.index', compact('schedules'));
+    }
+    public function create()
+    {
+        return view('schedules.create');
+    }
+    public function find(string $id){}
+    public function store(){}
+    public function delete(Request $request){}
+    public function edit(Request $request){}
+    public function update(){}
 }

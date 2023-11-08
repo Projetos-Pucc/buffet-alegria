@@ -18,4 +18,12 @@ class OpenScheduleService
         return $this->open_schedules->getOpenSchedulesByDay($day);
     }
 
+    public function getAll(): array {
+        return $this->open_schedules->getAll();
+    }
+
+    public function find($id) {
+        return $this->open_schedules->findOneById($id);
+    }
+
 }
