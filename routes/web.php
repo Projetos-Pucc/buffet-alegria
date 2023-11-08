@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecommendationController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/bookings/delete/{id}', [BookingController::class,'delete'])->name('bookings.delete');
     Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
     Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
+
+    Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
+    Route::get('/recommendations/{id}/edit', [RecommendationController::class, 'edit'])->name('recommendations.edit');
+    Route::get('/recommendations/create', [RecommendationController::class, 'create'])->name('recommendations.create');
+    Route::post('/recommendations/store', [RecommendationController::class, 'store'])->name('recommendations.store');
+    Route::delete('/recommendations/delete/{id}', [RecommendationController::class,'delete'])->name('recommendations.delete');
+    Route::put('/recommendations/{id}',[RecommendationController::class,'update'])->name('recommendations.update');
+    Route::get('/recommendations/{id}', [RecommendationController::class, 'find'])->name('recommendations.show');
     /**
      * Formatos de utilização dos middlewares de permissionamento:
      * - Pela definição da rota
