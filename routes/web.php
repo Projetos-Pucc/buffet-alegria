@@ -44,6 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/bookings/delete/{id}', [BookingController::class,'delete'])->name('bookings.delete');
     Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
     Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
+    
+    Route::get('/guests', [GuestController::class, 'index'])->name('guests.index');
+    Route::get('/guests/{id}/edit', [GuestController::class, 'edit'])->name('guests.edit');
+    Route::get('/guests/create', [GuestController::class, 'create'])->name('guests.create');
+    Route::post('/guests/store', [GuestController::class, 'store'])->name('guests.store');
+    Route::delete('/guests/delete/{id}', [GuestController::class,'delete'])->name('guests.delete');
+    Route::put('/guests/{id}',[GuestController::class,'update'])->name('guests.update');
+    Route::get('/guests/{id}', [GuestController::class, 'find'])->name('guests.show');
     /**
      * Formatos de utilização dos middlewares de permissionamento:
      * - Pela definição da rota
