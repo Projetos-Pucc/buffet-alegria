@@ -21,7 +21,7 @@
 
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name_package">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nome">
                                     Nome do convidado
                                 </label>
                                 <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="nome" type="text" placeholder="Fulano" name="nome" value="{{old('nome')}}">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="slug">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="cpf">
                                     CPF
                                 </label>
                                 <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="cpf" type="text" placeholder="CPF do fulano" name="cpf" value="{{old('cpf')}}">
@@ -37,10 +37,10 @@
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full  px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="idade">
                                     Idade 
                                 </label>
-                            <input  type="number" id="idade" name="idade" placeholder="Idade do Fulano">{{old('idade')}}</textarea>
+                            <input  type="number" id="idade" name="idade" placeholder="Idade do Fulano">{{old('idade')}}>
                             </div>
                         </div>
 
