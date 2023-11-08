@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\DTO\Bookings\CreateOpenScheduleDTO;
-use App\DTO\Bookings\UpdateOpenScheduleDTO;
+use App\DTO\OpenSchedules\CreateOpenScheduleDTO;
+use App\DTO\OpenSchedules\UpdateOpenScheduleDTO;
 use App\Models\Booking;
 use App\Models\OpenSchedule;
 use App\Repositories\Contract\OpenScheduleRepository;
@@ -94,19 +94,46 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
     public function getAll(string $filter = null): array {
         return $this->open_schedules->get()->toArray();
     }
-    public function findOneById(string $id): stdClass|null {
-        return null;
+    public function findOneById(string $id): ?stdClass
+    {
+        $open_schedules = $this->open_schedules->find($id);
+        if(!$open_schedules){
+            return null;
+        }
+        return (object) $open_schedules->toArray();
     }
-    public function findOne(...$filters): stdClass|null {
-        return null;
+
+    public function findOne(...$filters): ?stdClass
+    {
+        $open_schedules = $this->open_schedules->get()->where(...$filters)->first();
+        if(!$open_schedules){
+            return null;
+        }
+        return (object) $open_schedules->toArray();
     }
-    public function delete(string $id): bool|null {
-        return null;
+
+    public function create(CreateOpenScheduleDTO $dto): stdClass
+    {
+        $open_schedules = $this->open_schedules->create((array)$dto);
+        return (object)$open_schedules->toArray();
+        
     }
-    public function create(CreateOpenScheduleDTO $dto): stdClass {
-        return (object)[];
+
+    public function update(UpdateOpenScheduleDTO $dto): ?bool
+    {
+        if(!$open_schedules = $this->open_schedules->find($dto->id )){
+            return null;
+        }
+        return $open_schedules->update((array)$dto);
     }
-    public function update(UpdateOpenScheduleDTO $dto): bool|null {
-        return null;
+
+    public function delete(string $id): bool|null
+    {
+        if(!$this->findOneById($id)){
+            return null;
+        }
+        return $this->open_schedules->destroy($id);
+        
     }
+
 }

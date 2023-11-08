@@ -100,13 +100,11 @@ class BookingController extends Controller
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());
-            dd($e);
-            // return back()->withErrors($retornos);
+            return back()->withErrors($retornos);
         } catch (Exception $e) {
             // Captura outras exceções
             $retornos->add('errors', $e->getMessage());
-            // return back()->withErrors($retornos);
-            dd($e);
+            return back()->withErrors($retornos);
         }
     }
 }

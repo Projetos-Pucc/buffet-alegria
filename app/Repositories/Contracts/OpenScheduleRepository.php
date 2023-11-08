@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Contract;
 
-use App\DTO\Bookings\CreateOpenScheduleDTO;
-use App\DTO\Bookings\UpdateOpenScheduleDTO;
+use App\DTO\OpenSchedules\CreateOpenScheduleDTO;
+use App\DTO\OpenSchedules\UpdateOpenScheduleDTO;
 use DateTime;
 use stdClass;
 

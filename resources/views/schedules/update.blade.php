@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Criar Horario') }}
+            {{ __('Atualizar Horario') }}
         </h2>
     </x-slot>
 
@@ -9,6 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <h1>Horario: {{$schedule->time}} </h1>
+
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
                             {{ $error }}
@@ -24,7 +26,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="time">
                                     Horário
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="time" type="time" name="time" value="{{old('time')}}">
+                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="time" type="time" name="time" value="{{old('time') ?? $schedule->time}}">
                                 <p class="text-gray-600 text-xs">Horário de inicio</p>
                             </div>
                         </div>
@@ -33,13 +35,13 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="slug">
                                     Duração
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" name ="hours" min="1" max="5" step="1" placeholder="Insira a duração da festa" value="{{ old('hours') }}"/>
+                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" name ="hours" min="1" max="5" step="1" placeholder="Insira a duração da festa" value="{{old('hours') ?? $schedule->hours}}"/>
                                 <p class="text-gray-600 text-xs">Quantas horas a festa vai durar</p>
                             </div>
                         </div>
 
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                            Criar Horário
+                            Editar Horário
                         </button>
                     </form>
                 </div>

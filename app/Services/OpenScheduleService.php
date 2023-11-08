@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\DTO\OpenSchedules\CreateOpenScheduleDTO;
+use App\DTO\OpenSchedules\UpdateOpenScheduleDTO;
 use App\Repositories\Contract\OpenScheduleRepository;
 use DateTime;
 
@@ -28,6 +30,21 @@ class OpenScheduleService
 
     public function find($id) {
         return $this->open_schedules->findOneById($id);
+    }
+    public function create(CreateOpenScheduleDTO $dto)
+    {
+        return $this->open_schedules->create($dto);
+    }
+
+    public function delete($id)
+    {
+        return $this->open_schedules->delete($id);
+    }
+
+    public function update(UpdateOpenScheduleDTO $dto)
+    {
+        
+        return $this->open_schedules->update($dto);
     }
 
 }

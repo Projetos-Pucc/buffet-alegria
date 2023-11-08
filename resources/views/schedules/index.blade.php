@@ -44,7 +44,10 @@
                                         <form action="{{ route('schedules.delete', [$value['id']])}}" method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" value="{{$value['id']}}" name="id">X</button></form></td>
+                                            <button type="submit" value="{{$value['id']}}" name="id">X</button>
+                                        </form>
+                                        <a href="{{ route('schedules.edit', $value['id'])}}">Editar</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             @endif

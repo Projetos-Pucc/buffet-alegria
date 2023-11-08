@@ -4,14 +4,14 @@ namespace App\Http\Requests\OpenSchedules;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OpenSchedulesUpdateRequest.php extends FormRequest
+class OpenSchedulesUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class OpenSchedulesUpdateRequest.php extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'time'=>'required|date_format:H:i',
+            'hours'=>'required|integer'
         ];
     }
 }
