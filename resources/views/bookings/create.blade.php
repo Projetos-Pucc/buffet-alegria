@@ -1,5 +1,14 @@
 <x-app-layout>
 
+    <style>
+        .input-radio input[type=radio] {
+            display: none;
+        }
+        .input-radio input[type=radio]:checked ~ label{
+            background-color: red;
+        }
+    </style>
+
     @include('layouts.header_general')
 
     <div class="py-12">
@@ -49,16 +58,33 @@
                                 <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                     Pacote de comidas
                                 </p>
-                                @if(count($packages) === 0)
-                                <h1>Nenhum pacote de comida encontrado!</h1>
-                                @else
-                                @foreach($packages as $package)
-                                <div>
-                                    <input required type="radio" name="package_id" id="package-{{$package['id']}}" value="{{$package['id']}}">
-                                    <label for="package-{{$package['id']}}">{{$package['name_package']}}</label>
+
+                                <!-- Slider main container -->
+                                <div class="swiper">
+                                    <!-- Additional required wrapper -->
+                                    <div class="swiper-wrapper">
+                                        <!-- Slides -->
+                                        @if(count($packages) === 0)
+                                        <h1>Nenhum pacote de comida encontrado!</h1>
+                                        @else
+                                        @foreach($packages as $package)
+                                        <div class="swiper-slide input-radio">
+                                            <input required type="radio" name="package_id"
+                                                id="package-{{$package['id']}}" value="{{$package['id']}}">
+                                            <label for="package-{{$package['id']}}">{{$package['name_package']}}</label>
+                                        </div>
+                                        @endforeach
+                                        @endif
+                                    </div>
+                                    <!-- If we need pagination -->
+                                    <div class="swiper-pagination"></div>
+
+                                    <!-- If we need navigation buttons -->
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+
                                 </div>
-                                @endforeach
-                                @endif
+
                                 <x-input-error :messages="$errors->get('package')" class="mt-2" />
                             </div>
                         </div>
@@ -91,6 +117,28 @@
             </div>
         </div>
     </div>
+
+    <script type="module">
+
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+            slidesPerView: 3,
+            spaceBetween: 10,
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
 
     <script>
         const party_day = document.querySelector("#party_day")
