@@ -25,7 +25,7 @@
             $route = 'packages.update';
             @endphp
         @endif
-        <div>
+        <div class="flex justify-between items-center w-100">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $name }}
             </h2>

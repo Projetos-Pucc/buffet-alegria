@@ -14,6 +14,10 @@
 			display: flex;
 			justify-content: center;
 			/* Centraliza horizontalmente */
+		}
+
+		html,
+		body {
 			scroll-behavior: smooth;
 		}
 
@@ -52,13 +56,8 @@
 		</h1>
 
 		<div class="buttons">
-
-			<button class="bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-l">
-				<a href="{{route('login')}}">Logar </a>
-			</button>
-			<button class="bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-r">
-				<a href="#registro">Registrar</a>
-			</button>
+			<a href="{{route('login')}}" class="inline-block bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-l">Logar </a>
+			<a href="#registro" class="inline-block bg-cyan-100 hover:bg-cyan-300 text-cyan-950 font-bold py-2 px-4 rounded-r">Registrar</a>
 		</div>
 
 		<!-- Fim cabeçalho-->
@@ -81,7 +80,7 @@
 				<div x-data="app()" x-init="[initDate(), getNoOfDays(), inicializar()]" x-cloak id="container-calendario">
 					<div class="container mx-auto px-4 py-2 md:py-24">
 
-						<!-- <div class="font-bold text-gray-800 text-xl mb-4">
+		<!-- <div class="font-bold text-gray-800 text-xl mb-4">
 				Schedule Tasks
 			</div> -->
 
@@ -157,13 +156,13 @@
 
 					async function getEvents() {
 						const csrf = document.querySelector('meta[name="csrf-token"]').content
-						const data = await axios.get(SITEURL + '/bookings/calendar', {
+						const data = await axios.get(SITEURL + '/api/bookings/calendar', {
 							headers: {
 								'X-CSRF-TOKEN': csrf
 							}
 						})
 						const events = data.data.map((dt) => {
-							const date = new Date(dt.party_start);
+							const date = new Date(dt.party_day + "T" + dt.open_schedule.time);
 							const minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`
 							return {
 								event_date: date,
@@ -186,7 +185,8 @@
 								try {
 									const registros = await getEvents();
 									this.events = registros;
-									console.log('Página carregada. Eventos:', this.eventos);
+									console.log(registros)
+									console.log('Página carregada. Eventos:', this.events);
 								} catch (error) {
 									console.error('Erro na inicialização:', error);
 								}
@@ -304,7 +304,7 @@
 						<div>
 							<label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nome</label>
 							<div class="mt-2">
-								<input id="name" name="name" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+								<input placeholder='Insira seu nome' id="name" name="name" type='text' required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
 							</div>
 							<x-input-error :messages="$errors->get('name')" class="mt-2" />
 						</div>
@@ -312,14 +312,14 @@
 						<div>
 							<label for="surname" class="block text-sm font-medium leading-6 text-gray-900">Sobrenome</label>
 							<div class="mt-2">
-								<input id="surname" name="surname" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+								<input placeholder='Insira seu sobrenome' type='text' id="surname" name="surname" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
 							</div>
 						</div>
 
 						<div>
 							<label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
 							<div class="mt-2">
-								<input id="email" name="email" type="email" autocomplete="email" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+								<input placeholder='Insira seu e-mail' id="email" name="email" type="email" autocomplete="email" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
 							</div>
 							<x-input-error :messages="$errors->get('email')" class="mt-2" />
 						</div>
@@ -329,7 +329,7 @@
 								<label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
 							</div>
 							<div class="mt-2">
-								<input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+								<input placeholder='Insira sua senha' id="password" name="password" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
 							</div>
 							<x-input-error :messages="$errors->get('password')" class="mt-2" />
 						</div>
@@ -339,7 +339,7 @@
 								<label for="password" class="block text-sm font-medium leading-6 text-gray-900">Confirmação da senha</label>
 							</div>
 							<div class="mt-2">
-								<input id="password_confirmation" name="password_confirmation" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
+								<input placeholder='Insira sua confirmação de senha' id="password_confirmation" name="password_confirmation" type="password" autocomplete="current-password" required class="block w-full bg-cyan-100 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-950 sm:text-sm sm:leading-6">
 							</div>
 							<x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
 						</div>
