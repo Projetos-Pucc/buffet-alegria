@@ -22,7 +22,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2" for="qnt_invited">
                                     Recomendação
                                 </label>
-                                <textarea name="editor" id="editor" cols="40" rows="10" class="height-500 width-500" placeholder="content">{{old('content')}}</textarea>
+                                <textarea name="content" id="content" cols="40" rows="10" class="height-500 width-500" placeholder="content">{{old('content')}}</textarea>
                             </div>
                         </div>
 
@@ -37,7 +37,7 @@
 
     <script>
         ClassicEditor
-            .create( document.querySelector( '#editor' ) )
+            .create( document.querySelector( '#content' ) )
             .catch( error => {
                 console.error( error );
             } );

@@ -40,9 +40,12 @@
                 <!-- Profile dropdown -->
                 <div class="flex items-center ml-auto">
                 @if(@isset($route))
-                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-black bg-amber-300 hover:text-black hover:bg-amber-500 focus:outline-none transition ease-in-out duration-150">
-                    <a href="{{$route}}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">{{$create}}</a>
-                 </button>
+                    <a href="{{$route}}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
+                        <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">
+                            {{$create}}
+                        </div>
+                    </a>
+                 
                 @endisset
             </div>
             </div>

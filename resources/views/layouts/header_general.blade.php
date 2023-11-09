@@ -7,13 +7,18 @@
 
         @elseif(request()->routeIs('bookings.show'))
             @php
-                $name = 'Aniversariante {{$booking->name_birthdayperson}}';
+                $name = 'Aniversariante';
             @endphp 
 
         @elseif(request()->routeIs('bookings.update'))
             @php
-                $name = 'Edição da Reserva: Aniversariante {{$booking->name_birthdayperson}}';
+                $name = 'Edição da Reserva';
             @endphp   
+
+        @elseif(request()->routeIs('bookings.edit'))
+            @php
+                $name = 'Edição da Reserva';
+            @endphp  
 
         @elseif(request()->routeIs('packages.create'))
             @php
@@ -27,8 +32,13 @@
 
         @elseif(request()->routeIs('packages.update'))
             @php
-                $name = 'Edição do Pacote: {{$package->name_package}}';
+                $name = 'Edição do Pacote';
             @endphp   
+
+        @elseif(request()->routeIs('package.edit'))
+            @php
+                $name = 'Edição da Pacote';
+            @endphp  
 
         @elseif(request()->routeIs('recommendations.create'))
             @php
@@ -36,20 +46,39 @@
             @endphp  
 
         @elseif(request()->routeIs('recommendations.show'))
-        @php
-            $name = 'Recomendação: {{$recommendation->id}}';
-        @endphp 
+            @php
+                $name = 'Recomendação';
+            @endphp 
 
         @elseif(request()->routeIs('recommendations.update'))
-        @php
-            $name = 'Recomendação: {{$recommendation->id}}';
-        @endphp   
+            @php
+                $name = 'Recomendação';
+            @endphp   
+
+        @elseif(request()->routeIs('recommendations.edit'))
+            @php
+                $name = 'Recomendação';
+            @endphp   
 
         @elseif(request()->routeIs('schedules.create'))
             @php
-                $name = 'Criar Recomendação';
+                $name = 'Criar Horário';
             @endphp  
 
+        @elseif(request()->routeIs('schedules.show'))
+            @php
+                $name = 'Horário';
+            @endphp 
+
+        @elseif(request()->routeIs('schedules.update'))
+            @php
+                $name = 'Horários';
+            @endphp   
+
+        @elseif(request()->routeIs('schedules.edit'))
+            @php
+                $name = 'Horários';
+            @endphp   
 
         @endif
 

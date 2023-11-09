@@ -14,7 +14,7 @@
                     <a href="{{ route('recommendations.edit', [$recommendation->id]) }}">Editar</a>
                     <br>
                     Conteúdo:
-                    {{$recommendation->content}}<br>
+                    {{!! $text !!}}<br>
 
                 </div>
             </div>
