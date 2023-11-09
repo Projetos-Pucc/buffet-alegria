@@ -10,7 +10,7 @@ use DateTime;
 use stdClass;
 use TypeError;
 
-class BookingService
+class GuestService
 {
     
     public function __construct(
@@ -37,6 +37,7 @@ class BookingService
     {
         return $this->booking->delete($id);
     }
+    
     public function update(UpdateGuestDTO $dto)
     {
 
