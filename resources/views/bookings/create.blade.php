@@ -4,7 +4,8 @@
         .input-radio input[type=radio] {
             display: none;
         }
-        .input-radio input[type=radio]:checked ~ label{
+
+        .input-radio input[type=radio]:checked~label {
             background-color: red;
         }
     </style>
@@ -15,7 +16,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form class="w-full max-w-lg" action="{{ route('bookings.store') }}" method="POST">
+                    <form class="w-full max-w-lg" action="{{ route('bookings.store') }}" method="POST" id="form">
 
                         @if ($errors->any())
                         @foreach ($errors->all() as $error)
@@ -67,10 +68,9 @@
                                         @if(count($packages) === 0)
                                         <h1>Nenhum pacote de comida encontrado!</h1>
                                         @else
-                                        @foreach($packages as $package)
+                                        @foreach($packages as $key => $package)
                                         <div class="swiper-slide input-radio">
-                                            <input required type="radio" name="package_id"
-                                                id="package-{{$package['id']}}" value="{{$package['id']}}">
+                                            <input {{ $key === 0 ? "required" : "" }} type="radio" name="package_id" id="package-{{$package['id']}}" value="{{$package['id']}}">
                                             <label for="package-{{$package['id']}}">{{$package['name_package']}}</label>
                                         </div>
                                         @endforeach
@@ -119,12 +119,11 @@
     </div>
 
     <script type="module">
-
         const swiper = new Swiper('.swiper', {
             // Optional parameters
             direction: 'horizontal',
             loop: true,
-            slidesPerView: 3,
+            slidesPerView: 2,
             spaceBetween: 10,
 
             // If we need pagination
@@ -146,6 +145,18 @@
         const packages = document.querySelectorAll("input[name=package_id]")
         const price = document.querySelector("#preco")
         const qtd_invited = document.querySelector("#qnt_invited")
+        const form = document.querySelector("#form")
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault()
+            const userConfirmed = await confirm(`Deseja agendar um aniversario no dia ${party_day.value} as ${party_time.options[party_time.selectedIndex].text}?`)
+
+            if (userConfirmed) {
+                this.submit();
+            } else {
+                error("Ocorreu um erro!")
+            }
+        })
 
         const SITEURL = "{{ url('/') }}";
 
@@ -153,17 +164,17 @@
 
         async function execute() {
             const pk = document.querySelector('input[name=package_id]:checked')
-            if(pk) {
+            if (pk) {
                 const invited = qtd_invited.value ?? 0
                 const package_local = await getPackage(pk.value)
                 package = package_local;
-    
+
                 price.innerHTML = invited * package_local.price
             } else {
                 price.innerHTML = 0
             }
 
-            if(party_day.value) {
+            if (party_day.value) {
                 const dates = await getDates(party_day.value)
 
                 printDates(dates)
@@ -173,16 +184,16 @@
 
         async function getPackage(package_id) {
             const csrf = document.querySelector('meta[name="csrf-token"]').content
-            const data = await axios.get(SITEURL + '/api/packages/'+package_id, {
+            const data = await axios.get(SITEURL + '/api/packages/' + package_id, {
                 headers: {
                     'X-CSRF-TOKEN': csrf
                 }
             })
-            
+
             return data.data;
         }
 
-        packages.forEach((pk)=>{
+        packages.forEach((pk) => {
             pk.addEventListener('change', async (e) => {
                 const invited = qtd_invited.value ?? 0
                 const package_local = await getPackage(e.target.value)
@@ -192,8 +203,8 @@
             })
         })
 
-        qtd_invited.addEventListener('change', async(e)=>{
-            if(Object.keys(package).length !== 0) {
+        qtd_invited.addEventListener('change', async (e) => {
+            if (Object.keys(package).length !== 0) {
                 price.innerHTML = e.target.value * package.price
             } else {
                 price.innerHTML = 0
@@ -202,12 +213,12 @@
 
         async function getDates(day) {
             const csrf = document.querySelector('meta[name="csrf-token"]').content
-            const data = await axios.get(SITEURL + '/schedules/open/'+day, {
+            const data = await axios.get(SITEURL + '/schedules/open/' + day, {
                 headers: {
                     'X-CSRF-TOKEN': csrf
                 }
             })
-            
+
             return data.data;
         }
 
@@ -234,7 +245,7 @@
         });
 
         function printDates(dates) {
-            const options = dates.map((date)=>{
+            const options = dates.map((date) => {
                 const party_date = new Date("1970-01-01T" + date.time + "Z");
                 party_date.setHours(party_date.getHours() + date.hours);
                 var horaFinal = party_date.toISOString().substr(11, 8);
