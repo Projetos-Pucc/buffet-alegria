@@ -171,8 +171,8 @@ class BookingService
             throw $error;
         }
     }
-}
 
-//party_date --> party_day
-//party_end XXXXXX
-//party_time ++++++
+    public function getUserBookings(int $user_id) {
+        return $this->booking->findByUser($user_id);
+    }
+}

@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Horarios') }}
-        </h2>
-    </x-slot>
+    @include('layouts.header')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -41,12 +37,13 @@
                                         {{ $value['hours']}}
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <form action="{{ route('schedules.delete', [$value['id']])}}" method="POST">
+                                        <a href="{{ route('schedules.show', $value['id']) }}" title="Visualizar '{{$value['time']}}'">👁️</a>
+                                        <a href="{{ route('schedules.edit', $value['id']) }}" title="Editar '{{$value['time']}}'">✏️</a>
+                                        <form action="{{ route('schedules.delete', $value['id']) }}" method="post" class="inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" value="{{$value['id']}}" name="id">X</button>
+                                            <button type="submit" title="Deletar '{{$value['time']}}'">❌</button>
                                         </form>
-                                        <a href="{{ route('schedules.edit', $value['id'])}}">Editar</a>
                                     </td>
                                 </tr>
                                 @endforeach

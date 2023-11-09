@@ -55,4 +55,10 @@ class EloquentORMBookingRepository implements BookingRepository {
         return (object) $booking->toArray();
     }
 
+    public function findByUser(int $userId): array {
+        return $this->booking->with(['open_schedule'=>function ($query) {
+            $query->orderBy('time', 'asc');
+        }, 'package', 'user'])->where('user_id', $userId)->orderBy('party_day', 'asc')->get()->toArray();
+    }
+
 }

@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Recomendações') }}
-        </h2>
-    </x-slot>
+    @include('layouts.header')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -40,10 +36,14 @@
                                     <a href="{{ route('recommendations.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['content'] }}</a>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <form action="{{ route('recommendations.delete', [$value['id']])}}" method="POST">
+                                        <a href="{{ route('recommendations.show', $value['id']) }}" title="Visualizar recomendação {{$value['id']}}">👁️</a>
+                                        <a href="{{ route('recommendations.edit', $value['id']) }}" title="Editar recomendação {{$value['id']}}">✏️</a>
+                                        <form action="{{ route('recommendations.delete', $value['id']) }}" method="post" class="inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" value="{{$value['id']}}" name="id">X</button></form></td>
+                                            <button type="submit" title="Deletar recomendação {{$value['id']}}">❌</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             @endif

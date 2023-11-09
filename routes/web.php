@@ -5,6 +5,7 @@ use App\Http\Controllers\OpenScheduleController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\SiteController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -20,16 +21,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::get('/api/bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar'); //API
 Route::get('/api/packages/{id}', [PackageController::class, 'find_api'])->name('bookings.findapi'); //API
 Route::get('/schedules/open/{day}', [OpenScheduleController::class, 'getSchedulesByDay'])->name('schedules.open');
 // Route::get('/schedules/open/{day}', )->name('schedules.open');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [SiteController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

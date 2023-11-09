@@ -1,17 +1,29 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Pacotes') }}
-        </h2>
-    </x-slot>
+    @include('layouts.header')
+
+    <!-- <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                <a href="{{ route('packages.create') }}">Criar Pacote</a>
+                <div>
+                    <h2>Pacotes:</h2>
+                    <ul>
+                        <div class="flex">
+                            @foreach($packages as $value)
+                                <li><a href="{{ route('packages.show', [$value['id']])}}" class="block bg-indigo-500 p-2 rounded-md text-white hover:bg-indigo-300">{{ $value['name_package'] }}</a></li>
+                            @endforeach
+                        </div>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="text-right mb-5">
-                        <a href="{{ route('packages.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Criar pacote</a>
-                    </div>
-                    
                     <div class="overflow-auto">
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -49,7 +61,15 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">R$ {{ (float)$value['price'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['slug'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['status'] }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                        <a href="{{ route('packages.show', $value['id']) }}" title="Visualizar '{{$value['name_package']}}'">👁️</a>
+                                        <a href="{{ route('packages.edit', $value['id']) }}" title="Editar '{{$value['name_package']}}'">✏️</a>
+                                        <form action="{{ route('packages.delete', $value['id']) }}" method="post" class="inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" title="Deletar '{{$value['name_package']}}'">❌</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             @endif

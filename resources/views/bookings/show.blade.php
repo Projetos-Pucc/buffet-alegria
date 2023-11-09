@@ -15,8 +15,7 @@
                     {{ $booking->name_birthdayperson }}
                     {{ $booking->qnt_invited }}
                     {{ $booking->package['name_package'] }}
-                    {{ $booking->party_start }}
-                    {{ $booking->party_end }}
+                    {{ $booking->party_day }}
                 </div>
             </div>
         </div>
