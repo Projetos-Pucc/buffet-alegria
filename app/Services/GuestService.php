@@ -6,15 +6,13 @@ use App\DTO\Guests\UpdateGuestDTO;
 use App\DTO\Guests\CreateGuestDTO;
 use App\Enums\GuestStatus;
 use App\Repositories\Contract\GuestRepository;
-use DateTime;
-use stdClass;
-use TypeError;
+
 
 class GuestService
 {
     
     public function __construct(
-        protected GuestRepository $booking
+        protected GuestRepository $guest
 
     ) {}
 
@@ -25,19 +23,19 @@ class GuestService
 
     public function getAll(): array
     {
-        return $this->booking->getAll();
+        return $this->guest->getAll();
     }
 
     public function find($id)
     {
-        return $this->booking->findOneById($id);
+        return $this->guest->findOneById($id);
     }
 
     public function delete($id)
     {
-        return $this->booking->delete($id);
+        return $this->guest->delete($id);
     }
-    
+
     public function update(UpdateGuestDTO $dto)
     {
 
