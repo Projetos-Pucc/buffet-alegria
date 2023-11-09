@@ -1,6 +1,8 @@
 <x-app-layout>
     @include('layouts.header_general')
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -17,14 +19,14 @@
 
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full  px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
-                                    Descrição das bebidas
+                                <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2" for="qnt_invited">
+                                    Recomendação
                                 </label>
-                                <textarea name="content" id="" cols="30" rows="5" placeholder="content">{{old('content')}}</textarea>
+                                <textarea name="editor" id="editor" cols="40" rows="10" class="height-500 width-500" placeholder="content">{{old('content')}}</textarea>
                             </div>
                         </div>
 
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Criar Recomendação
                         </button>
                     </form>
@@ -34,6 +36,10 @@
     </div>
 
     <script>
-        
-    </script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+        </script>
 </x-app-layout>
