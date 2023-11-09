@@ -46,9 +46,9 @@ class PackageController extends Controller
 
     public function store(PackagesUpdateRequest $request)
     {
-        $this->service->create(CreatePackageDTO::makeFromRequest($request));
+        $package = $this->service->create(CreatePackageDTO::makeFromRequest($request));
 
-        return redirect()->route('packages.index');
+        return redirect()->route('packages.show', $package->id);
     }
     public function delete(Request $request)
     {
@@ -77,6 +77,6 @@ class PackageController extends Controller
         // $package= $this->service->update($request->only([
         //     'name_package', 'food_description', 'beverages_description', 'photo_1', 'photo_2', 'photo_3', 'slug'
         // ]));
-        return redirect()->route('packages.index');
+        return redirect()->route('packages.show', $request->id);
     }
 }

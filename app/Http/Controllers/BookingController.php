@@ -94,9 +94,9 @@ class BookingController extends Controller
         $retornos = new MessageBag();
     
         try {
-            $booking = $this->service->update(UpdateBookingDTO::makeFromRequest($request));
+            $this->service->update(UpdateBookingDTO::makeFromRequest($request));
             $retornos->add('msg', 'Aniversario atualizado com sucesso!');
-            return redirect()->route('bookings.index');
+            return redirect()->route('bookings.show', $request->id);
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());

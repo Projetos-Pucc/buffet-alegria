@@ -36,9 +36,9 @@ class RecommendationController extends Controller
 
     public function store(RecommendationsUpdateRequest $request)
     {
-        $this->service->create(CreateRecommendationDTO::makeFromRequest($request));
+        $recommendation = $this->service->create(CreateRecommendationDTO::makeFromRequest($request));
 
-        return redirect()->route('recommendations.index');
+        return redirect()->route('recommendations.show', $recommendation->id);
     }
 
     public function delete(Request $request)
@@ -60,6 +60,6 @@ class RecommendationController extends Controller
     public function update(RecommendationsUpdateRequest $request)
     {
         $this->service->update(UpdateRecommendationDTO::makeFromRequest($request));
-        return redirect()->route('recommendations.index');
+        return redirect()->route('recommendations.show', $request->id);
     }
 }
