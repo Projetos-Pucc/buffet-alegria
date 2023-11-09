@@ -63,13 +63,8 @@
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
 
-                        <!-- <div>
-                            <p>Preço final: R$ <span id="preco">0</span></p>
-                        </div> -->
-                        <!--integrar com js dps e fazer o calculo do preço aqui tb! -->
-
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                            Agendar Aniversario
+                            Criar pacote de comida
                         </button>
                     </form>
                 </div>

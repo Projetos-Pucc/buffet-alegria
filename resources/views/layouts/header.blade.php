@@ -15,8 +15,18 @@
                 $name = 'Dashboard';
                 $create = 'Agendar aniversário'
                 @endphp
+        @elseif(request()->routeIs('recommendations.index'))
+            @php
+                $name = 'Recomendações';
+                $create = 'Criar recomendações'
+                @endphp
+        @elseif(request()->routeIs('schedules.index'))
+            @php
+                $name = 'Horários';
+                $create = 'Criar horários'
+                @endphp
         @endif
-        <div>
+        <div class="flex justify-between items-center w-100">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $name }}
             </h2>

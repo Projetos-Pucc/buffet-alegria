@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Contract;
 
-use App\DTO\Bookings\CreateBookingDTO;
-use App\DTO\Bookings\UpdateBookingDTO;
+use App\DTO\Recommendation\CreateRecommendationDTO;
+use App\DTO\Recommendation\UpdateRecommendationDTO;
 use stdClass;
 
-interface BookingRepository {
+interface RecommendationRepository {
     public function getAll(string $filter = null): array;
     public function findOneById(string $id): stdClass|null;
-    public function findByUser(int $userId): array;
     public function findOne(...$filters): stdClass|null;
+    public function create(CreateRecommendationDTO $dto): stdClass;
+    public function update(UpdateRecommendationDTO $dto): bool|null;
     public function delete(string $id): bool|null;
-    public function create(CreateBookingDTO $dto): stdClass;
-    public function update(UpdateBookingDTO $dto): bool|null;
+
 }

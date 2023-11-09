@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\OpenScheduleController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\SiteController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +23,10 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar');
+Route::get('/api/bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar'); //API
+Route::get('/api/packages/{id}', [PackageController::class, 'find_api'])->name('bookings.findapi'); //API
+Route::get('/schedules/open/{day}', [OpenScheduleController::class, 'getSchedulesByDay'])->name('schedules.open');
+// Route::get('/schedules/open/{day}', )->name('schedules.open');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [SiteController::class, 'dashboard'])->name('dashboard');
@@ -45,6 +50,23 @@ Route::middleware('auth')->group(function () {
     Route::delete('/bookings/delete/{id}', [BookingController::class,'delete'])->name('bookings.delete');
     Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
     Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
+
+    Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
+    Route::get('/recommendations/{id}/edit', [RecommendationController::class, 'edit'])->name('recommendations.edit');
+    Route::get('/recommendations/create', [RecommendationController::class, 'create'])->name('recommendations.create');
+    Route::post('/recommendations/store', [RecommendationController::class, 'store'])->name('recommendations.store');
+    Route::delete('/recommendations/delete/{id}', [RecommendationController::class,'delete'])->name('recommendations.delete');
+    Route::put('/recommendations/{id}',[RecommendationController::class,'update'])->name('recommendations.update');
+    Route::get('/recommendations/{id}', [RecommendationController::class, 'find'])->name('recommendations.show');
+    
+    Route::get('/schedules', [OpenScheduleController::class, 'index'])->name('schedules.index');
+    Route::get('/schedules/{id}/edit', [OpenScheduleController::class, 'edit'])->name('schedules.edit');
+    Route::get('/schedules/create', [OpenScheduleController::class, 'create'])->name('schedules.create');
+    Route::post('/schedules/store', [OpenScheduleController::class, 'store'])->name('schedules.store');
+    Route::delete('/schedules/delete/{id}', [OpenScheduleController::class,'delete'])->name('schedules.delete');
+    Route::put('/schedules/{id}',[OpenScheduleController::class,'update'])->name('schedules.update');
+    Route::get('/schedules/{id}', [OpenScheduleController::class, 'find'])->name('schedules.show');
+    
     /**
      * Formatos de utilização dos middlewares de permissionamento:
      * - Pela definição da rota

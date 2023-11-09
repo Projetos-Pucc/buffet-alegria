@@ -16,7 +16,7 @@ class SiteController extends Controller
 
     public function dashboard()
     {
-        $bookings = $this->service->getAll();
+        $bookings = $this->service->getUserBookings(auth()->user()->id);
 
         return view('dashboard', compact('bookings'));
     }

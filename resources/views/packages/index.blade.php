@@ -61,7 +61,15 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">R$ {{ (float)$value['price'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['slug'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['status'] }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                        <a href="{{ route('packages.show', $value['id']) }}" title="Visualizar '{{$value['name_package']}}'">👁️</a>
+                                        <a href="{{ route('packages.edit', $value['id']) }}" title="Editar '{{$value['name_package']}}'">✏️</a>
+                                        <form action="{{ route('packages.delete', $value['id']) }}" method="post" class="inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" title="Deletar '{{$value['name_package']}}'">❌</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             @endif

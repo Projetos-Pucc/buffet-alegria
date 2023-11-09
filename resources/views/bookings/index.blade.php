@@ -14,8 +14,9 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left">Nome Aniversariante</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Convidados</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Pacote</th>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Data Inicio</th>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Data Fim</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Dia da festa</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Inicio</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Fim</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
 
@@ -39,8 +40,9 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('packages.show', [$booking['package_id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking['package']['name_package'] }}</a>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_start'] }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_end'] }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date('d/m/Y',strtotime($booking['party_day'])) }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date("H:i", strtotime($booking['open_schedule']['time'])) }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date("H:i", strtotime($booking['open_schedule']['time']) + $booking['open_schedule']['hours'] * 3600) }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         @php
                                         $class = '';
@@ -59,11 +61,12 @@
                                         <span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking['status']) }}</span>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{route('bookings.edit',[$booking['id']])}}">Editar</a>
-                                        <form action="{{route('bookings.delete',[$booking['id']])}}" method="POST">
+                                        <a href="{{ route('bookings.show', $booking['id']) }}" title="Visualizar '{{$booking['name_birthdayperson']}}'">👁️</a>
+                                        <a href="{{ route('bookings.edit', $booking['id']) }}" title="Editar '{{$booking['name_birthdayperson']}}'">✏️</a>
+                                        <form action="{{ route('bookings.delete', $booking['id']) }}" method="post" class="inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" value="{{$booking['id']}}" name="id">X</button>
+                                            <button type="submit" title="Deletar '{{$booking['name_birthdayperson']}}'">❌</button>
                                         </form>
                                     </td>
                                 </tr>
