@@ -25,7 +25,7 @@ class BookingService
     }
     private function validate(CreateBookingDTO | UpdateBookingDTO $dto)
     {
-        $hour = $this->validate_hour($dto->open_schedule_id);
+        $hour = $this->validate_hour((int)$dto->open_schedule_id);
         $this->validate_day($dto->party_day, $hour->time, $hour->hours);
         $this->validate_package($dto->package_id);
         $this->validate_booking_exists_in_time($dto->party_day, $hour->time, isset($dto->id) ? 'update' : 'create', isset($dto->id) ?? $dto->id);
@@ -51,7 +51,7 @@ class BookingService
 
     }
 
-    private function validate_hour(string $hour) {
+    private function validate_hour(int $hour) {
         $valid = $this->open_schedule->findByHour($hour);
         if(!$valid) {
             throw new TypeError('Hour not valid');

@@ -57,8 +57,8 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
             ->toArray();
     }
 
-    public function findByHour(string $hour): stdClass|null {
-        $schedule = $this->open_schedules->where('time', $hour)->get()->first();
+    public function findByHour(int $hour): stdClass|null {
+        $schedule = $this->open_schedules->find($hour)->get()->first();
         if(!$schedule) return null;
         return (object)$schedule->toArray();
     }
