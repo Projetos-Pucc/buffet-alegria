@@ -26,9 +26,9 @@ class PackageController extends Controller
         return view('packages.create');
     }
 
-    public function find(string $id)
+    public function find(string $slug)
     {
-        if(!$package = $this->service->find($id)){
+        if(!$package = $this->service->findBySlug($slug)){
             return back();
         }
 
@@ -48,17 +48,21 @@ class PackageController extends Controller
     {
         $package = $this->service->create(CreatePackageDTO::makeFromRequest($request));
 
-        return redirect()->route('packages.show', $package->id);
+        return redirect()->route('packages.show', $package->slug);
     }
     public function delete(Request $request)
     {
-        $this->service->delete($request->id);
+        if (!$package = $this->service->findBySlug($request->slug)) {
+            return back();
+        }
+
+        $this->service->delete($package->id);
 
         return redirect()->route('packages.index');
     }
-    public function edit(Request $request)
+    public function edit(Request $request, string $slug)
     {
-        if (!$package = $this->service->find($request->id)) {
+        if (!$package = $this->service->findBySlug($slug)) {
             return back();
         }
 
@@ -67,16 +71,15 @@ class PackageController extends Controller
 
     public function update(PackagesUpdateRequest $request)
     {
-        $package= $this->service->update(
-            UpdatePackageDTO::makeFromRequest($request)
-        );
-        if(!$package){
+        if (!$this->service->find($request->id)) {
             return back();
         }
+        $this->service->update(
+            UpdatePackageDTO::makeFromRequest($request)
+        );
 
-        // $package= $this->service->update($request->only([
-        //     'name_package', 'food_description', 'beverages_description', 'photo_1', 'photo_2', 'photo_3', 'slug'
-        // ]));
-        return redirect()->route('packages.show', $request->id);
+        $package = $this->service->find($request->id);
+
+        return redirect()->route('packages.show', $package->slug);
     }
 }

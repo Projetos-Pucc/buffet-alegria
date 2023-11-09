@@ -69,9 +69,12 @@ class PackageService {
     public function find($id) {
         return $this->package->findOneById($id);
     }
+    public function findBySlug($id) {
+        return $this->package->findOneBySlug($id);
+    }
 
-    public function delete($id) {
-        $this->package->delete($id);
+    public function delete(string $slug) {
+        return $this->package->delete($slug);
     }
 
     public function update(UpdatePackageDTO $dto) {

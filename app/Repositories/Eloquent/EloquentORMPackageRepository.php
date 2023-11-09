@@ -44,11 +44,19 @@ class EloquentORMPackageRepository implements PackageRepository
         }
         return (object) $package->toArray();
     }
+    public function findOneBySlug(string $slug): ?stdClass
+    {
+        $package = $this->package->where('slug', $slug)->get()->first();
+        if (!$package) {
+            return null;
+        }
+        return (object) $package->toArray();
+    }
 
     public function delete(string $id): void
     {
         //validate if package exists
-        $this->package->delete($id);
+        $this->package->destroy($id);
     }
 
     public function create(CreatePackageDTO $dto): stdClass
