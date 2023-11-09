@@ -16,6 +16,20 @@
             $create = 'Criar pacotes';
             $route = route('packages.create');
             @endphp
+
+        @elseif(request()->routeIs('recommendations.index'))
+            @php
+            $name = 'Recomendações';
+            $create = 'Criar Recomendações ';
+            $route = route('recommendations.create');
+            @endphp
+
+        @elseif(request()->routeIs('schedules.index'))
+            @php
+            $name = 'Horários';
+            $create = 'Criar Horários ';
+            $route = route('schedules.create');
+            @endphp
         @endif
         <div class="flex justify-between items-center w-100">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
