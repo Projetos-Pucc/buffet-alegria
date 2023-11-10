@@ -31,9 +31,9 @@ class BookingController extends Controller
         return response()->json($bookings);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = $this->service->getAll();
+        $bookings = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);
 
         return view('bookings.index', compact('bookings'));
     }

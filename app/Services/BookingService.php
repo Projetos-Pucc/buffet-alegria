@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Repositories\Contract\BookingRepository;
 use App\Repositories\Contract\OpenScheduleRepository;
 use App\Repositories\Contract\PackageRepository;
+use App\Repositories\Contract\PaginationInterface;
 use DateTime;
 use Exception;
 use stdClass;
@@ -136,6 +137,16 @@ class BookingService
     {
         return $this->booking->getAll();
     }
+
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): PaginationInterface
+    {
+        return $this->booking->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
 
     public function find($id)
     {
