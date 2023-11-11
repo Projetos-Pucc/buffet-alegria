@@ -9,9 +9,9 @@ use App\Models\Booking;
 use App\Repositories\Contract\BookingRepository;
 use App\Repositories\Contract\OpenScheduleRepository;
 use App\Repositories\Contract\PackageRepository;
-use App\Repositories\Contract\PaginationInterface;
 use DateTime;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 use TypeError;
 
@@ -142,7 +142,7 @@ class BookingService
         int $page=1,
         int $totalPerPage=15,
         string $filter = null
-    ): PaginationInterface
+    ): LengthAwarePaginator
     {
         return $this->booking->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
     }
@@ -185,5 +185,12 @@ class BookingService
 
     public function getUserBookings(int $user_id) {
         return $this->booking->findByUser($user_id);
+    }
+    public function getUserBookingsPaginate(
+        int $user_id,
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null) {
+        return $this->booking->findByUserPaginate(userId: $user_id, page: $page, totalPerPage: $totalPerPage, filter: $filter);
     }
 }

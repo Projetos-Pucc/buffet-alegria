@@ -6,8 +6,7 @@ use App\DTO\Bookings\CreateBookingDTO;
 use App\DTO\Bookings\UpdateBookingDTO;
 use App\Models\Booking;
 use App\Repositories\Contract\BookingRepository;
-use App\Repositories\Contract\PaginationInterface;
-use App\Repositories\Presenters\PaginationPresenter;
+use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 
 class EloquentORMBookingRepository implements BookingRepository {
@@ -63,12 +62,16 @@ class EloquentORMBookingRepository implements BookingRepository {
         }, 'package', 'user'])->where('user_id', $userId)->orderBy('party_day', 'asc')->get()->toArray();
     }
 
-    public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): PaginationInterface {
-        $result = $this->booking->with(['open_schedule'=>function ($query) {
+    public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
+        return $this->booking->with(['open_schedule'=>function ($query) {
             $query->orderBy('time', 'asc');
         }, 'package', 'user'])->orderBy('party_day', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
+    }
 
-        return new PaginationPresenter($result);
+    public function findByUserPaginate(int $userId, int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
+        return $this->booking->with(['open_schedule'=>function ($query) {
+            $query->orderBy('time', 'asc');
+        }, 'package', 'user'])->where('user_id', $userId)->orderBy('party_day', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
     }
 
 }

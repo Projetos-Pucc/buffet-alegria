@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\OpenSchedule;
 use App\Repositories\Contract\OpenScheduleRepository;
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 
 class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
@@ -95,6 +96,9 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
 
     public function getAll(string $filter = null): array {
         return $this->open_schedules->get()->toArray();
+    }
+    public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
+        return $this->open_schedules->paginate($totalPerPage, ['*'], 'page', $page);
     }
     public function findOneById(string $id): ?stdClass
     {

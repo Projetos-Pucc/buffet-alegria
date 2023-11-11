@@ -14,9 +14,9 @@ class RecommendationController extends Controller
         protected RecommendationService $service
         ){}
     
-    public function index()
+    public function index(Request $request)
     {
-        $recommendations = $this->service->getAll();
+        $recommendations = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);;
 
         return view('recommendations.index', compact('recommendations'));
     }

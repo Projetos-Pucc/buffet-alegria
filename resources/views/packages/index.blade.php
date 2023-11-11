@@ -76,6 +76,7 @@
 
                         </tbody>
                     </table>
+                    {{ $packages->links('components.pagination') }}
                     </div>
 
                 </div>

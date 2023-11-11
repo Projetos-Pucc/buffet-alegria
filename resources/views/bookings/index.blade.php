@@ -75,7 +75,7 @@
 
                         </tbody>
                     </table>
-                    <x-pagination :paginator="$bookings"/>
+                    {{ $bookings->links('components.pagination') }}
                     </div>
 
                 </div>

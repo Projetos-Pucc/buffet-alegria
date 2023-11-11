@@ -5,6 +5,7 @@ namespace App\Repositories\Contract;
 use App\DTO\OpenSchedules\CreateOpenScheduleDTO;
 use App\DTO\OpenSchedules\UpdateOpenScheduleDTO;
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 
 interface OpenScheduleRepository {
@@ -15,6 +16,7 @@ interface OpenScheduleRepository {
     public function findByDayAndHour(DateTime $day, string $hour): stdClass|null;
 
     public function getAll(string $filter = null): array;
+    public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;
     public function findOneById(string $id): stdClass|null;
     public function findOne(...$filters): stdClass|null;
     public function delete(string $id): bool|null;

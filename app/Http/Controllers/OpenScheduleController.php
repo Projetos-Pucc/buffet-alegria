@@ -34,8 +34,8 @@ class OpenScheduleController extends Controller
         return response()->json($schedules);
     }
 
-    public function index(){
-        $schedules = $this->open_schedules->getAll();
+    public function index(Request $request){
+        $schedules = $this->open_schedules->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);;
 
         return view('schedules.index', compact('schedules'));
     }

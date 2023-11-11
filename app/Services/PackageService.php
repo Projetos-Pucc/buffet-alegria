@@ -6,6 +6,7 @@ use App\DTO\Packages\CreatePackageDTO;
 use App\DTO\Packages\UpdatePackageDTO;
 use App\DTO\Packages\UpdatePackageImageDTO;
 use App\Repositories\Contract\PackageRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use ValueError;
 
 class PackageService {
@@ -99,5 +100,15 @@ class PackageService {
 
         return $this->package->updateImage($dto);
     }
+
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): LengthAwarePaginator
+    {
+        return $this->package->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
     
 }

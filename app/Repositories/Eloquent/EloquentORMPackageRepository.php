@@ -7,6 +7,7 @@ use App\DTO\Packages\UpdatePackageDTO;
 use App\DTO\Packages\UpdatePackageImageDTO;
 use App\Models\Package;
 use App\Repositories\Contract\PackageRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 
 class EloquentORMPackageRepository implements PackageRepository
@@ -29,6 +30,19 @@ class EloquentORMPackageRepository implements PackageRepository
                 }
             })
             ->get()->toArray();
+    }
+
+    public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
+        return $this->package
+        ->where(function ($query) use ($filter) {
+            if ($filter) {
+                $query->where('name_package', 'like', "%{$filter}%");
+                $query->orWhere('food_description', 'like', "%{$filter}%");
+                $query->orWhere('beverages_description', 'like', "%{$filter}%");
+                $query->orWhere('status', 'like', "%{$filter}%");
+                $query->orWhere('slug', $filter);
+            }
+        })->paginate($totalPerPage, ['*'], 'page', $page);
     }
 
     public function getAllByStatus(bool $status = true): array {

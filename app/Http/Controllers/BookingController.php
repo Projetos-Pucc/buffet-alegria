@@ -23,7 +23,7 @@ class BookingController extends Controller
         protected BookingService $service,
         protected PackageService $package,
     ) {
-        $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store', 'edit', 'update', 'delete']]);
+        $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store', 'edit', 'update', 'delete', 'teste']]);
     }
 
     public function calendar(Booking $booking) {

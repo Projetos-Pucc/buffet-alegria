@@ -50,6 +50,7 @@
 
                         </tbody>
                     </table>
+                    {{ $recommendations->links('components.pagination') }}
                     </div>
 
                 </div>

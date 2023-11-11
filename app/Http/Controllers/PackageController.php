@@ -14,9 +14,9 @@ class PackageController extends Controller
         protected PackageService $service
         ){}
     
-    public function index()
+    public function index(Request $request)
     {
-        $packages = $this->service->getAll();
+        $packages = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);;
 
         return view('packages.index', compact('packages'));
     }

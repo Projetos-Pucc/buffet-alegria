@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Recommendation\CreateRecommendationDTO;
 use App\DTO\Recommendation\UpdateRecommendationDTO;
 use App\Repositories\Contract\RecommendationRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use ValueError;
 
 class RecommendationService {
@@ -29,6 +30,16 @@ class RecommendationService {
 
         return $this->recommendation->getAll();
     }
+
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): LengthAwarePaginator
+    {
+        return $this->recommendation->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
 
     public function find($id)
     {
