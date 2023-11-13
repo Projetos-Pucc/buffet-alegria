@@ -6,6 +6,7 @@ use App\DTO\Packages\CreatePackageDTO;
 use App\DTO\Packages\UpdatePackageDTO;
 use App\DTO\Packages\UpdatePackageImageDTO;
 use App\Repositories\Contract\PackageRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use ValueError;
 
 class PackageService {
@@ -69,9 +70,12 @@ class PackageService {
     public function find($id) {
         return $this->package->findOneById($id);
     }
+    public function findBySlug($id) {
+        return $this->package->findOneBySlug($id);
+    }
 
-    public function delete($id) {
-        $this->package->delete($id);
+    public function delete(string $slug) {
+        return $this->package->delete($slug);
     }
 
     public function update(UpdatePackageDTO $dto) {
@@ -96,5 +100,15 @@ class PackageService {
 
         return $this->package->updateImage($dto);
     }
+
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): LengthAwarePaginator
+    {
+        return $this->package->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
     
 }

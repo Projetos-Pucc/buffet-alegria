@@ -13,7 +13,7 @@
                     @endforeach
                     @endif
 
-                    <form class="w-full max-w-lg" action="{{ route('recommendations.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="w-full max-w-lg" action="{{ route('recommendations.store') }}" method="POST" enctype="multipart/form-data" id="form">
 
                         @csrf
 
@@ -36,6 +36,18 @@
     </div>
 
     <script>
+                const form = document.querySelector("#form")
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault()
+            const userConfirmed = await confirm(`Deseja criar esta recomendação?`)
+
+            if (userConfirmed) {
+                this.submit();
+            } else {
+                error("Ocorreu um erro!")
+            }
+        })
         ClassicEditor
             .create( document.querySelector( '#content' ) )
             .catch( error => {

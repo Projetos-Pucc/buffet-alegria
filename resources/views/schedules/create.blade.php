@@ -11,7 +11,7 @@
                         @endforeach
                     @endif
 
-                    <form class="w-full max-w-lg" action="{{ route('schedules.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="w-full max-w-lg" action="{{ route('schedules.store') }}" method="POST" enctype="multipart/form-data" id="form">
 
                         @csrf
 
@@ -44,6 +44,18 @@
     </div>
 
     <script>
-        
+        const form = document.querySelector("#form")
+        const time = document.querySelector("#time")
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault()
+            const userConfirmed = await confirm(`Deseja criar o horário ${time.value}?`)
+
+            if (userConfirmed) {
+                this.submit();
+            } else {
+                error("Ocorreu um erro!")
+            }
+        })
     </script>
 </x-app-layout>

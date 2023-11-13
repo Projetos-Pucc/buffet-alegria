@@ -51,6 +51,7 @@
 
                         </tbody>
                     </table>
+                    {{ $schedules->links('components.pagination') }}
                     </div>
 
                 </div>

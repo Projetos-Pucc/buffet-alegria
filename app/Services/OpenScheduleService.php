@@ -8,6 +8,7 @@ use App\Repositories\Contract\OpenScheduleRepository;
 use DateTime;
 use Error;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class OpenScheduleService
 {
@@ -29,6 +30,16 @@ class OpenScheduleService
     public function getAll(): array {
         return $this->open_schedules->getAll();
     }
+
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): LengthAwarePaginator
+    {
+        return $this->open_schedules->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
 
     public function find($id) {
         return $this->open_schedules->findOneById($id);

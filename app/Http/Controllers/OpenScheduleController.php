@@ -34,8 +34,8 @@ class OpenScheduleController extends Controller
         return response()->json($schedules);
     }
 
-    public function index(){
-        $schedules = $this->open_schedules->getAll();
+    public function index(Request $request){
+        $schedules = $this->open_schedules->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);;
 
         return view('schedules.index', compact('schedules'));
     }
@@ -54,9 +54,9 @@ class OpenScheduleController extends Controller
         $retornos = new MessageBag();
     
         try {
-            $this->open_schedules->create(CreateOpenScheduleDTO::makeFromRequest($request));
+            $schedule = $this->open_schedules->create(CreateOpenScheduleDTO::makeFromRequest($request));
             $retornos->add('msg', 'Horario atualizado com sucesso!');
-            return redirect()->route('schedules.index');
+            return redirect()->route('schedules.show', $schedule->id);
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());
@@ -87,7 +87,7 @@ class OpenScheduleController extends Controller
         try {
             $this->open_schedules->update(UpdateOpenScheduleDTO::makeFromRequest($request));
             $retornos->add('msg', 'Horario atualizado com sucesso!');
-            return redirect()->route('schedules.index');
+            return redirect()->route('schedules.show', $request->id);
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());

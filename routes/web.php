@@ -41,15 +41,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/packages/store', [PackageController::class, 'store'])->name('packages.store');
     Route::delete('/packages/delete', [PackageController::class,'delete'])->name('packages.delete');
     Route::put('/packages/{id}',[PackageController::class,'update'])->name('packages.update');
-    Route::get('/packages/{id}', [PackageController::class, 'find'])->name('packages.show');
+    Route::get('/packages/{slug}', [PackageController::class, 'find'])->name('packages.show');
 
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
-    Route::get('/bookings/{id}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+    Route::get('/bookings/{slug}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
     Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings/store', [BookingController::class, 'store'])->name('bookings.store');
-    Route::delete('/bookings/delete/{id}', [BookingController::class,'delete'])->name('bookings.delete');
+    Route::delete('/bookings/delete/{slug}', [BookingController::class,'delete'])->name('bookings.delete');
     Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
-    Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
+    Route::get('/bookings/{slug}', [BookingController::class, 'find'])->name('bookings.show');
 
     Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
     Route::get('/recommendations/{id}/edit', [RecommendationController::class, 'edit'])->name('recommendations.edit');

@@ -75,6 +75,7 @@
 
                         </tbody>
                     </table>
+                    {{ $bookings->links('components.pagination') }}
                     </div>
 
                 </div>
