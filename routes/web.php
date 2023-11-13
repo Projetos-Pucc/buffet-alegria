@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;

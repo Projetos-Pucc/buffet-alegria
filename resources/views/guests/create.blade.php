@@ -40,7 +40,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="idade">
                                     Idade 
                                 </label>
-                            <input  type="number" id="idade" name="idade" placeholder="Idade do Fulano">{{old('idade')}}>
+                            <input  type="number" id="idade" name="idade" placeholder="Idade do Fulano">{{old('idade')}}
                             </div>
                         </div>
 

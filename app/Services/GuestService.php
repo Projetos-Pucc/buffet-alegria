@@ -18,6 +18,14 @@ class GuestService
 
     public function create(CreateGuestDTO $dto)
     {
+        $data = [
+        "nome"=>$dto->nome,
+        "cpf"=>$dto->cpf,
+        "idade"=>$dto->idade,
+        "status"=>GuestStatus::N->name,
+        "booking_id"=>$dto->booking_id
+        ];
+        return $this->guest->create(new CreateGuestDTO(...$data));
 
     }
 
@@ -38,6 +46,15 @@ class GuestService
 
     public function update(UpdateGuestDTO $dto)
     {
+        $data = [
+            "id"=>$dto->id,
+            "nome"=>$dto->nome,
+            "cpf"=>$dto->cpf,
+            "idade"=>$dto->idade,
+            "status"=>GuestStatus::N->name,
+            "booking_id"=>$dto->booking_id
+            ];
+            return $this->guest->update(new UpdateGuestDTO(...$data));
 
     }
 }
