@@ -62,7 +62,12 @@
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('bookings.show', $booking->id) }}" title="Visualizar '{{$booking->name_birthdayperson}}'">👁️</a>
-                                        <a href="{{ route('bookings.edit', $booking->id) }}" title="Editar '{{$booking->name_birthdayperson}}'">✏️</a>
+                                        @php
+                                            $date = new DateTime(date('Y-m-d', strtotime($booking->open_schedule['time'] . " +".$min_days." days")));
+                                        @endphp
+                                        @if($date > new DateTime(date(`Y-m-d`)))
+                                            <a href="{{ route('bookings.edit', $booking->id) }}" title="Editar '{{$booking->name_birthdayperson}}'">✏️</a>
+                                        @endif 
                                         <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline">
                                             @csrf
                                             @method('delete')

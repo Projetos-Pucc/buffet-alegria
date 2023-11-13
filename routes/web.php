@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/packages/{slug}', [PackageController::class, 'find'])->name('packages.show');
 
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
-    Route::get('/bookings/{slug}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+    Route::get('/bookings/{id}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
     Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings/store', [BookingController::class, 'store'])->name('bookings.store');
     Route::delete('/bookings/delete/{slug}', [BookingController::class,'delete'])->name('bookings.delete');

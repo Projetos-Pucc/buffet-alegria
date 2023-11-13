@@ -12,9 +12,7 @@
                             {{ $error }}
                         @endforeach
                     @endif
-
                     <form action="{{ route('bookings.update', $booking->id) }}" method="POST">
-
                         @csrf
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3 mb-6 md:mb-0">

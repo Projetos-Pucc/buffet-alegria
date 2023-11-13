@@ -35,7 +35,8 @@ class BookingController extends Controller
     {
         $bookings = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);
 
-        return view('bookings.index', compact('bookings'));
+        $min_days = $this->service::$min_days; 
+        return view('bookings.index', compact('bookings', 'min_days'));
     }
 
     public function create()
