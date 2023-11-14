@@ -1,9 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Criar Recomendação') }}
-        </h2>
-    </x-slot>
+    @include('layouts.header_general')
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -15,20 +13,20 @@
                     @endforeach
                     @endif
 
-                    <form class="w-full max-w-lg" action="{{ route('recommendations.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="w-full max-w-lg" action="{{ route('recommendations.store') }}" method="POST" enctype="multipart/form-data" id="form">
 
                         @csrf
 
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full  px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
-                                    Descrição das bebidas
+                                <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2" for="qnt_invited">
+                                    Recomendação
                                 </label>
-                                <textarea name="content" id="" cols="30" rows="5" placeholder="content">{{old('content')}}</textarea>
+                                <textarea name="content" id="content" cols="40" rows="10" class="height-500 width-500" placeholder="content">{{old('content')}}</textarea>
                             </div>
                         </div>
 
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Criar Recomendação
                         </button>
                     </form>
@@ -38,6 +36,22 @@
     </div>
 
     <script>
-        
-    </script>
+                const form = document.querySelector("#form")
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault()
+            const userConfirmed = await confirm(`Deseja criar esta recomendação?`)
+
+            if (userConfirmed) {
+                this.submit();
+            } else {
+                error("Ocorreu um erro!")
+            }
+        })
+        ClassicEditor
+            .create( document.querySelector( '#content' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+        </script>
 </x-app-layout>

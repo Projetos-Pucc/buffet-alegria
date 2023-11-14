@@ -11,6 +11,7 @@ use App\Repositories\Contract\OpenScheduleRepository;
 use App\Repositories\Contract\PackageRepository;
 use DateTime;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 use TypeError;
 
@@ -25,7 +26,7 @@ class BookingService
     }
     private function validate(CreateBookingDTO | UpdateBookingDTO $dto)
     {
-        $hour = $this->validate_hour($dto->open_schedule_id);
+        $hour = $this->validate_hour((int)$dto->open_schedule_id);
         $this->validate_day($dto->party_day, $hour->time, $hour->hours);
         $this->validate_package($dto->package_id);
         $this->validate_booking_exists_in_time($dto->party_day, $hour->time, isset($dto->id) ? 'update' : 'create', isset($dto->id) ?? $dto->id);
@@ -51,7 +52,7 @@ class BookingService
 
     }
 
-    private function validate_hour(string $hour) {
+    private function validate_hour(int $hour) {
         $valid = $this->open_schedule->findByHour($hour);
         if(!$valid) {
             throw new TypeError('Hour not valid');
@@ -137,6 +138,16 @@ class BookingService
         return $this->booking->getAll();
     }
 
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): LengthAwarePaginator
+    {
+        return $this->booking->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
+
     public function find($id)
     {
         return $this->booking->findOneById($id);
@@ -174,5 +185,12 @@ class BookingService
 
     public function getUserBookings(int $user_id) {
         return $this->booking->findByUser($user_id);
+    }
+    public function getUserBookingsPaginate(
+        int $user_id,
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null) {
+        return $this->booking->findByUserPaginate(userId: $user_id, page: $page, totalPerPage: $totalPerPage, filter: $filter);
     }
 }

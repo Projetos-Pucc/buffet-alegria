@@ -1,13 +1,9 @@
 <x-app-layout>
-    @include('layouts.header')
+    @include('layouts.header_index')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="text-right mb-5">
-                        <a href="{{ route('recommendations.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Criar recomendação</a>
-                    </div>
-                    
                     <div class="overflow-auto">
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -50,6 +46,7 @@
 
                         </tbody>
                     </table>
+                    {{ $recommendations->links('components.pagination') }}
                     </div>
 
                 </div>

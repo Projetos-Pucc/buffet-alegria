@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Aniversariante {{$booking->name_birthdayperson}}
-        </h2>
-    </x-slot>
+    @include('layouts.header_general')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -16,9 +12,7 @@
                             {{ $error }}
                         @endforeach
                     @endif
-
                     <form action="{{ route('bookings.update', $booking->id) }}" method="POST">
-
                         @csrf
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3 mb-6 md:mb-0">
@@ -92,8 +86,10 @@
                             <p>Preço final: R$ <span id="preco">0</span></p>
                         </div>
                         @method('put')
-
-                        <button type="submit">Editar</button>
+                        <br> 
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                            Salvar
+                        </button>
 
                     </form>
                 </div>
