@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+    Route::get('/packages/not_found', [PackageController::class, 'not_found'])->name('packages.not_found');
     Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');
     Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
     Route::post('/packages/store', [PackageController::class, 'store'])->name('packages.store');
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/packages/{id}', [PackageController::class, 'find'])->name('packages.show');
 
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/not_found', [BookingController::class, 'not_found'])->name('bookings.not_found');
     Route::get('/bookings/{id}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
     Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings/store', [BookingController::class, 'store'])->name('bookings.store');
@@ -47,11 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
     
     Route::get('/guests', [GuestController::class, 'index'])->name('guests.index');
-    Route::get('/guests/{id}/edit', [GuestController::class, 'edit'])->name('guests.edit');
-    Route::get('/guests/create', [GuestController::class, 'create'])->name('guests.create');
+    Route::get('/guests/not_found', [GuestController::class, 'not_found'])->name('guests.not_found');
+    Route::get('/guests/{booking}/approved', [GuestController::class, 'approved'])->name('guests.approved');
+    Route::get('/guests/{booking}/invite', [GuestController::class, 'invite'])->name('guests.invite');
     Route::post('/guests/store', [GuestController::class, 'store'])->name('guests.store');
     Route::delete('/guests/delete/{id}', [GuestController::class,'delete'])->name('guests.delete');
-    Route::put('/guests/{id}',[GuestController::class,'update'])->name('guests.update');
     Route::get('/guests/{id}', [GuestController::class, 'find'])->name('guests.show');
     /**
      * Formatos de utilização dos middlewares de permissionamento:

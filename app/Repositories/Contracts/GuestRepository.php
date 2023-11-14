@@ -12,5 +12,4 @@ interface GuestRepository {
     public function findOne(...$filters): stdClass|null;
     public function delete(string $id): void;
     public function create(CreateGuestDTO $dto): stdClass;
-    public function update(UpdateGuestDTO $dto): bool|null;
 }

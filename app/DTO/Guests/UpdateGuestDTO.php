@@ -2,6 +2,7 @@
 
 namespace App\DTO\Guests;
 
+use App\Enums\GuestStatus;
 use App\Http\Requests\Guests\GuestsUpdateRequest;
 
 class UpdateGuestDTO {
@@ -18,9 +19,10 @@ class UpdateGuestDTO {
         return new self($request->id,
         $request->nome,
         $request->cpf,
-        $request->idade,
-        $request->status,
-        $request->booking_id
+        (int)$request->idade,
+        $request->status ?? GuestStatus::E->name,
+        (int)$request->booking_id
+
         );
     }
 }

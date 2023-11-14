@@ -2,6 +2,7 @@
 
 namespace App\DTO\Guests;
 
+use App\Enums\GuestStatus;
 use App\Http\Requests\Guests\GuestsUpdateRequest;
 
 class CreateGuestDTO {
@@ -16,9 +17,9 @@ class CreateGuestDTO {
     public static function makeFromRequest(GuestsUpdateRequest $request):self {
         return new self($request->nome,
         $request->cpf,
-        $request->idade,
-        $request->status,
-        $request->booking_id
+        (int)$request->idade,
+        $request->status ?? GuestStatus::E->name,
+        (int)$request->booking_id
 
         );
     }

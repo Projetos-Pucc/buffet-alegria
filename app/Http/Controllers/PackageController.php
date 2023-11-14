@@ -21,6 +21,10 @@ class PackageController extends Controller
         return view('packages.index', compact('packages'));
     }
 
+    public function not_found() {
+        return view('packages.package-not-found');
+    }
+
     public function create()
     {
         return view('packages.create');
@@ -29,7 +33,7 @@ class PackageController extends Controller
     public function find(string $id)
     {
         if(!$package = $this->service->find($id)){
-            return back();
+            return redirect()->route('packages.not_found');
         }
 
         return view('packages.show', compact('package'));
@@ -50,7 +54,7 @@ class PackageController extends Controller
     public function edit(Request $request)
     {
         if (!$package = $this->service->find($request->id)) {
-            return back();
+            return redirect()->route('packages.not_found');
         }
 
         return view('packages.update', compact('package'));
@@ -62,7 +66,7 @@ class PackageController extends Controller
             UpdatePackageDTO::makeFromRequest($request)
         );
         if(!$package){
-            return back();
+            return redirect()->route('packages.not_found');
         }
 
         // $package= $this->service->update($request->only([

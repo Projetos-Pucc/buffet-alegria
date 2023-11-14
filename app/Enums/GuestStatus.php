@@ -3,7 +3,9 @@
 namespace App\Enums;
 
 enum GuestStatus: string {
-    case N = "Neutro";
+    case E = "Pendente";
+    case C = "Confirmado";
+    case B = "Bloqueado";
     case P = "Presente";
 
 	// função que irá retornar o value de algum status

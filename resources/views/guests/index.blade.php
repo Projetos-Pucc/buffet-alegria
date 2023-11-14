@@ -5,32 +5,11 @@
         </h2>
     </x-slot>
 
-    <!-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                <a href="{{ route('guests.create') }}">Criar Pacote</a>
-                <div>
-                    <h2>Pacotes:</h2>
-                    <ul>
-                        <div class="flex">
-                            @foreach($guests as $value)
-                                <li><a href="{{ route('packages.show', [$value['id']])}}" class="block bg-indigo-500 p-2 rounded-md text-white hover:bg-indigo-300">{{ $value['nome'] }}</a></li>
-                            @endforeach
-                        </div>
-                    </ul>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="text-right mb-5">
-                        <a href="{{ route('guests.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Adicionar Convidados</a>
-                    </div>
                     
                     <div class="overflow-auto">
                     <table class="w-full">
@@ -44,6 +23,7 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Idade</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Booking</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
 
                             </tr>
                         </thead>
@@ -56,7 +36,7 @@
                                 @php
                                     $limite_char = 30; // O número de caracteres que você deseja exibir
                                 @endphp
-                                @foreach($packages as $value)
+                                @foreach($guests as $value)
                                 <tr class="bg-white">
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['id'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
@@ -66,7 +46,7 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$value['idade'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['status'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{route('bookings.show', [$guest['booking_id']])}}" class="font-bold text-blue-500 hover:underline">{{ $guest['name_birthdayperson']}}></a>
+                                        <a href="{{route('bookings.show', [$value['booking_id']])}}" class="font-bold text-blue-500 hover:underline">{{ $value['booking']['name_birthdayperson']}}</a>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
                                 </tr>

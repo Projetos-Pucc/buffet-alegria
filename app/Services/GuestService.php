@@ -10,23 +10,23 @@ use App\Repositories\Contract\GuestRepository;
 
 class GuestService
 {
-    
+
     public function __construct(
         protected GuestRepository $guest
 
-    ) {}
+    ) {
+    }
 
     public function create(CreateGuestDTO $dto)
     {
         $data = [
-        "nome"=>$dto->nome,
-        "cpf"=>$dto->cpf,
-        "idade"=>$dto->idade,
-        "status"=>GuestStatus::N->name,
-        "booking_id"=>$dto->booking_id
+            "nome" => $dto->nome,
+            "cpf" => $dto->cpf,
+            "idade" => $dto->idade,
+            "status" => GuestStatus::E->name,
+            "booking_id" => $dto->booking_id
         ];
         return $this->guest->create(new CreateGuestDTO(...$data));
-
     }
 
     public function getAll(): array
@@ -44,17 +44,4 @@ class GuestService
         return $this->guest->delete($id);
     }
 
-    public function update(UpdateGuestDTO $dto)
-    {
-        $data = [
-            "id"=>$dto->id,
-            "nome"=>$dto->nome,
-            "cpf"=>$dto->cpf,
-            "idade"=>$dto->idade,
-            "status"=>GuestStatus::N->name,
-            "booking_id"=>$dto->booking_id
-            ];
-            return $this->guest->update(new UpdateGuestDTO(...$data));
-
-    }
 }

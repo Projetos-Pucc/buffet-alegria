@@ -25,6 +25,7 @@ class EloquentORMGuestRepository implements GuestRepository {
                 $query->orWhere('booking_id','like',"%{$filter}%");  
             }
         })
+        ->with('booking')
         ->get()->toArray();
     }
 
@@ -48,14 +49,6 @@ class EloquentORMGuestRepository implements GuestRepository {
         return (object)$guest->toArray();
     }
     
-    public function update(UpdateGuestDTO $dto): bool|null 
-    {
-        if(!$guest = $this->guest->find($dto->id)){
-            return null;
-        }
-        return $guest->update((array)$dto);
-    }
-
     public function findOne(...$filters): stdClass|null 
     {
         $guest = $this->guest->get()->where(...$filters)->first();
