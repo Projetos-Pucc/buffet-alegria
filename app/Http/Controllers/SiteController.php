@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking;
 use App\Services\BookingService;
-use App\Services\PackageService;
+use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
@@ -14,10 +13,9 @@ class SiteController extends Controller
     ) {
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $bookings = $this->service->getUserBookings(auth()->user()->id);
-
+        $bookings = $this->service->getUserBookingsPaginate(user_id: auth()->user()->id, page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);
         return view('dashboard', compact('bookings'));
     }
 }

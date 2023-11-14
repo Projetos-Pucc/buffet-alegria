@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Criar Horario') }}
-        </h2>
-    </x-slot>
+   @include('layouts.header_general')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -15,7 +11,7 @@
                         @endforeach
                     @endif
 
-                    <form class="w-full max-w-lg" action="{{ route('schedules.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="w-full max-w-lg" action="{{ route('schedules.store') }}" method="POST" enctype="multipart/form-data" id="form">
 
                         @csrf
 
@@ -38,7 +34,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Criar Horário
                         </button>
                     </form>
@@ -48,6 +44,18 @@
     </div>
 
     <script>
-        
+        const form = document.querySelector("#form")
+        const time = document.querySelector("#time")
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault()
+            const userConfirmed = await confirm(`Deseja criar o horário ${time.value}?`)
+
+            if (userConfirmed) {
+                this.submit();
+            } else {
+                error("Ocorreu um erro!")
+            }
+        })
     </script>
 </x-app-layout>

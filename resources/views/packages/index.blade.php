@@ -1,5 +1,5 @@
 <x-app-layout>
-    @include('layouts.header')
+    @include('layouts.header_index')
 
     <!-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -11,7 +11,7 @@
                     <ul>
                         <div class="flex">
                             @foreach($packages as $value)
-                                <li><a href="{{ route('packages.show', [$value['id']])}}" class="block bg-indigo-500 p-2 rounded-md text-white hover:bg-indigo-300">{{ $value['name_package'] }}</a></li>
+                                <li><a href="{{ route('packages.show', [$value['slug']])}}" class="block bg-indigo-500 p-2 rounded-md text-white hover:bg-indigo-300">{{ $value['name_package'] }}</a></li>
                             @endforeach
                         </div>
                     </ul>
@@ -54,7 +54,7 @@
                                 <tr class="bg-white">
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['id'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                    <a href="{{ route('packages.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['name_package'] }}</a>
+                                    <a href="{{ route('packages.show', [$value['slug']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['name_package'] }}</a>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ mb_strimwidth($value['food_description'], 0, $limite_char, " ...") }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ mb_strimwidth($value['beverages_description'], 0, $limite_char, " ...") }}</td>
@@ -62,9 +62,9 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['slug'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['status'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{ route('packages.show', $value['id']) }}" title="Visualizar '{{$value['name_package']}}'">👁️</a>
-                                        <a href="{{ route('packages.edit', $value['id']) }}" title="Editar '{{$value['name_package']}}'">✏️</a>
-                                        <form action="{{ route('packages.delete', $value['id']) }}" method="post" class="inline">
+                                        <a href="{{ route('packages.show', $value['slug']) }}" title="Visualizar '{{$value['name_package']}}'">👁️</a>
+                                        <a href="{{ route('packages.edit', $value['slug']) }}" title="Editar '{{$value['name_package']}}'">✏️</a>
+                                        <form action="{{ route('packages.delete', ['slug'=>$value['slug']]) }}" method="POST" class="inline">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" title="Deletar '{{$value['name_package']}}'">❌</button>
@@ -76,6 +76,7 @@
 
                         </tbody>
                     </table>
+                    {{ $packages->links('components.pagination') }}
                     </div>
 
                 </div>
