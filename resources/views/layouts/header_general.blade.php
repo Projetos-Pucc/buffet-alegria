@@ -27,7 +27,7 @@
         
         @elseif(request()->routeIs('packages.show'))
             @php
-                $name = '$package->name_package';
+                $name = 'Pacotes';
             @endphp 
 
         @elseif(request()->routeIs('packages.update'))
