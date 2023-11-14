@@ -39,6 +39,9 @@ class GuestController extends Controller
 
     public function store(GuestsUpdateRequest $request)
     {
+        $this->authorize('create', GuestService::class);
+
+        dd($this->getAll());
         $this->service->create(CreateGuestDTO::makeFromRequest($request));
 
         return redirect()->route('guests.index');
@@ -48,7 +51,7 @@ class GuestController extends Controller
     {
         $this->service->delete($request->id);
 
-        return redirect()->route('gusets.index');
+        return redirect()->route('guests.index');
 
     }
 
