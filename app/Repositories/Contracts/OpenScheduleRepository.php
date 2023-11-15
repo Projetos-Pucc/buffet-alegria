@@ -12,7 +12,7 @@ interface OpenScheduleRepository {
     public function getOpenSchedulesByDay(DateTime $day): array;
     public function getOpenSchedulesByDayUpdate(DateTime $day, int $booking_id): array;
     public function getClosedSchedulesByDay(DateTime $day): array;
-    public function findByHour(int $hour): stdClass|null;
+    public function findByHour(string $time): stdClass|null;
     public function findByDayAndHour(DateTime $day, string $hour): stdClass|null;
 
     public function getAll(string $filter = null): array;

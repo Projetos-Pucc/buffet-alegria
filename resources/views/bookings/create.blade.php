@@ -79,7 +79,6 @@
                                         <h1>Nenhum pacote de comida encontrado!</h1>
                                         @else
                                         @foreach($packages as $key => $package)
-
                                         <div class="swiper-slide input-radio p-8">
                                             <div class="max-w-sm rounded overflow-hidden shadow-lg">
                                                 <div class="px-6 py-4 bg-amber-100">

@@ -53,8 +53,9 @@ class BookingService
     }
 
     private function validate_hour(int $hour) {
-        $valid = $this->open_schedule->findByHour($hour);
+        $valid = $this->open_schedule->findOneById($hour);
         if(!$valid) {
+            dd($hour, $valid);
             throw new TypeError('Hour not valid');
         }
         return $valid;
