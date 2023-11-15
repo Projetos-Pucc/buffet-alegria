@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\DTO\Guests\CreateGuestDTO;
+use App\DTO\Guests\GuestDTO;
 use App\DTO\Guests\UpdateGuestDTO;
 use App\Models\Guest;
 use App\Repositories\Contract\GuestRepository;
@@ -43,7 +44,7 @@ class EloquentORMGuestRepository implements GuestRepository {
         $this->guest->destroy($id);
     }
 
-    public function create(CreateGuestDTO $dto): stdClass
+    public function create(GuestDTO $dto): stdClass
     {
         $guest = $this->guest->create((array)$dto);
         return (object)$guest->toArray();

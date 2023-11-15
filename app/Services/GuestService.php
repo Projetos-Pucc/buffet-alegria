@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\Guests\UpdateGuestDTO;
 use App\DTO\Guests\CreateGuestDTO;
+use App\DTO\Guests\GuestDTO;
 use App\Enums\GuestStatus;
 use App\Repositories\Contract\GuestRepository;
 
@@ -19,14 +20,25 @@ class GuestService
 
     public function create(CreateGuestDTO $dto)
     {
-        $data = [
-            "nome" => $dto->nome,
-            "cpf" => $dto->cpf,
-            "idade" => $dto->idade,
-            "status" => GuestStatus::E->name,
-            "booking_id" => $dto->booking_id
+        $rows = [];
+        foreach ($dto->rows as $value) {
+            $data = [
+                "nome" => $value['nome'],
+                "cpf" => $value['cpf'],
+                "idade" => $value['idade'],
+                "status" => GuestStatus::E->name,
+                "booking_id" => $dto->booking_id
+            ];
+            
+            array_push($rows, $this->guest->create(new GuestDTO(...$data)));
+        }
+        $response = [
+            'booking_id'=>$dto->booking_id,
+            'rows'=>$rows
         ];
-        return $this->guest->create(new CreateGuestDTO(...$data));
+
+        return $response;
+        
     }
 
     public function getAll(): array

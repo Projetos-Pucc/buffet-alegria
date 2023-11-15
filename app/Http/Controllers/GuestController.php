@@ -57,10 +57,9 @@ class GuestController extends Controller
 
     public function store(GuestsUpdateRequest $request)
     {
-
         $guest = $this->service->create(CreateGuestDTO::makeFromRequest($request));
 
-        return redirect()->route('guests.approved', $guest->booking_id);
+        return redirect()->route('guests.approved', $guest['booking_id']);
     }
 
     public function delete(Request $request)

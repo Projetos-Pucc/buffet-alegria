@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contract;
 
-use App\DTO\Guests\CreateGuestDTO;
+use App\DTO\Guests\GuestDTO;
 use App\DTO\Guests\UpdateGuestDTO;
 use stdClass;
 
@@ -11,5 +11,5 @@ interface GuestRepository {
     public function findOneById(string $id): stdClass|null;
     public function findOne(...$filters): stdClass|null;
     public function delete(string $id): void;
-    public function create(CreateGuestDTO $dto): stdClass;
+    public function create(GuestDTO $dto): stdClass;
 }

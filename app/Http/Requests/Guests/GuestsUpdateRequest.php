@@ -21,7 +21,13 @@ class GuestsUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [        ];
+        $rules = [   
+            'rows' => 'required|array',
+            'rows.*.nome' => 'required|string|max:255',
+            'rows.*.cpf' => 'required|string',
+            'rows.*.idade' => 'required|string',
+            'booking_id' => 'required'
+         ];
         return $rules;
     }
 }

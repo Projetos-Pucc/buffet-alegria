@@ -6,21 +6,22 @@ use App\Enums\GuestStatus;
 use App\Http\Requests\Guests\GuestsUpdateRequest;
 
 class CreateGuestDTO {
+    /**
+     * @property array[] $rows
+     * @property string $rows[].nome
+     * @property string $rows[].cpf
+     * @property string $rows[].idade
+     * @property string $rows[].status
+     */
     public function __construct(
-        public string $nome,
-        public string $cpf,
-        public int $idade,
-        public string $status,
+        public array $rows,
         public int $booking_id
     ) {}
 
     public static function makeFromRequest(GuestsUpdateRequest $request):self {
-        return new self($request->nome,
-        $request->cpf,
-        (int)$request->idade,
-        $request->status ?? GuestStatus::E->name,
-        (int)$request->booking_id
-
+        return new self(
+            $request->rows,
+            $request->booking_id
         );
     }
 }
