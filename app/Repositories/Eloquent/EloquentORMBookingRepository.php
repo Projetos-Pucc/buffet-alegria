@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\DTO\Bookings\CreateBookingDTO;
 use App\DTO\Bookings\UpdateBookingDTO;
+use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Repositories\Contract\BookingRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -28,12 +29,16 @@ class EloquentORMBookingRepository implements BookingRepository {
         return (object) $booking->toArray();
     }
 
+    public function changeStatus(string $id, BookingStatus $status):bool {
+        return $this->booking->where('id', $id)->update(['status'=>$status->name]);
+    }
+
     public function delete(string $id): bool|null {
         //validate if booking exists
         if (!$this->findOneById($id)) {
             return null;
         }
-        return $this->booking->destroy($id);
+        return $this->changeStatus($id, BookingStatus::C);
     }
 
     public function create(CreateBookingDTO $dto): stdClass {
@@ -66,6 +71,12 @@ class EloquentORMBookingRepository implements BookingRepository {
         return $this->booking->with(['open_schedule'=>function ($query) {
             $query->orderBy('time', 'asc');
         }, 'package', 'user'])->orderBy('party_day', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
+    }
+
+    public function paginate_next_bookings(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
+        return $this->booking->with(['open_schedule'=>function ($query) {
+            $query->orderBy('time', 'asc');
+        }, 'package', 'user'])->where('status', 'A')->where('party_day', '>=', date('Y-m-d'))->orderBy('party_day', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
     }
 
     public function findByUserPaginate(int $userId, int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {

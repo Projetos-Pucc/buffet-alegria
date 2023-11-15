@@ -23,7 +23,7 @@ class BookingController extends Controller
         protected BookingService $service,
         protected PackageService $package,
     ) {
-        $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store', 'edit', 'update', 'delete', 'teste']]);
+        // $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store', 'edit', 'update', 'delete', 'teste']]);
     }
 
     public function calendar(Booking $booking) {
@@ -31,11 +31,19 @@ class BookingController extends Controller
         return response()->json($bookings);
     }
 
-    public function index(Request $request)
-    {
+    public function list(Request $request){
         $bookings = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);
 
         $min_days = $this->service::$min_days; 
+        return view('bookings.list', compact('bookings', 'min_days'));
+    }
+
+    public function index(Request $request)
+    {
+        // Lista somente as próximas reservas
+        $bookings = $this->service->paginate_next_bookings(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5));
+        $min_days = $this->service::$min_days; 
+
         return view('bookings.index', compact('bookings', 'min_days'));
     }
 
@@ -77,7 +85,7 @@ class BookingController extends Controller
     {
         $this->service->delete($request->id);
 
-        return redirect()->route('bookings.index');
+        return back();
     }
     public function edit(Request $request)
     {

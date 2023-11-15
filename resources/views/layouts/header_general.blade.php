@@ -15,6 +15,11 @@
                 $name = 'Edição da Reserva';
             @endphp   
 
+        @elseif(request()->routeIs('bookings.list'))
+            @php
+                $name = 'Listagem de Reservas';
+            @endphp   
+
         @elseif(request()->routeIs('bookings.edit'))
             @php
                 $name = 'Edição da Reserva';

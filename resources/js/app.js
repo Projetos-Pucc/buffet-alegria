@@ -37,3 +37,6 @@ window.error = function (message="Ocorreu um erro ao processar esta solicitaçã
         confirmButtonText: "Tentar novamente",
       });
 }
+window.basic = function (message="Operação realizada com sucesso") {
+    return Swal.fire(message);
+}

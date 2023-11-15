@@ -1,4 +1,3 @@
-
 <x-app-layout>
     @include('layouts.header_general')
 

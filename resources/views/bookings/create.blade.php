@@ -79,6 +79,7 @@
                                         <h1>Nenhum pacote de comida encontrado!</h1>
                                         @else
                                         @foreach($packages as $key => $package)
+
                                         <div class="swiper-slide input-radio p-8">
                                             <div class="max-w-sm rounded overflow-hidden shadow-lg">
                                                 <div class="px-6 py-4 bg-amber-100">
@@ -89,9 +90,9 @@
                                                         <label  for="package-{{$package['id']}}" class="text-black-bold">R$: {{$package['price']}} p/ pessoa</label>
                                                     </div>
 
-                                                <img class="w-full" src="{{asset('/'.$package['photo_1'])}}">
-                                                <img class="w-full" src="{{asset('/storage/packages'.$package['photo_2'])}}">
-                                                <img class="w-full" src="{{asset('/storage/paclages'.$package['photo_3'])}}">
+                                                    <img class="w-full" src="{{asset('/storage/packages/'.$package['photo_1'])}}">
+                                                    <img class="w-full" src="{{asset('/storage/packages/'.$package['photo_2'])}}">
+                                                <img class="w-full" src="{{asset('/storage/packages/'.$package['photo_3'])}}">
                                                 <a href="bookings.showpackages">
                                                     <p class="text-gray-700 text-base">
                                                         Ver detalhes

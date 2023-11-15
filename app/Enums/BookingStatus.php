@@ -2,8 +2,31 @@
 
 namespace App\Enums;
 
+trait EnumToArray
+{
+
+  public static function names(): array
+  {
+    return array_column(self::cases(), 'name');
+  }
+
+  public static function values(): array
+  {
+    return array_column(self::cases(), 'value');
+  }
+
+  public static function array(): array
+  {
+    return array_combine(self::values(), self::names());
+  }
+
+}
 enum BookingStatus: string {
+
+    use EnumToArray;
+    
     case A = "Aprovado";
+    case C = "Cancelado";
     case P = "Pendente";
     case F = "Finalizado";
     case E = "Encerrado";

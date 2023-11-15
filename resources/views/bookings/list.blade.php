@@ -1,12 +1,12 @@
 <x-app-layout >
-    @include('layouts.header_index')
+    @include('layouts.header_general')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="overflow-auto">
-                    <h1>Listagem das próximas reservas ativas</h1>
+                    <h1>Listagem de todas as reservas</h1>
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
                             <tr>
@@ -66,8 +66,21 @@
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('bookings.show', $booking->id) }}" title="Visualizar '{{$booking->name_birthdayperson}}'">👁️</a>
+                                        @php
+                                            $date = new DateTime(date('Y-m-d', strtotime($booking->open_schedule['time'] . " +".$min_days." days")));
+                                        @endphp
+                                        @if($date > new DateTime(date(`Y-m-d`)))
+                                            <a href="{{ route('bookings.edit', $booking->id) }}" title="Editar '{{$booking->name_birthdayperson}}'">✏️</a>
+                                        @endif 
+                                        <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" title="Deletar '{{$booking->name_birthdayperson}}'">❌</button>
+                                        </form>
                                     </td>
                                 </tr>
+
+
                                 @endforeach
                             @endif
 

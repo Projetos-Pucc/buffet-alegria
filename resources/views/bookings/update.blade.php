@@ -41,6 +41,22 @@
 			                    <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                             </div>
                         </div>
+                        @role('commercial|administrative')
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full  px-3 mb-6 md:mb-0">                            
+                                <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Status da Reserva</label>
+                                <select name="status" id="status" required>
+                                    @foreach( App\Enums\BookingStatus::array() as $key => $value )
+                                        <option value="{{$value}}" {{ $booking->status == $key ?? 'selected'}}>{{App\Enums\BookingStatus::fromValue($value)}}</option>
+                                    @endforeach
+                                    <!-- <option value="invalid2"  disabled>Nenhum horario disponivel neste dia, tente novamente!</option> -->
+                                </select>
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
+
+			                    <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
+                            </div>
+                        </div>
+                        @endrole
 
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full  px-3 mb-6 md:mb-0">

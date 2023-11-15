@@ -148,6 +148,14 @@ class BookingService
         return $this->booking->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
     }
 
+    public function paginate_next_bookings(
+        int $page=1,
+        int $totalPerPage=15,
+    ): LengthAwarePaginator
+    {
+        return $this->booking->paginate_next_bookings(page: $page, totalPerPage: $totalPerPage);
+    }
+
 
     public function find($id)
     {
@@ -171,7 +179,7 @@ class BookingService
                 "qnt_invited"=>$dto->qnt_invited,
                 "party_day"=>$dto->party_day,
                 "open_schedule_id"=>$dto->open_schedule_id,
-                "status"=>BookingStatus::P->name,
+                "status"=>$dto->status,
                 "user_id"=>auth()->user()->id,
                 "package_id"=>$dto->package_id,
                 "price"=>$this->format_price($this->package->findOneById($dto->package_id)->price,$dto->qnt_invited),

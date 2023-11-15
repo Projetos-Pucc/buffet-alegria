@@ -3,27 +3,31 @@
         @if(request()->routeIs('bookings.index'))
             @php
                 $name = 'Reservas';
-                $create = 'Agendar Aniversário';
-                $route = route('bookings.create');
+                $create = 'Listar todas as reservas';
+                $route = route('bookings.list');
+                $role = "commercial|administrative";
             @endphp      
         @elseif(request()->routeIs('dashboard'))
             @php
                 $name = 'Dashboard';
                 $create = 'Agendar Aniversário';
                 $route = route('bookings.create');
+                $role = "*"
             @endphp
+            
         @elseif(request()->routeIs('packages.index'))
             @php
             $name = 'Pacotes';
             $create = 'Criar pacotes';
             $route = route('packages.create');
+            $role = "commercial|administrative";
             @endphp
-
         @elseif(request()->routeIs('recommendations.index'))
             @php
             $name = 'Recomendações';
             $create = 'Criar Recomendações ';
             $route = route('recommendations.create');
+            $role = "commercial|administrative";
             @endphp
 
         @elseif(request()->routeIs('schedules.index'))
@@ -31,6 +35,7 @@
             $name = 'Horários';
             $create = 'Criar Horários ';
             $route = route('schedules.create');
+            $role = "commercial|administrative";
             @endphp
         @endif
         <div class="flex justify-between items-center w-100">
@@ -42,11 +47,20 @@
                 <!-- Profile dropdown -->
                 <div class="flex items-center ml-auto">
                 @if(@isset($route))
-                    <a href="{{$route}}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
-                        <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">
-                            {{$create}}
-                        </div>
-                    </a>
+                    @if($role == "*")
+                        <a href="{{$route}}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
+                            <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">
+                                {{$create}}
+                            </div>
+                        </a>
+                    @endif
+                    @role($role)
+                        <a href="{{$route}}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
+                            <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">
+                                {{$create}}
+                            </div>
+                        </a>
+                    @endrole
                  
                 @endisset
             </div>

@@ -5,11 +5,15 @@
           <div class="flex items-center">
             <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('dashboard') ? 'page' : '' }}">Dashboard</a>
+                  <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('dashboard') ? 'page' : '' }}">Dashboard</a>
+                  @unlessrole('user')
                     <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('bookings.index') ? 'page' : '' }}">{{ __('Reservas') }}</a>
-                    <a href="{{ route('packages.index') }}" class="{{ request()->routeIs('packages.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('packages') ? 'page' : '' }}">{{ __('Pacotes') }}</a>
-                    <a href="{{ route('recommendations.index') }}" class="{{ request()->routeIs('recommendations.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('recommendations') ? 'page' : '' }}">{{ __('Recomendações') }}</a>
-                    <a href="{{ route('schedules.index') }}" class="{{ request()->routeIs('schedules.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('schedules') ? 'page' : '' }}">{{ __('Horários') }}</a>
+                    @role('administrative|commercial')
+                      <a href="{{ route('packages.index') }}" class="{{ request()->routeIs('packages.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('packages') ? 'page' : '' }}">{{ __('Pacotes') }}</a>
+                      <a href="{{ route('recommendations.index') }}" class="{{ request()->routeIs('recommendations.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('recommendations') ? 'page' : '' }}">{{ __('Recomendações') }}</a>
+                      <a href="{{ route('schedules.index') }}" class="{{ request()->routeIs('schedules.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('schedules') ? 'page' : '' }}">{{ __('Horários') }}</a>
+                    @endrole
+                  @endunlessrole
                     <!-- <a href="#" class="{{ request()->routeIs('guests.list') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('guests.list') ? 'page' : '' }}">{{ __('Lista de convidados') }}</a> -->
                    <!--   <a href="#" class="{{ request()->routeIs('satisfaction.search') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('satisfaction.search') ? 'page' : '' }}">{{ __('Pesquisa de satisfação') }}</a> -->
                   </div>                  
