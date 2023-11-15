@@ -36,7 +36,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das comidas
                                 </label>
-                                <textarea name="food_description" id="" cols="30" rows="5" placeholder="food_description">{{old('food_description')}}</textarea>
+                                <textarea name="food_description" id="food_description" cols="30" rows="5" placeholder="food_description">{{old('food_description')}}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -44,7 +44,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das bebidas
                                 </label>
-                                <textarea name="beverages_description" id="" cols="30" rows="5" placeholder="beverages_description">{{old('beverages_description')}}</textarea>
+                                <textarea name="beverages_description" id="beverages_description" cols="30" rows="5" placeholder="beverages_description">{{old('beverages_description')}}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -82,5 +82,16 @@
                 error("Ocorreu um erro!")
             }
         })
+        ClassicEditor
+            .create( document.querySelector( '#food_description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+            ClassicEditor
+            .create( document.querySelector( '#beverages_description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+
     </script>
 </x-app-layout>

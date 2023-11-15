@@ -36,7 +36,7 @@
     </div>
 
     <script>
-                const form = document.querySelector("#form")
+        const form = document.querySelector("#form")
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault()
@@ -53,5 +53,5 @@
             .catch( error => {
                 console.error( error );
             } );
-        </script>
+    </script>
 </x-app-layout>
