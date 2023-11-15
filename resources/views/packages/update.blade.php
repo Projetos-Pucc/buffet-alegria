@@ -1,4 +1,7 @@
 <x-app-layout>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -35,7 +38,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das comidas
                                 </label>
-                                <textarea name="food_description" id="" cols="30" rows="5" placeholder="food_description">{{ old('food_description') ?? $package->food_description}}</textarea>
+                                <textarea name="food_description" id="food_description" cols="40" rows="10" class="height-500 width-500" placeholder="food_description">{{ html_entity_decode(old('food_description') ?? $package->food_description) }}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -43,7 +46,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das bebidas
                                 </label>
-                                <textarea name="beverages_description" id="" cols="30" rows="5" placeholder="beverages_description">{{ old('beverages_description') ?? $package->beverages_description }}</textarea>
+                                <textarea name="beverages_description" id="beverages_description" cols="40" rows="10" class="height-500 width-500" placeholder="beverages_description">{{ html_entity_decode(old('beverages_description') ?? $package->beverages_description) }}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -63,7 +66,7 @@
                         </div> -->
                         <!--integrar com js dps e fazer o calculo do preço aqui tb! -->
 
-                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Salvar 
                         </button>
                     </form>
@@ -73,6 +76,17 @@
     </div>
 
     <script>
-        
+        document.addEventListener('DOMContentLoaded', (event) => {
+        ClassicEditor
+            .create(document.querySelector('#food_description'))
+            .catch(error => {
+                console.error(error);
+            });
+            ClassicEditor
+            .create(document.querySelector('#beverages_description'))
+            .catch(error => {
+                console.error(error);
+            });
+        });
     </script>
 </x-app-layout>

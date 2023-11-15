@@ -37,8 +37,8 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                     <a href="{{ route('packages.show', [$value['slug']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['name_package'] }}</a>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ mb_strimwidth($value['food_description'], 0, $limite_char, " ...") }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ mb_strimwidth($value['beverages_description'], 0, $limite_char, " ...") }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{!! mb_strimwidth($value['food_description'], 0, $limite_char, " ...") !!}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{!! mb_strimwidth($value['beverages_description'], 0, $limite_char, " ...") !!}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">R$ {{ (float)$value['price'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['slug'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['status'] }}</td>

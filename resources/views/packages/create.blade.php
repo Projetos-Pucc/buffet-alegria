@@ -1,6 +1,8 @@
 <x-app-layout>
     @include('layouts.header_general')
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -36,7 +38,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das comidas
                                 </label>
-                                <textarea name="food_description" id="" cols="30" rows="5" placeholder="food_description">{{old('food_description')}}</textarea>
+                                <textarea name="food_description" id="food_description" cols="30" rows="5" placeholder="food_description">{{old('food_description')}}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -44,7 +46,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das bebidas
                                 </label>
-                                <textarea name="beverages_description" id="" cols="30" rows="5" placeholder="beverages_description">{{old('beverages_description')}}</textarea>
+                                <textarea name="beverages_description" id="beverages_description" cols="30" rows="5" placeholder="beverages_description">{{old('beverages_description')}}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -59,7 +61,7 @@
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
 
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-300 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Criar pacote de comida
                         </button>
                     </form>
@@ -82,5 +84,15 @@
                 error("Ocorreu um erro!")
             }
         })
+        ClassicEditor
+            .create( document.querySelector( '#food_description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+        ClassicEditor
+            .create( document.querySelector( '#beverages_description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
     </script>
 </x-app-layout>
