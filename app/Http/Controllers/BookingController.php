@@ -49,7 +49,7 @@ class BookingController extends Controller
     public function find(string $id)
     {
         if (!$booking = $this->service->find($id)) {
-            return back()->with('');
+            return redirect()->route('bookings.not_found');
         }
 
         return view('bookings.show', compact('booking'));
@@ -82,7 +82,7 @@ class BookingController extends Controller
     public function edit(Request $request)
     {
         if (!$booking = $this->service->find($request->id)) {
-            return back();
+            return redirect()->route('bookings.not_found');
         }
         $packages = $this->package->getAllByStatus(true);
 
@@ -107,5 +107,9 @@ class BookingController extends Controller
             $retornos->add('errors', $e->getMessage());
             return back()->withErrors($retornos);
         }
+    }
+
+    public function not_found(){
+        return view('bookings.booking-not-found');
     }
 }

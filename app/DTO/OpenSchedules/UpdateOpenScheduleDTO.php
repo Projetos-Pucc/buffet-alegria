@@ -15,7 +15,7 @@ class UpdateOpenScheduleDTO {
         return new self(
             $request->id,
             $request->time,
-            $request->hours
+            (int)$request->hours
         );
     }
 }

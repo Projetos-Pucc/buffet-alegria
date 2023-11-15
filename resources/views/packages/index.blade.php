@@ -1,25 +1,6 @@
 <x-app-layout>
     @include('layouts.header_index')
 
-    <!-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                <a href="{{ route('packages.create') }}">Criar Pacote</a>
-                <div>
-                    <h2>Pacotes:</h2>
-                    <ul>
-                        <div class="flex">
-                            @foreach($packages as $value)
-                                <li><a href="{{ route('packages.show', [$value['slug']])}}" class="block bg-indigo-500 p-2 rounded-md text-white hover:bg-indigo-300">{{ $value['name_package'] }}</a></li>
-                            @endforeach
-                        </div>
-                    </ul>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

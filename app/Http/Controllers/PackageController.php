@@ -21,6 +21,10 @@ class PackageController extends Controller
         return view('packages.index', compact('packages'));
     }
 
+    public function not_found() {
+        return view('packages.package-not-found');
+    }
+
     public function create()
     {
         return view('packages.create');
@@ -29,7 +33,7 @@ class PackageController extends Controller
     public function find(string $slug)
     {
         if(!$package = $this->service->findBySlug($slug)){
-            return back();
+            return redirect()->route('packages.not_found');
         }
 
         return view('packages.show', compact('package'));
@@ -62,8 +66,8 @@ class PackageController extends Controller
     }
     public function edit(Request $request, string $slug)
     {
-        if (!$package = $this->service->findBySlug($slug)) {
-            return back();
+        if (!$package = $this->service->findBySlug($request->slug)) {
+            return redirect()->route('packages.not_found');
         }
 
         return view('packages.update', compact('package'));
@@ -71,8 +75,11 @@ class PackageController extends Controller
 
     public function update(PackagesUpdateRequest $request)
     {
-        if (!$this->service->find($request->id)) {
-            return back();
+        $package= $this->service->update(
+            UpdatePackageDTO::makeFromRequest($request)
+        );
+        if(!$package){
+            return redirect()->route('packages.not_found');
         }
         $this->service->update(
             UpdatePackageDTO::makeFromRequest($request)

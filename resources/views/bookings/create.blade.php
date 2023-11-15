@@ -69,7 +69,7 @@
                                         <h1>Nenhum pacote de comida encontrado!</h1>
                                         @else
                                         @foreach($packages as $key => $package)
-                                        <div class="swiper-slide input-radio">
+                                        <div class="swiper-slide input-radio p-8">
                                             <input {{ $key === 0 ? "required" : "" }} type="radio" name="package_id" id="package-{{$package['id']}}" value="{{$package['id']}}">
                                             <label for="package-{{$package['id']}}">{{$package['name_package']}}</label>
                                         </div>

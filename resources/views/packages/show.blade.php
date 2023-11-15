@@ -13,7 +13,7 @@
                     </div>
                     <br><br>
                     <div class="flex items-center ml-auto float-down">
-                        <a href="{{ route('packages.edit', [$package->id]) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
+                        <a href="{{ route('packages.edit', [$package->slug]) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
                             <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">
                                 Editar
                             </div>
@@ -23,7 +23,7 @@
 
                 <div class="p-6 text-gray-900 float-right" style="width: 50%;">
                     <!-- Imagens -->
-                    <img src="{{asset('/'.$package->photo_1)}}" alt="foto1">
+                    <img src="{{asset('storage/packages/'.$package->photo_1)}}" alt="foto1">
                     <img src="{{asset('storage/packages/'.$package->photo_2)}}" alt="foto2">
                     <img src="{{asset('storage/packages/'.$package->photo_3)}}" alt="foto3">
                 </div>

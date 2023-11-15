@@ -15,7 +15,6 @@ class OpenScheduleService
     
     public function __construct(
         protected OpenScheduleRepository $open_schedules
-
     ) {
     }
 
@@ -54,8 +53,8 @@ class OpenScheduleService
         return $this->open_schedules->delete($id);
     }
 
-    private function validate_time_exists(string $hour) {
-        return $this->open_schedules->findByHour($hour);
+    private function validate_time_exists(string $time) {
+        return $this->open_schedules->findByHour($time);
     }
 
     public function update(UpdateOpenScheduleDTO $dto)
