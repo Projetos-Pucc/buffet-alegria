@@ -8,6 +8,7 @@ use App\Enums\BookingStatus;
 use App\Http\Requests\Bookings\BookingsUpdateRequest;
 use App\Models\Booking;
 use App\Services\BookingService;
+use App\Services\OpenScheduleService;
 use App\Services\PackageService;
 use DateTime;
 use Exception;
@@ -20,20 +21,22 @@ class BookingController extends Controller
 {
     public function __construct(
         protected BookingService $service,
-        protected PackageService $package
+        protected PackageService $package,
     ) {
+        $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store', 'edit', 'update', 'delete', 'teste']]);
     }
 
     public function calendar(Booking $booking) {
-        $bookings = $booking->get();
+        $bookings = $booking->with(['open_schedule'])->get();
         return response()->json($bookings);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = $this->service->getAll();
+        $bookings = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);
 
-        return view('bookings.index', compact('bookings'));
+        $min_days = $this->service::$min_days; 
+        return view('bookings.index', compact('bookings', 'min_days'));
     }
 
     public function create()
@@ -57,9 +60,9 @@ class BookingController extends Controller
         $retornos = new MessageBag();
     
         try {
-            $this->service->create(CreateBookingDTO::makeFromRequest($request));
+            $booking = $this->service->create(CreateBookingDTO::makeFromRequest($request));
             $retornos->add('msg', 'Aniversario criado com sucesso!');
-            return redirect()->route('bookings.index');
+            return redirect()->route('bookings.show', $booking->id);
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());
@@ -92,11 +95,9 @@ class BookingController extends Controller
         $retornos = new MessageBag();
     
         try {
-            $booking= $this->service->update(
-                UpdateBookingDTO::makeFromRequest($request)
-            );
+            $this->service->update(UpdateBookingDTO::makeFromRequest($request));
             $retornos->add('msg', 'Aniversario atualizado com sucesso!');
-            return redirect()->route('bookings.index');
+            return redirect()->route('bookings.show', $request->id);
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());

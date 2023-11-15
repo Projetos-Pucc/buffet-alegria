@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Criar Pacote') }}
-        </h2>
-    </x-slot>
+    @include('layouts.header_general')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -15,7 +11,7 @@
                     @endforeach
                     @endif
 
-                    <form class="w-full max-w-lg" action="{{ route('packages.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="w-full max-w-lg" action="{{ route('packages.store') }}" method="POST" enctype="multipart/form-data" id="form">
 
                         @csrf
 
@@ -56,20 +52,15 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="slug">
                                     Preço
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" name ="price" min="0.01" max="10000.00" step="0.01" placeholder="Insira o preco" value="{{ old('price') }}"/>
+                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" name="price" min="0.01" max="10000.00" step="0.01" placeholder="Insira o preco" value="{{ old('price') }}" />
                             </div>
                         </div>
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
 
-                        <!-- <div>
-                            <p>Preço final: R$ <span id="preco">0</span></p>
-                        </div> -->
-                        <!--integrar com js dps e fazer o calculo do preço aqui tb! -->
-
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                            Agendar Aniversario
+                            Criar pacote de comida
                         </button>
                     </form>
                 </div>
@@ -78,6 +69,18 @@
     </div>
 
     <script>
-        
+        const form = document.querySelector("#form")
+        const name_package = document.querySelector("#name_package")
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault()
+            const userConfirmed = await confirm(`Deseja criar o pacote ${name_package.value}?`)
+
+            if (userConfirmed) {
+                this.submit();
+            } else {
+                error("Ocorreu um erro!")
+            }
+        })
     </script>
 </x-app-layout>

@@ -6,6 +6,7 @@ use App\DTO\Packages\CreatePackageDTO;
 use App\DTO\Packages\UpdatePackageDTO;
 use App\DTO\Packages\UpdatePackageImageDTO;
 use App\Repositories\Contract\PackageRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use ValueError;
 
 class PackageService {
@@ -22,8 +23,7 @@ class PackageService {
 
     }
 
-    private function validate_slug_exists($slug) {
-        $slug = $this->format_slug($slug);
+    private function get_by_slug($slug) {
         $slug_exists = $this->package->findOne('slug', $slug);
         return $slug_exists;
     }
@@ -37,9 +37,9 @@ class PackageService {
     
     public function create(CreatePackageDTO $dto) {
         // slug can't has spaces
-        $slug = $this->validate_slug_exists($dto->slug);
-
-        if(!$slug) throw new ValueError('Slug already exists');
+        $slug = $this->format_slug($dto->slug);
+        $slug_exists = $this->get_by_slug($dto->slug);
+        if($slug_exists) throw new ValueError('Slug already exists');
 
         $dto->slug = $slug;
 
@@ -70,13 +70,16 @@ class PackageService {
     public function find($id) {
         return $this->package->findOneById($id);
     }
+    public function findBySlug($id) {
+        return $this->package->findOneBySlug($id);
+    }
 
-    public function delete($id) {
-        $this->package->delete($id);
+    public function delete(string $slug) {
+        return $this->package->delete($slug);
     }
 
     public function update(UpdatePackageDTO $dto) {
-        $package_exists = $this->validate_slug_exists($dto->slug);
+        $package_exists = $this->get_by_slug($dto->slug);
 
         if($package_exists && $package_exists->id != $dto->id) throw new ValueError('Slug already exists');
 
@@ -97,5 +100,15 @@ class PackageService {
 
         return $this->package->updateImage($dto);
     }
+
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): LengthAwarePaginator
+    {
+        return $this->package->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
     
 }

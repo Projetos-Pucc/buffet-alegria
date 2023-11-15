@@ -14,9 +14,9 @@ class PackageController extends Controller
         protected PackageService $service
         ){}
     
-    public function index()
+    public function index(Request $request)
     {
-        $packages = $this->service->getAll();
+        $packages = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);;
 
         return view('packages.index', compact('packages'));
     }
@@ -30,30 +30,43 @@ class PackageController extends Controller
         return view('packages.create');
     }
 
-    public function find(string $id)
+    public function find(string $slug)
     {
-        if(!$package = $this->service->find($id)){
+        if(!$package = $this->service->findBySlug($slug)){
             return redirect()->route('packages.not_found');
         }
 
         return view('packages.show', compact('package'));
     }
 
+    public function find_api(string $id)
+    {
+        if(!$package = $this->service->find($id)){
+            return (object)[];
+        }
+
+        return response()->json($package);
+    }
+
     public function store(PackagesUpdateRequest $request)
     {
-        $this->service->create(CreatePackageDTO::makeFromRequest($request));
+        $package = $this->service->create(CreatePackageDTO::makeFromRequest($request));
 
-        return redirect()->route('packages.index');
+        return redirect()->route('packages.show', $package->slug);
     }
     public function delete(Request $request)
     {
-        $this->service->delete($request->id);
+        if (!$package = $this->service->findBySlug($request->slug)) {
+            return back();
+        }
+
+        $this->service->delete($package->id);
 
         return redirect()->route('packages.index');
     }
-    public function edit(Request $request)
+    public function edit(Request $request, string $slug)
     {
-        if (!$package = $this->service->find($request->id)) {
+        if (!$package = $this->service->findBySlug($request->slug)) {
             return redirect()->route('packages.not_found');
         }
 
@@ -68,10 +81,12 @@ class PackageController extends Controller
         if(!$package){
             return redirect()->route('packages.not_found');
         }
+        $this->service->update(
+            UpdatePackageDTO::makeFromRequest($request)
+        );
 
-        // $package= $this->service->update($request->only([
-        //     'name_package', 'food_description', 'beverages_description', 'photo_1', 'photo_2', 'photo_3', 'slug'
-        // ]));
-        return redirect()->route('packages.index');
+        $package = $this->service->find($request->id);
+
+        return redirect()->route('packages.show', $package->slug);
     }
 }

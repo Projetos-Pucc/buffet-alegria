@@ -1,18 +1,10 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Reservas') }}
-        </h2>
-    </x-slot>
+<x-app-layout >
+    @include('layouts.header_index')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="text-right mb-5">
-                        <a href="{{ route('bookings.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agendar Aniversario</a>
-                    </div>
-                    
                     <div class="overflow-auto">
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -22,56 +14,64 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left">Nome Aniversariante</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Convidados</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Pacote</th>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Data Inicio</th>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Data Fim</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Dia da festa</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Inicio</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Fim</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
 
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            @if(count($bookings) === 0)
+                            @if($bookings->total() === 0)
                             <tr>
                                 <td colspan="8" class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">Nenhuma reserva encontrada</td>
                             </tr>
                             @else
-                                @foreach($bookings as $booking)
-                                <tr class="bg-white">
+                                @foreach($bookings->items() as $booking)
+                                <tr class="bg-gray-100">
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{ route('bookings.show', [$booking['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking['id'] }}</a>
+                                        <a href="{{ route('bookings.show', [$booking->id]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking->id }}</a>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                        <a href="{{ route('bookings.show', [$booking['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking['name_birthdayperson'] }}</a>
+                                        <a href="{{ route('bookings.show', [$booking->id]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking->name_birthdayperson }}</a>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['qnt_invited'] }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking->qnt_invited }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{ route('packages.show', [$booking['package_id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking['package']['name_package'] }}</a>
+                                        <a href="{{ route('packages.show', [$booking->package_id]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking->package['name_package'] }}</a>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_start'] }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking['party_end'] }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date('d/m/Y',strtotime($booking->party_day)) }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date("H:i", strtotime($booking->open_schedule['time'])) }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date("H:i", strtotime($booking->open_schedule['time']) + $booking->open_schedule['hours'] * 3600) }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         @php
                                         $class = '';
-                                        if ($booking['status'] === 'A') {
+                                        if ($booking->status === 'A') {
                                         $class = "p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50";
-                                        } elseif ($booking['status'] === 'P') {
+                                        } elseif ($booking->status === 'P') {
                                         $class = "p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50";
-                                        } elseif ($booking['status'] === 'N') {
+                                        } elseif ($booking->status === 'N') {
                                         $class = 'p-1.5 text-xs font-medium uppercase tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50';
-                                        } elseif ($booking['status'] === 'F' || $booking['status'] === 'E') {
+                                        } elseif ($booking->status === 'F' || $booking->status === 'E') {
                                         $class = 'p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-400 rounded-lg bg-opacity-50';
                                         } else {
                                         $class = 'Valor padrão';
                                         }
                                         @endphp
-                                        <span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking['status']) }}</span>
+                                        <span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking->status) }}</span>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{route('bookings.edit',[$booking['id']])}}">Editar</a>
-                                        <form action="{{route('bookings.delete',[$booking['id']])}}" method="POST">
+                                        <a href="{{ route('bookings.show', $booking->id) }}" title="Visualizar '{{$booking->name_birthdayperson}}'">👁️</a>
+                                        @php
+                                            $date = new DateTime(date('Y-m-d', strtotime($booking->open_schedule['time'] . " +".$min_days." days")));
+                                        @endphp
+                                        @if($date > new DateTime(date(`Y-m-d`)))
+                                            <a href="{{ route('bookings.edit', $booking->id) }}" title="Editar '{{$booking->name_birthdayperson}}'">✏️</a>
+                                        @endif 
+                                        <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" value="{{$booking['id']}}" name="id">X</button>
+                                            <button type="submit" title="Deletar '{{$booking->name_birthdayperson}}'">❌</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -80,6 +80,7 @@
 
                         </tbody>
                     </table>
+                    {{ $bookings->links('components.pagination') }}
                     </div>
 
                 </div>
