@@ -38,7 +38,7 @@
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $booking->qnt_invited }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{ route('packages.show', [$booking->package_id]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking->package['name_package'] }}</a>
+                                        <a href="{{ route('packages.show', [$booking->package['slug']]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking->package['name_package'] }}</a>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date('d/m/Y',strtotime($booking->party_day)) }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ date("H:i", strtotime($booking->open_schedule['time'])) }}</td>

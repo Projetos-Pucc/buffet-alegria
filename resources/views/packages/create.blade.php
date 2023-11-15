@@ -1,6 +1,8 @@
 <x-app-layout>
     @include('layouts.header_general')
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -87,11 +89,10 @@
             .catch( error => {
                 console.error( error );
             } );
-            ClassicEditor
+        ClassicEditor
             .create( document.querySelector( '#beverages_description' ) )
             .catch( error => {
                 console.error( error );
             } );
-
     </script>
 </x-app-layout>
