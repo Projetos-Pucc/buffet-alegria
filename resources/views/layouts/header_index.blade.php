@@ -3,6 +3,8 @@
         @if(request()->routeIs('bookings.index'))
             @php
                 $name = 'Reservas';
+                $create = 'Agendar Aniversário';
+                $route = route('bookings.create');
             @endphp      
         @elseif(request()->routeIs('dashboard'))
             @php

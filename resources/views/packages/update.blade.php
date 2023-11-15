@@ -63,7 +63,7 @@
                         </div> -->
                         <!--integrar com js dps e fazer o calculo do preço aqui tb! -->
 
-                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Salvar 
                         </button>
                     </form>

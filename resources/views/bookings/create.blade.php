@@ -6,7 +6,17 @@
         }
 
         .input-radio input[type=radio]:checked~label {
-            background-color: red;
+            background-color: #facc15;
+        }
+
+        .swiper-button-prev{
+            color: black;
+            margin: -12px;
+        }
+
+        .swiper-button-next{
+            color: black;
+            margin: -13px;
         }
     </style>
 
@@ -31,7 +41,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name_birthdayperson">
                                     Nome do aniversariante
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name_birthdayperson" type="text" placeholder="Guilherme" name="name_birthdayperson" value="{{old('name_birthdayperson')}}">
+                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name_birthdayperson" type="text" placeholder="Guilherme" name="name_birthdayperson" value="{{old('name_birthdayperson')}}">
                                 <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                             </div>
                         </div>
@@ -40,7 +50,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="years_birthdayperson">
                                     Idade do aniversariante
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="years_birthdayperson" type="number" placeholder="19" name="years_birthdayperson" value="{{old('years_birthdayperson')}}" min="1" step="1">
+                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="years_birthdayperson" type="number" placeholder="19" name="years_birthdayperson" value="{{old('years_birthdayperson')}}" min="1" step="1">
                                 <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                             </div>
                         </div>
@@ -49,7 +59,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Quantidade de convidados
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="qnt_invited" type="number" placeholder="0" name="qnt_invited" value="{{old('qnt_invited')}}" min="1" step="1">
+                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="qnt_invited" type="number" placeholder="0" name="qnt_invited" value="{{old('qnt_invited')}}" min="1" step="1">
                                 <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                             </div>
                         </div>
@@ -70,25 +80,26 @@
                                         @else
                                         @foreach($packages as $key => $package)
 
-                                        <div class="swiper-slide input-radio">
+                                        <div class="swiper-slide input-radio p-8">
                                             <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                                                <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains">
-                                                <div class="px-6 py-4">
-                                                    <input {{ $key === 0 ? "required" : "" }} type="radio" name="package_id" id="package-{{$package['id']}}" value="{{$package['id']}}">
-                                                    <label for="package-{{$package['id']}}">{{$package['name_package']}}</label>
-                                                <p class="text-gray-700 text-base">
-                                                    -Descricao das comidas:<br> {!!$package->food_description!!}<br><br>
-                                                    -Descricao das bebidas:<br> {!!$package->beverages_description!!}<br>
-                                                </p>
+                                                <div class="px-6 py-4 bg-amber-100">
+                                                    <div class="px-8 py-8"> 
+                                                        <input {{ $key === 0 ? "required" : "" }} type="radio" name="package_id" id="package-{{$package['id']}}" value="{{$package['id']}}" class="px-8 py-8" >
+                                                        <label  for="package-{{$package['id']}}" class="text-black-bold">{{$package['name_package']}}</label>
+                                                        <br><br>
+                                                        <label  for="package-{{$package['id']}}" class="text-black-bold">R$: {{$package['price']}} p/ pessoa</label>
+                                                    </div>
+
+                                                <img class="w-full" src="{{asset('/'.$package['photo_1'])}}">
+                                                <img class="w-full" src="{{asset('/storage/packages'.$package['photo_2'])}}">
+                                                <img class="w-full" src="{{asset('/storage/paclages'.$package['photo_3'])}}">
+                                                <a href="bookings.showpackages">
+                                                    <p class="text-gray-700 text-base">
+                                                        Ver detalhes
+                                                    </p>
+                                                </a>
                                                 </div>
                                             </div>
-
-
-                                        
-                                            
-                                            
-
-
                                         </div>
                                         @endforeach
                                         @endif
@@ -97,8 +108,8 @@
                                     <div class="swiper-pagination"></div>
 
                                     <!-- If we need navigation buttons -->
-                                    <div class="swiper-button-prev"></div>
-                                    <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                        <div class="swiper-button-next"></div>
 
                                 </div>
 
@@ -126,7 +137,7 @@
                         </div>
                         <!--integrar com js dps e fazer o calculo do preço aqui tb! -->
 
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Agendar Aniversario
                         </button>
                     </form>
