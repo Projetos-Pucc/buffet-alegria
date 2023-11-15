@@ -29,7 +29,8 @@
                                 <tr class="bg-white">
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['id'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                    <a href="{{ route('recommendations.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['content'] }}</a>
+                                    <a href="{{ route('recommendations.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">
+                                        <p>{!! $value['content'] !!}</p></a>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('recommendations.show', $value['id']) }}" title="Visualizar recomendação {{$value['id']}}">👁️</a>
