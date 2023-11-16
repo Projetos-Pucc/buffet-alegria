@@ -184,7 +184,6 @@
             return data.data;
         }
 
-
         party_day.addEventListener('change', async function() {
             const agora = new Date();
             const escolhida = new Date(this.value);
@@ -195,10 +194,9 @@
             console.log(escolhida, agora)
             console.log(this.value)
             if (escolhida < agora) {
-                this.value = [agora.getFullYear(), agora.getMonth() + 1, agora.getDate()].map(v => v < 10 ? '0' + v : v).join('-');
-                //adicionar regra de negocio de min days com arquivo de configuração
+                const date = new Date("{{$booking->party_day}}")
+                this.value = date.toISOString().split('T')[0];
                 alert("Você não pode colocar datas retroativas!")
-                return;
             }
 
             const dates = await getDates(this.value)

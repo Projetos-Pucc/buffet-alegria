@@ -64,6 +64,7 @@
                         </div>
                         @endif
                     </div>
+                    @if($booking->status === "A")
                     <h1>Convidados</h1>
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -105,6 +106,7 @@
                         </tbody>
                     </table>
                     {{ $guests->links('components.pagination') }}
+                    @endif
                 </div>
             </div>
         </div>

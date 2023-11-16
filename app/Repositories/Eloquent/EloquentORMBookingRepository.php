@@ -29,7 +29,7 @@ class EloquentORMBookingRepository implements BookingRepository {
         return (object) $booking->toArray();
     }
 
-    public function changeStatus(string $id, BookingStatus $status):bool {
+    public function changeStatus(string $id, BookingStatus $status):bool|null {
         return $this->booking->where('id', $id)->update(['status'=>$status->name]);
     }
 
