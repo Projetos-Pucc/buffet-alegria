@@ -55,6 +55,7 @@
 
                         </tbody>
                     </table>
+                    {{ $guests->links('components.pagination') }}
                     </div>
 
                 </div>

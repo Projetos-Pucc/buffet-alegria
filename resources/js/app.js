@@ -40,3 +40,17 @@ window.error = function (message="Ocorreu um erro ao processar esta solicitaçã
 window.basic = function (message="Operação realizada com sucesso") {
     return Swal.fire(message);
 }
+window.html = function (data) {
+    return Swal.fire({
+        title: data.title,
+        icon: "info",
+        html: data.content,
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        confirmButtonText: `
+            Fechar!
+        `,
+        confirmButtonAriaLabel: "Fechar!",
+      });
+}

@@ -7,7 +7,7 @@ use App\DTO\Guests\CreateGuestDTO;
 use App\DTO\Guests\GuestDTO;
 use App\Enums\GuestStatus;
 use App\Repositories\Contract\GuestRepository;
-
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GuestService
 {
@@ -54,6 +54,19 @@ class GuestService
     public function delete($id)
     {
         return $this->guest->delete($id);
+    }
+
+    public function paginate(
+        int $page=1,
+        int $totalPerPage=15,
+        string $filter = null
+    ): LengthAwarePaginator
+    {
+        return $this->guest->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
+    }
+
+    public function getByBookingPaginate(string $id, int $page=1, int $totalPerPage=15, string $filter = null) {
+        return $this->guest->getByBookingPaginate($id);
     }
 
 }

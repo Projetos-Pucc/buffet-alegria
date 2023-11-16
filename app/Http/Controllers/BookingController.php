@@ -8,8 +8,10 @@ use App\Enums\BookingStatus;
 use App\Http\Requests\Bookings\BookingsUpdateRequest;
 use App\Models\Booking;
 use App\Services\BookingService;
+use App\Services\GuestService;
 use App\Services\OpenScheduleService;
 use App\Services\PackageService;
+use App\Services\RecommendationService;
 use DateTime;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,6 +24,8 @@ class BookingController extends Controller
     public function __construct(
         protected BookingService $service,
         protected PackageService $package,
+        protected RecommendationService $recommendations,
+        protected GuestService $guests,
     ) {
         // $this->middleware('role:administrative|commercial', ['except'=>['create', 'index', 'calendar', 'find', 'store', 'edit', 'update', 'delete', 'teste']]);
     }
@@ -54,13 +58,18 @@ class BookingController extends Controller
         return view('bookings.create', compact('packages'));
     }
 
-    public function find(string $id)
+    public function find(string $id, Request $request)
     {
         if (!$booking = $this->service->find($id)) {
             return redirect()->route('bookings.not_found');
         }
 
-        return view('bookings.show', compact('booking'));
+        $recommendations = $this->recommendations->getAll();
+        $recommendations = array_slice($recommendations, 0, 10);
+
+        $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);
+
+        return view('bookings.show', compact('booking', 'recommendations', 'guests'));
     }
 
     public function store(BookingsUpdateRequest $request)
@@ -84,6 +93,12 @@ class BookingController extends Controller
     public function delete(Request $request)
     {
         $this->service->delete($request->id);
+
+        return back();
+    }
+    public function negar(Request $request)
+    {
+        $this->service->negar($request->id);
 
         return back();
     }

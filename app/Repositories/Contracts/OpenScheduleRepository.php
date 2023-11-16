@@ -11,9 +11,7 @@ use stdClass;
 interface OpenScheduleRepository {
     public function getOpenSchedulesByDay(DateTime $day): array;
     public function getOpenSchedulesByDayUpdate(DateTime $day, int $booking_id): array;
-    public function getClosedSchedulesByDay(DateTime $day): array;
     public function findByHour(string $time): stdClass|null;
-    public function findByDayAndHour(DateTime $day, string $hour): stdClass|null;
 
     public function getAll(string $filter = null): array;
     public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;

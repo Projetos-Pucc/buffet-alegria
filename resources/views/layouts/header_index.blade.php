@@ -9,7 +9,7 @@
             @endphp      
         @elseif(request()->routeIs('dashboard'))
             @php
-                $name = 'Dashboard';
+                $name = 'Minhas reservas';
                 $create = 'Agendar Aniversário';
                 $route = route('bookings.create');
                 $role = "*"

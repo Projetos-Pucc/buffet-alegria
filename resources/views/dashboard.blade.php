@@ -62,17 +62,19 @@
                                         </td>
                                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                             <a href="{{ route('bookings.show', $booking->id) }}" title="Visualizar '{{$booking->name_birthdayperson}}'">👁️</a>
-                                            @php
-                                                $date = new DateTime(date('Y-m-d', strtotime($booking->open_schedule['time'] . " +".$min_days." days")));
-                                            @endphp
-                                            @if($date > new DateTime(date(`Y-m-d`)))
-                                                <a href="{{ route('bookings.edit', $booking->id) }}" title="Editar '{{$booking->name_birthdayperson}}'">✏️</a>
+                                            @if($booking->status === "P" && $booking->status === "A")
+                                                @php
+                                                    $date = new DateTime(date('Y-m-d', strtotime($booking->open_schedule['time'] . " +".$min_days." days")));
+                                                @endphp
+                                                @if($date > new DateTime(date(`Y-m-d`)))
+                                                    <a href="{{ route('bookings.edit', $booking->id) }}" title="Editar '{{$booking->name_birthdayperson}}'">✏️</a>
+                                                @endif
+                                                <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline form">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" title="Deletar '{{$booking->name_birthdayperson}}'">❌</button>
+                                                </form>
                                             @endif
-                                            <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline form">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" title="Deletar '{{$booking->name_birthdayperson}}'">❌</button>
-                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach

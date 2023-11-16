@@ -39,7 +39,6 @@ class OpenScheduleService
         return $this->open_schedules->paginate(page: $page, totalPerPage: $totalPerPage, filter: $filter);
     }
 
-
     public function find($id) {
         return $this->open_schedules->findOneById($id);
     }

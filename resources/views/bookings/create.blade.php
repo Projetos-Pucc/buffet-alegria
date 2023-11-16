@@ -80,26 +80,18 @@
                                         @else
                                         @foreach($packages as $key => $package)
 
-                                        <div class="swiper-slide input-radio p-8">
-                                            <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                                                <div class="px-6 py-4 bg-amber-100">
-                                                    <div class="px-8 py-8"> 
-                                                        <input {{ $key === 0 ? "required" : "" }} type="radio" name="package_id" id="package-{{$package['id']}}" value="{{$package['id']}}" class="px-8 py-8" >
-                                                        <label  for="package-{{$package['id']}}" class="text-black-bold">{{$package['name_package']}}</label>
-                                                        <br><br>
-                                                        <label  for="package-{{$package['id']}}" class="text-black-bold">R$: {{$package['price']}} p/ pessoa</label>
-                                                    </div>
-
-                                                    <img class="w-full" src="{{asset('/storage/packages/'.$package['photo_1'])}}">
-                                                    <img class="w-full" src="{{asset('/storage/packages/'.$package['photo_2'])}}">
-                                                <img class="w-full" src="{{asset('/storage/packages/'.$package['photo_3'])}}">
-                                                <a href="bookings.showpackages">
-                                                    <p class="text-gray-700 text-base">
-                                                        Ver detalhes
-                                                    </p>
-                                                </a>
-                                                </div>
-                                            </div>
+                                        <div class="swiper-slide input-radio p-4 max-w-xl rounded overflow-hidden shadow-lg">
+                                            <input {{ $key === 0 ? "required" : "" }} type="radio" name="package_id" id="package-{{$package['id']}}" value="{{$package['id']}}" class="px-8 py-8" >
+                                            <label for="package-{{$package['id']}}" class="px-6 py-4 bg-amber-100 block">
+                                                <span class="font-bold block text-lg">
+                                                    {{$package['name_package']}}
+                                                </span>
+                                                <span class="block">
+                                                    R$: <span class="font-bold text-xl">{{number_format((float) $package['price'], 2)}}</span> p/ pessoa
+                                                </span>
+                                                <button id='button-package-{{$package['id']}}'class="see-details-button bg-amber-400 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded
+                                                    inline-flex items-center px-3 py-2 border border-transparent text-sm leading-">Ver detalhes</button>
+                                            </label>
                                         </div>
                                         @endforeach
                                         @endif
@@ -151,7 +143,7 @@
             // Optional parameters
             direction: 'horizontal',
             loop: true,
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 10,
 
             // If we need pagination
@@ -165,9 +157,30 @@
                 prevEl: '.swiper-button-prev',
             },
         });
-    </script>
+        const see_details = document.querySelectorAll(".see-details-button")
+        see_details.forEach((button)=>{
+            button.addEventListener('click', async (e)=>{
+                e.preventDefault()
 
-    <script>
+                const btn_id = button.id.split('button-package-')[1]
+                
+                const pk = await getPackage(btn_id)
+                const data = {
+                    title: pk.name_package,
+                    content: `
+                        <p>Por apenas R$ ${pk.price}</p>
+                        <p>Descrição do pacote:</p>
+                        ${pk.food_description}
+                        ${pk.beverages_description}
+
+                        <img class="w-full" src="{{asset('/storage/packages/${pk.photo_1}')}}">
+                        <img class="w-full" src="{{asset('/storage/packages/${pk.photo_2}')}}">
+                        <img class="w-full" src="{{asset('/storage/packages/${pk.photo_3}')}}">
+                    `
+                }
+                html(data)
+            })
+        })
         const party_day = document.querySelector("#party_day")
         const party_time = document.querySelector("#open_schedule_id")
         const packages = document.querySelectorAll("input[name=package_id]")
@@ -188,14 +201,14 @@
 
         const SITEURL = "{{ url('/') }}";
 
-        let package = {}
+        let package_selected = {}
 
         async function execute() {
             const pk = document.querySelector('input[name=package_id]:checked')
             if (pk) {
                 const invited = qtd_invited.value ?? 0
                 const package_local = await getPackage(pk.value)
-                package = package_local;
+                package_selected = package_local;
 
                 price.innerHTML = invited * package_local.price
             } else {
@@ -208,8 +221,8 @@
                 printDates(dates)
             }
         }
+        
         execute()
-
         async function getPackage(package_id) {
             const csrf = document.querySelector('meta[name="csrf-token"]').content
             const data = await axios.get(SITEURL + '/api/packages/' + package_id, {
@@ -225,15 +238,15 @@
             pk.addEventListener('change', async (e) => {
                 const invited = qtd_invited.value ?? 0
                 const package_local = await getPackage(e.target.value)
-                package = package_local;
+                package_selected = package_local;
 
                 price.innerHTML = invited * package_local.price
             })
         })
 
         qtd_invited.addEventListener('change', async (e) => {
-            if (Object.keys(package).length !== 0) {
-                price.innerHTML = e.target.value * package.price
+            if (Object.keys(package_selected).length !== 0) {
+                price.innerHTML = e.target.value * package_selected.price
             } else {
                 price.innerHTML = 0
             }
@@ -247,6 +260,7 @@
                 }
             })
 
+            console.log(data.data)
             return data.data;
         }
 

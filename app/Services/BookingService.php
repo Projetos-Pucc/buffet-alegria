@@ -166,11 +166,17 @@ class BookingService
     {
         return $this->booking->delete($id);
     }
+    public function negar($id)
+    {
+        return $this->booking->changeStatus($id, BookingStatus::N);
+    }
     
     public function update(UpdateBookingDTO $dto)
     {
         try{
             $this->validate($dto);
+
+            $package = $this->find($dto->id);
 
             $data = [
                 "id"=>$dto->id,
@@ -180,10 +186,11 @@ class BookingService
                 "party_day"=>$dto->party_day,
                 "open_schedule_id"=>$dto->open_schedule_id,
                 "status"=>$dto->status,
-                "user_id"=>auth()->user()->id,
+                "user_id"=>$package->user_id,
                 "package_id"=>$dto->package_id,
                 "price"=>$this->format_price($this->package->findOneById($dto->package_id)->price,$dto->qnt_invited),
             ];
+            $dto->price = $this->format_price($this->package->findOneById($dto->package_id)->price,$dto->qnt_invited);
 
             return $this->booking->update(new UpdateBookingDTO(...$data));
 

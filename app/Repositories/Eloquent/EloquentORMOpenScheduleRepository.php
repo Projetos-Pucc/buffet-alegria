@@ -22,12 +22,16 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
     public function getOpenSchedulesByDay(DateTime $day): array
     {
         $day = $day->format('Y-m-d');
+
         return $this->open_schedules
             ->leftJoin('bookings', function ($join) use ($day) {
                 $join->on('open_schedules.id', '=', 'bookings.open_schedule_id')
                     ->where('bookings.party_day', '=', $day);
             })
-            ->whereNull('bookings.open_schedule_id')
+            ->where(function ($query) {
+                $query->whereNull('bookings.open_schedule_id')
+                    ->orWhere('bookings.status', '=', 'N');
+            })
             ->select('open_schedules.*')
             ->get()
             ->toArray();
@@ -62,36 +66,6 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
         $schedule = $this->open_schedules->where('time', $time)->get()->first();
         if(!$schedule) return null;
         return (object)$schedule->toArray();
-    }
-    
-    public function getClosedSchedulesByDay(DateTime $day): array
-    {   
-        // $day = $day->format('Y-m-d');
-        // return $this->open_schedules
-        //     ->join('bookings', function ($join) use ($day) {
-        //         $join->on('open_schedules.id', '=', 'bookings.open_schedule_id')
-        //             ->where('bookings.party_day', '=', $day);
-        //     })
-        //     ->select('open_schedules.*')
-        //     ->get()
-        //     ->toArray();
-        return [];
-        
-    }
-
-    public function findByDayAndHour(DateTime $day, string $hour): stdClass|null {
-        // $day = $day->format('Y-m-d');
-        
-        // return (object)$this->open_schedules
-        //     ->innerJoin('bookings', function ($join) use ($day) {
-        //         $join->on('open_schedules.id', '=', 'bookings.open_schedule_id')
-        //             ->where('bookings.party_day', '=', $day);
-        //     })
-        //     ->whereNull('bookings.open_schedule_id')
-        //     ->select('open_schedules.*')
-        //     ->get()
-        //     ->toArray();
-        return (object)[];
     }
 
     public function getAll(string $filter = null): array {

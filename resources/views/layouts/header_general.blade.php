@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         @if(request()->routeIs('bookings.create'))
             @php
-                $name = 'Agendar Anversário';
+                $name = 'Agendar Aniversário';
             @endphp   
 
         @elseif(request()->routeIs('bookings.show'))

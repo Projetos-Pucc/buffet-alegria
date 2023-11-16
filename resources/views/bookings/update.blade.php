@@ -8,6 +8,7 @@
                     <h1>Reserva: {{$booking->id}} </h1>
 
                     @if ($errors->any())
+                        @dd($errors)
                         @foreach ($errors->all() as $error)
                             {{ $error }}
                         @endforeach
@@ -47,7 +48,7 @@
                                 <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Status da Reserva</label>
                                 <select name="status" id="status" required>
                                     @foreach( App\Enums\BookingStatus::array() as $key => $value )
-                                        <option value="{{$value}}" {{ $booking->status == $key ?? 'selected'}}>{{App\Enums\BookingStatus::fromValue($value)}}</option>
+                                        <option value="{{$value}}" {{ $booking->status == $value ? 'selected' : ""}}>{{$key}}</option>
                                     @endforeach
                                     <!-- <option value="invalid2"  disabled>Nenhum horario disponivel neste dia, tente novamente!</option> -->
                                 </select>
