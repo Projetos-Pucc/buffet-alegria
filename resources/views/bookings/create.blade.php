@@ -168,9 +168,14 @@
                 const data = {
                     title: pk.name_package,
                     content: `
-                        <p>Por apenas R$ ${pk.price}</p>
-                        <p>Descrição do pacote:</p>
+                        <p><b>Por apenas R$ ${pk.price}</b></p>
+                        <br>
+                        <p><b>Descrição do pacote:</b></p>
+                        <br>
+                        <p><b>Comidas:</b></p>
                         ${pk.food_description}
+                        <br><br>
+                        <p><b>Bebidas:</b></p>
                         ${pk.beverages_description}
 
                         <img class="w-full" src="{{asset('/storage/packages/${pk.photo_1}')}}">
