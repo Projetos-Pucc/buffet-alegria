@@ -1,5 +1,4 @@
 *
 !.gitignore
-!./packages/169998221749.jpg
-!./packages/169998221766.jpg
-!./packages/169998221778.jpg
+!packages 
+!app
