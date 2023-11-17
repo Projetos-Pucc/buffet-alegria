@@ -63,7 +63,7 @@
 		<!-- Fim cabeçalho-->
 
 		<!-- Calendário -->
-		<div style="width:200px; height:100px; background-color:gray; border: 1px solid #0000; ">
+		<div>
 
 			<link rel="dns-prefetch" href="//unpkg.com" />
 			<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />

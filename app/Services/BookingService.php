@@ -184,9 +184,9 @@ class BookingService
         try{
             $this->validate($dto);
 
-            $package = $this->find($dto->package_id); 
+            $booking = $this->find($dto->id); 
 
-            if($package) throw new TypeError("Package not found");
+            if(!$booking) throw new TypeError("Booking not found");
 
             // $user = auth()->user();
             // if($user->hasRole('administrative')  $user->hasRole('commercial')  $user->id === $dto->id) {
@@ -201,7 +201,7 @@ class BookingService
                 "party_day"=>$dto->party_day,
                 "open_schedule_id"=>$dto->open_schedule_id,
                 "status"=>$dto->status, 
-                "user_id"=>$package->user_id, // Para garantir que vai manter o user_id
+                "user_id"=>$booking->user_id, // Para garantir que vai manter o user_id
                 "package_id"=>$dto->package_id,
                 "price"=>$this->format_price($this->package->findOneById($dto->package_id)->price,$dto->qnt_invited),
             ];
