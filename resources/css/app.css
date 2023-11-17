@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    background-image: url(/storage/app/public/app/background_image.jpeg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
