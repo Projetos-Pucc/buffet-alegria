@@ -70,6 +70,12 @@ class BookingController extends Controller
             return redirect()->route('bookings.not_found');
         }
 
+        $user = auth()->user();
+        if($user->hasRole('user') && $user->id !== $booking->user_id) {
+            // Todos podem acessar as reservas, desde que não seja um usuário comum e que este usuário seja diferente do usuário da reserva
+            abort(403);
+        }
+
         $recommendations = $this->recommendations->getAll();
         $recommendations = array_slice($recommendations, 0, 10);
 
@@ -113,6 +119,13 @@ class BookingController extends Controller
         if (!$booking = $this->service->find($request->id)) {
             return redirect()->route('bookings.not_found');
         }
+
+        $user = auth()->user();
+        if(($user->hasRole('user') || $user->hasRole('operational')) && $user->id !== $booking->user_id) {
+            // Todos podem acessar as reservas, desde que não seja um usuário comum e que este usuário seja diferente do usuário da reserva
+            abort(403);
+        }
+
         $packages = $this->package->getAllByStatus(true);
 
 

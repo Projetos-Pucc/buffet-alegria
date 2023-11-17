@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Convidados') }}
-        </h2>
-    </x-slot>
+    @include('layouts.header_index')
 
 
     <div class="py-12">
@@ -38,12 +34,10 @@
                                 @php
                                     $limite_char = 30; // O número de caracteres que você deseja exibir
                                 @endphp
-                                @foreach($guests as $values)
+                                @foreach($guests as $key=>$values)
                                 <tr class="bg-white">
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $values['id'] }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                    <a href="{{ route('guests.show', [$values['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $values['nome'] }}</a>
-                                    </td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $key+1 }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $values['nome'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ mb_strimwidth($values['cpf'], 0, $limite_char, " ...") }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$values['idade'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ App\Enums\GuestStatus::fromValue($values->status) }}</td>

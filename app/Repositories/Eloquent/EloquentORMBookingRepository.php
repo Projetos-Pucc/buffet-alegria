@@ -22,7 +22,7 @@ class EloquentORMBookingRepository implements BookingRepository {
     }
 
     public function findOneById(string $id): stdClass|null {
-        $booking = $this->booking->with('package')->with('user')->find($id);
+        $booking = $this->booking->with(['package', 'user', 'open_schedule'])->find($id);
         if (!$booking) {
             return null;
         }

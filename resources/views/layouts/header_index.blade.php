@@ -29,7 +29,11 @@
             $route = route('recommendations.create');
             $role = "commercial|administrative";
             @endphp
-
+        @elseif(request()->routeIs('guests.index'))
+            @php
+            $name = 'Convidados';
+            $create = null;
+            @endphp
         @elseif(request()->routeIs('schedules.index'))
             @php
             $name = 'Horários';
@@ -46,7 +50,7 @@
             <div class="ml-400 flex items-center md:ml-30">
                 <!-- Profile dropdown -->
                 <div class="flex items-center ml-auto">
-                @if(@isset($route))
+                @if(@isset($route) && @isset($create))
                     @if($role == "*")
                         <a href="{{$route}}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
                             <div class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">

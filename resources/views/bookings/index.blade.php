@@ -6,7 +6,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="overflow-auto">
-                    <h1>Listagem das próximas reservas ativas</h1>
+                    <h1 class="inline-flex items-center border border-transparent text-lg leading-4 font-semi-bold">Listagem das próximas reservas ativas</h1>
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
                             <tr>

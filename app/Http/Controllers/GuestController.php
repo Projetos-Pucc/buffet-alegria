@@ -47,14 +47,6 @@ class GuestController extends Controller
         return view('guests.guest-not-found');
     }
 
-    public function find(string $id)
-    {
-        if(!$guest = $this->service->find($id)){
-            return back();
-        }
-        return view('guests.show',compact('guest'));
-    }
-
     public function store(GuestsUpdateRequest $request)
     {
         $guest = $this->service->create(CreateGuestDTO::makeFromRequest($request));

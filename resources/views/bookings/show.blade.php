@@ -5,13 +5,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    
                     <div class="flex justify-between">
-                        <div class="float-left" style="width:300px;">                          
+                        <div>
                             <p><strong>Nome:</strong> {{ $booking->name_birthdayperson }}</p><br>
                             <p><strong>Quantidade de Convidados:</strong> {{ $booking->qnt_invited }}</p><br>
                             <p><strong>Pacote Selecionado:</strong> {{ $booking->package['name_package'] }}</p><br>
-                            <p><strong>Data:</strong> {{ $booking->party_day }}</p><br>
+                            <p><strong>Data:</strong> {{ date('d/m/Y',strtotime($booking->party_day)) }} das {{ date("H:i", strtotime($booking->open_schedule['time'])) }} as {{ date("H:i", strtotime($booking->open_schedule['time']) + $booking->open_schedule['hours'] * 3600) }}</p><br>
                             @php
                                 $class = '';
                                 if ($booking->status === 'A') {
@@ -25,7 +24,7 @@
                                 } else {
                                 $class = 'Valor padrão';
                                 }
-                            @endphp            
+                            @endphp      
                             <p><strong>Status:</strong><span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking->status) }}</span></p>
                             <br>
                             @php
@@ -37,20 +36,19 @@
                                     @method('delete')
                                     <button type="submit" title="Deletar '{{$booking->name_birthdayperson}}'" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">Cancelar Reserva</button>
                                 </form>
+                                <br><br>
+                                <div class="flex items-center ml-auto float-down">
+                                    <a href="{{ route('bookings.edit', [$booking->id]) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
+                                        <div class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4">
+                                            Editar
+                                        </div>
+                                    </a>
+                                </div>
                             @endif
-                            <br><br>
-                            <div class="flex items-center ml-auto float-down">
-                                <a href="{{ route('bookings.edit', [$booking->id]) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
-                                    <div class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4">
-                                        Editar
-                                    </div>
-                                </a>
-                            </div>
                         </div>
-
-                        <div class="float-right" style="">
+                        <div>
                             <br>
-                            @if($booking->status == "A" && auth()->user()->id === $booking->user_id)
+                            @if(($booking->status === "A") && auth()->user()->id === $booking->user_id)
                                 <h1><strong>Link lista de convidados:</strong></h1>
                                 <div>
                                     <input type="text" readonly value="{{ route('guests.invite', $booking->id) }}" id="texto" class="bg-amber-100 text-amber-700 ">
@@ -59,21 +57,19 @@
                                     </button> 
                                 </div>
                             @endif
-                            <br>
-                            
-                            @if($booking->status === "A")
-                            <div>
-                                @if(count($recommendations) !== 0)
+
+                            @if($booking->status === "A" && count($recommendations) !== 0)
+                                <div>
                                     <h2><strong>Recomendações para a festa:</strong></h2>
                                     @foreach($recommendations as $value)
                                         <p>{!!$value['content']!!}</p>
                                     @endforeach
-                                @endif
-                            @endif</div>
+                                </div>
+                            @endif
                         </div>
                     </div>
-                    </div>
-                        @if($booking->status === "A")
+                    <div>
+                        @if($booking->status === "F" || $booking->status === "E" || $booking->status === "P" || $booking->status === "A")
                             <h1><strong>Lista de Convidados:</strong></h1>
                             <h2>! Caso deseje bloquear alguém aperte no X</h2>
                             <br>
@@ -99,12 +95,10 @@
                                         @php
                                             $limite_char = 30; // O número de caracteres que você deseja exibir
                                         @endphp
-                                        @foreach($guests as $value)
+                                        @foreach($guests as $key=>$value)
                                         <tr class="bg-white">
-                                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['id'] }}</td>
-                                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                            <a href="{{ route('guests.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['nome'] }}</a>
-                                            </td>
+                                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $key+1 }}</td>
+                                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['nome'] }}</td>
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ mb_strimwidth($value['cpf'], 0, $limite_char, " ...") }}</td>
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$value['idade'] }}</td>
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ App\Enums\GuestStatus::fromValue($value['status']) }}</td>
@@ -121,16 +115,16 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <script>
         const btn = document.querySelector('#button')
-        if(btn){
-            btn.addEventListener('click', (e)=>{
-            copiarTexto()
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                copiarTexto()
             })
         }
-        async function copiarTexto(){
+        async function copiarTexto() {
             let textoCopiado = document.getElementById("texto");
             textoCopiado.select();
             textoCopiado.setSelectionRange(0, 99999)

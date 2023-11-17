@@ -6,12 +6,12 @@ enum BookingStatus: string {
 
     use EnumToArray;
     
+    case N = "Negado";
+    case P = "Pendente";
     case A = "Aprovado";
     case C = "Cancelado";
-    case P = "Pendente";
     case F = "Finalizado";
     case E = "Encerrado";
-    case N = "Negado";
 
 	// função que irá retornar o value de algum status
     public static function fromValue(string $name): string {

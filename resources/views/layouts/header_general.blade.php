@@ -84,7 +84,14 @@
             @php
                 $name = 'Horários';
             @endphp   
-
+        @elseif(request()->routeIs('guests.index'))
+            @php
+                $name = 'Convidados';
+            @endphp   
+        @elseif(request()->routeIs('guests.show'))
+            @php
+                $name = 'Convidados';
+            @endphp   
         @endif
 
         <div class="flex justify-between items-center w-100">
