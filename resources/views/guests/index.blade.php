@@ -24,6 +24,8 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Booking</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Alterar Status</th>
+
 
                             </tr>
                         </thead>
@@ -36,19 +38,41 @@
                                 @php
                                     $limite_char = 30; // O número de caracteres que você deseja exibir
                                 @endphp
-                                @foreach($guests as $value)
+                                @foreach($guests as $values)
                                 <tr class="bg-white">
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['id'] }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $values['id'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                    <a href="{{ route('guests.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['nome'] }}</a>
+                                    <a href="{{ route('guests.show', [$values['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $values['nome'] }}</a>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ mb_strimwidth($value['cpf'], 0, $limite_char, " ...") }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$value['idade'] }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['status'] }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ mb_strimwidth($values['cpf'], 0, $limite_char, " ...") }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$values['idade'] }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ App\Enums\GuestStatus::fromValue($values->status) }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{route('bookings.show', [$value['booking_id']])}}" class="font-bold text-blue-500 hover:underline">{{ $value['booking']['name_birthdayperson']}}</a>
+                                        <a href="{{route('bookings.show', [$values['booking_id']])}}" class="font-bold text-blue-500 hover:underline">{{ $values['booking']['name_birthdayperson']}}</a>
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                        <div class="flex flex-wrap -mx-3 mb-6">
+                                        <div class="w-full  px-3 mb-6 md:mb-0">
+
+                                            <form action="{{route('guests.updateStatus',$values['id'])}}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                                                <select name="status" id="status" required onchange="this.form.submit()">
+                                                    @foreach( App\Enums\GuestStatus::array() as $key => $value )
+                                                        <option value="{{$value}}" {{ $values->status == $value ? 'selected' : ""}}>{{$key}}</option>
+                                                    @endforeach
+                                                    <!-- <option value="invalid2"  disabled>Nenhum horario disponivel neste dia, tente novamente!</option> -->
+                                                </select>
+                                            </form>
+                                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
+            
+                                            <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
+                                        </div>
+                                    </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                             @endif
@@ -58,6 +82,7 @@
                     {{ $guests->links('components.pagination') }}
                     </div>
 
+                    </button>
                 </div>
             </div>
         </div>

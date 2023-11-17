@@ -126,7 +126,7 @@ class BookingService
             "price"=>$this->format_price($this->package->findOneById($dto->package_id)->price,$dto->qnt_invited),
             ];
 
-            return $this->booking->create(new CreateBookingDTO(...$data));
+            return (object)$this->booking->create(new CreateBookingDTO(...$data));
 
         }catch(TypeError $error)
         {
@@ -153,8 +153,16 @@ class BookingService
         int $totalPerPage=15,
     ): LengthAwarePaginator
     {
-        return $this->booking->paginate_next_bookings(page: $page, totalPerPage: $totalPerPage);
+        return $this->booking->paginate_bookings_by_status(page: $page, totalPerPage: $totalPerPage, status: BookingStatus::A);
     }
+    public function paginate_pendent_bookings(
+        int $page=1,
+        int $totalPerPage=15,
+    ): LengthAwarePaginator
+    {
+        return $this->booking->paginate_bookings_by_status(page: $page, totalPerPage: $totalPerPage, status: BookingStatus::P);
+    }
+    
 
 
     public function find($id)
@@ -176,7 +184,14 @@ class BookingService
         try{
             $this->validate($dto);
 
-            $package = $this->find($dto->id);
+            $package = $this->find($dto->package_id); 
+
+            if($package) throw new TypeError("Package not found");
+
+            // $user = auth()->user();
+            // if($user->hasRole('administrative')  $user->hasRole('commercial')  $user->id === $dto->id) {
+            //     throw new TypeError("Unauthorized");
+            // }
 
             $data = [
                 "id"=>$dto->id,
@@ -185,8 +200,8 @@ class BookingService
                 "qnt_invited"=>$dto->qnt_invited,
                 "party_day"=>$dto->party_day,
                 "open_schedule_id"=>$dto->open_schedule_id,
-                "status"=>$dto->status,
-                "user_id"=>$package->user_id,
+                "status"=>$dto->status, 
+                "user_id"=>$package->user_id, // Para garantir que vai manter o user_id
                 "package_id"=>$dto->package_id,
                 "price"=>$this->format_price($this->package->findOneById($dto->package_id)->price,$dto->qnt_invited),
             ];

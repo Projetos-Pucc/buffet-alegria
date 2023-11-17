@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\DTO\Guests\CreateGuestDTO;
 use App\DTO\Guests\GuestDTO;
 use App\DTO\Guests\UpdateGuestDTO;
+use App\Enums\GuestStatus;
 use App\Models\Guest;
 use App\Repositories\Contract\GuestRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -67,6 +68,10 @@ class EloquentORMGuestRepository implements GuestRepository {
     public function delete(string $id): void
     {
         $this->guest->destroy($id);
+    }
+    
+    public function updateStatus(string $id, string $status):bool|null {
+        return $this->guest->where('id', $id)->update(['status'=>$status]);
     }
 
     public function create(GuestDTO $dto): stdClass

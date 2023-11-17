@@ -8,7 +8,6 @@
                     <h1>Reserva: {{$booking->id}} </h1>
 
                     @if ($errors->any())
-                        @dd($errors)
                         @foreach ($errors->all() as $error)
                             {{ $error }}
                         @endforeach

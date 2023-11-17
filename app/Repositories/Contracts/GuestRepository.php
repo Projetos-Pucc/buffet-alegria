@@ -3,7 +3,7 @@
 namespace App\Repositories\Contract;
 
 use App\DTO\Guests\GuestDTO;
-use App\DTO\Guests\UpdateGuestDTO;
+use App\Enums\GuestStatus;
 use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 
@@ -15,4 +15,5 @@ interface GuestRepository {
     public function findOne(...$filters): stdClass|null;
     public function delete(string $id): void;
     public function create(GuestDTO $dto): stdClass;
+    public function updateStatus(string $id, string $status):bool|null;
 }

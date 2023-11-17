@@ -2,7 +2,11 @@
 
 namespace App\Enums;
 
+
 enum GuestStatus: string {
+
+    use EnumToArray;
+
     case E = "Pendente";
     case C = "Confirmado";
     case B = "Bloqueado";
