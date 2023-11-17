@@ -280,10 +280,9 @@
             console.log(escolhida, agora)
             console.log(this.value)
             if (escolhida < agora) {
-                this.value = [agora.getFullYear(), agora.getMonth() + 1, agora.getDate()].map(v => v < 10 ? '0' + v : v).join('-');
-                //adicionar regra de negocio de min days com arquivo de configuração
+                agora.setDate(agora.getDate() + 5);
+                this.value = agora.toISOString().split('T')[0];
                 alert("Você não pode colocar datas retroativas!")
-                return;
             }
 
             const dates = await getDates(this.value)

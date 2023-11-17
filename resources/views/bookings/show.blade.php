@@ -69,7 +69,6 @@
                             @endif</div>
                         </div>
                     </div>
-
                     </div>
                         @if($booking->status === "A")
                             <h1><strong>Lista de Convidados:</strong></h1>
@@ -86,7 +85,6 @@
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">Idade</th>
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
-
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">

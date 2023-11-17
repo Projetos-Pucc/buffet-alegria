@@ -80,4 +80,11 @@ class GuestController extends Controller
         return view('guests.guest-confirmation', compact('booking'));
     }
     
+    public function updateStatus(Request $request, $id)
+    {
+        $this->service->updateStatus($id, $request->status);
+        return back();
+    }
+    
+    
 }

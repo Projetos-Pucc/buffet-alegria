@@ -27,7 +27,14 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="time">
                                     Horário
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="time" type="time" name="time" value="{{old('time') ?? $schedule->time}}">
+                                @php
+                                    $date = DateTime::createFromFormat('H:i:s', $schedule->time);
+                                    $date = $date->format('H:i');
+
+                                    $oldTime = old('time', date('H:i', strtotime($schedule->time)));
+                                    // $oldTime = old('time') ? date('H:i', old('time')) : false;
+                                @endphp
+                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="time" type="time" name="time" value="{{ $oldTime ?? $schedule->time }}">
                                 <p class="text-gray-600 text-xs">Horário de inicio</p>
                             </div>
                         </div>

@@ -29,7 +29,7 @@ class EloquentORMBookingRepository implements BookingRepository {
         return (object) $booking->toArray();
     }
 
-    public function changeStatus(string $id, BookingStatus $status):bool {
+    public function changeStatus(string $id, BookingStatus $status):bool|null {
         return $this->booking->where('id', $id)->update(['status'=>$status->name]);
     }
 
@@ -73,11 +73,12 @@ class EloquentORMBookingRepository implements BookingRepository {
         }, 'package', 'user'])->orderBy('party_day', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
     }
 
-    public function paginate_next_bookings(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
+    public function paginate_bookings_by_status(BookingStatus $status, int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
         return $this->booking->with(['open_schedule'=>function ($query) {
             $query->orderBy('time', 'asc');
-        }, 'package', 'user'])->where('status', 'A')->where('party_day', '>=', date('Y-m-d'))->orderBy('party_day', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
+        }, 'package', 'user'])->where('status', $status->name)->where('party_day', '>=', date('Y-m-d'))->orderBy('party_day', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
     }
+
 
     public function findByUserPaginate(int $userId, int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
         return $this->booking->with(['open_schedule'=>function ($query) {

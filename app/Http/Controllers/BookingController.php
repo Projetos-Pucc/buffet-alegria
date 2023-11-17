@@ -36,12 +36,18 @@ class BookingController extends Controller
     }
 
     public function list(Request $request){
-        $bookings = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);
+        $format = $request->get('format', 'all');
+        if($format == 'pendent') {
+            $bookings = $this->service->paginate_pendent_bookings(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5));
+        } else {
+            $format = 'all';
+            $bookings = $this->service->paginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), filter: $request->filter);
+        }
 
         $min_days = $this->service::$min_days; 
-        return view('bookings.list', compact('bookings', 'min_days'));
+        return view('bookings.list', compact('bookings', 'min_days', 'format'));
     }
-
+    
     public function index(Request $request)
     {
         // Lista somente as próximas reservas

@@ -25,7 +25,6 @@ window.confirm = function (message="Deseja confirmar esta ação?") {
             }
         });
     });
-
 }
 
 window.error = function (message="Ocorreu um erro ao processar esta solicitação") {
