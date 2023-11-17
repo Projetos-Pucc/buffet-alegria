@@ -28,7 +28,10 @@
                             @endphp            
                             <p><strong>Status:</strong><span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking->status) }}</span></p>
                             <br>
-                            @if(($booking->status === "P" || $booking->status === "A") && auth()->user()->id === $booking->user_id)
+                            @php
+                                $user = auth()->user();
+                            @endphp
+                            @if(($booking->status === "P" || $booking->status === "A") && $user->id === $booking->user_id || $user->hasRole('administrative') || $user->hasRole('commercial'))
                                 <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline form">
                                     @csrf
                                     @method('delete')

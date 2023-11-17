@@ -39,7 +39,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/packages/delete', [PackageController::class,'delete'])->name('packages.delete');
         Route::put('/packages/{id}',[PackageController::class,'update'])->name('packages.update');
 
-        Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
         Route::delete('/bookings/negar/{id}', [BookingController::class,'negar'])->name('bookings.negar');
         Route::get('/bookings/list', [BookingController::class, 'list'])->name('bookings.list');
 
@@ -59,6 +58,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/recommendations/{id}',[RecommendationController::class,'update'])->name('recommendations.update');
         Route::get('/recommendations/{id}', [RecommendationController::class, 'find'])->name('recommendations.show');
     });
+
+    Route::middleware(['role:administrative|commercial|operational'])->group(function(){
+        Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    });
+
 
     Route::get('/dashboard', [SiteController::class, 'dashboard'])->name('dashboard');
 
