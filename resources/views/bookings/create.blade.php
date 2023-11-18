@@ -42,7 +42,6 @@
                                     Nome do aniversariante
                                 </label>
                                 <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name_birthdayperson" type="text" placeholder="Guilherme" name="name_birthdayperson" value="{{old('name_birthdayperson')}}">
-                                <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -51,7 +50,6 @@
                                     Idade do aniversariante
                                 </label>
                                 <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="years_birthdayperson" type="number" placeholder="19" name="years_birthdayperson" value="{{old('years_birthdayperson')}}" min="1" step="1">
-                                <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -60,7 +58,6 @@
                                     Quantidade de convidados
                                 </label>
                                 <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="qnt_invited" type="number" placeholder="0" name="qnt_invited" value="{{old('qnt_invited')}}" min="1" step="1">
-                                <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                             </div>
                         </div>
 
@@ -265,7 +262,6 @@
                 }
             })
 
-            console.log(data.data)
             return data.data;
         }
 
@@ -273,16 +269,13 @@
         party_day.addEventListener('change', async function() {
             const agora = new Date();
             const escolhida = new Date(this.value);
-            console.log('a')
             while (party_time.options.length > 1) {
                 party_time.remove(1); // Remova a segunda opção em diante (índice 1)
             }
-            console.log(escolhida, agora)
-            console.log(this.value)
+            agora.setDate(agora.getDate() + 5);
             if (escolhida < agora) {
-                agora.setDate(agora.getDate() + 5);
                 this.value = agora.toISOString().split('T')[0];
-                alert("Você não pode colocar datas retroativas!")
+                error("Você não pode colocar datas retroativas nem menores que 5 dias contados a partir de hoje.")
             }
 
             const dates = await getDates(this.value)
