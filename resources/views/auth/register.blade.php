@@ -63,7 +63,7 @@
 		<!-- Fim cabeçalho-->
 
 		<!-- Calendário -->
-		<div>
+		<div >
 
 			<link rel="dns-prefetch" href="//unpkg.com" />
 			<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
@@ -76,7 +76,7 @@
 				}
 			</style>
 
-			<div class="antialiased sans-serif h-screen">
+			<div class="antialiased sans-serif h-screen" >
 				<div x-data="app()" x-init="[initDate(), getNoOfDays(), inicializar()]" x-cloak id="container-calendario">
 					<div class="container mx-auto px-4 py-2 md:py-24">
 
@@ -84,7 +84,7 @@
 				Schedule Tasks
 			</div> -->
 
-						<div class="bg-white rounded-lg shadow overflow-hidden">
+						<div class="bg-white rounded-lg shadow overflow-hidden" style=" border-radius:10px; box-shadow: 0 2px 8px rgb(0, 0, 0); padding: 20px;">
 
 							<div class="flex items-center justify-between py-2 px-6">
 								<div>

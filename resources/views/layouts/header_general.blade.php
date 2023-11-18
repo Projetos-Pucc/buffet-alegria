@@ -25,6 +25,11 @@
                 $name = 'Edição da Reserva';
             @endphp  
 
+        @elseif(request()->routeIs('bookings.party_mode'))
+            @php
+                $name = 'Modo festa';
+            @endphp  
+
         @elseif(request()->routeIs('packages.create'))
             @php
                 $name = 'Criar Pacote';

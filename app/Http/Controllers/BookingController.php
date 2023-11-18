@@ -76,8 +76,44 @@ class BookingController extends Controller
         return view('bookings.index', compact('bookings', 'min_days', 'current_party'));
     }
 
-    public function party_mode() {
-        return view('bookings.party_mode');
+    public function party_mode(string $id, Request $request) {
+        if (!$booking = $this->service->find($id)) {
+            return redirect()->route('bookings.not_found');
+        }
+
+        $user = auth()->user();
+        if($user->hasRole('user') && $user->id !== $booking->user_id) {
+            // Todos podem acessar as reservas, desde que não seja um usuário comum e que este usuário seja diferente do usuário da reserva
+            abort(403);
+        }
+
+        $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);
+        
+        $filteredGuests = [];
+        foreach ($guests->items() as $guest) {
+            if ($this->filterGuestConfirmed($guest)) {
+                $filteredGuests[] = $guest;
+            }
+        }
+
+        $unblockGuests = [];
+        foreach ($guests->items() as $guest) {
+            if (!($this->filterGuestBlocked($guest))) {
+                $unblockGuests[] = $guest;
+            }
+        }
+
+
+        $arrivedGuests = [];
+        foreach ($guests->items() as $guest) {
+            if ($this->filterGuestArrived($guest)) {
+                $arrivedGuests[] = $guest;
+            }
+        }
+        
+        $guest_counter = ['confirmed'=>count($filteredGuests), 'total'=>count($guests->items()), 'arrived'=>count($arrivedGuests), 'unblocked'=>count($unblockGuests)];
+
+        return view('bookings.party_mode', compact('booking', 'guests', 'guest_counter'));
     }
 
     public function create()
@@ -92,6 +128,15 @@ class BookingController extends Controller
         return $guest->status == GuestStatus::C->name;
     }
 
+    private function filterGuestArrived($guest)
+    {
+        return $guest->status == GuestStatus::P->name;
+    }
+
+    private function filterGuestBlocked($guest)
+    {
+        return $guest->status == GuestStatus::B->name;
+    }
     
     public function find(string $id, Request $request)
     {
