@@ -12,6 +12,13 @@
                     @endphp
                     <p><strong>Status: </strong> <span class="{{ $question['questions']->status == 1 ? $class_active : $class_unactive }}">{{ $question['questions']->status == 1 ? "Ativado" : "Desativado" }}</span></p><br>
                     <p><strong>Formato: </strong>{{ App\Enums\QuestionType::fromValue($question['questions']->question_type) }}</p><br>
+                    <div class="flex items-center ml-auto float-down">
+                        <a href="{{ route('survey.edit_question', [$question['questions']->id]) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
+                            <div class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4">
+                                Editar
+                            </div>
+                        </a>
+                    </div>
                     <p>{!! $question['questions']->question !!}</p><br>
                     <p><strong>Respostas:</strong></p><br>
                     <div class="overflow-auto">

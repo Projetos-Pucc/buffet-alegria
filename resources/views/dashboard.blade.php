@@ -104,5 +104,72 @@
             })
         });
 
+        const SITEURL = "{{ url('/') }}";
+
+        async function execute(){
+            const csrf = document.querySelector('meta[name="csrf-token"]').content
+            const data = await axios.get(SITEURL + '/api/survey/get_by_user/{{auth()->user()->id}}', {
+                headers: {
+                    'X-CSRF-TOKEN': csrf
+                }
+            })
+
+            if(data.data.length == 0) return;
+
+            const questions = data.data.questions.map((question, index)=>{
+                console.log(question)
+                if(question.question_type == "M") {
+                    return `
+                        <div>
+                            <p>${question.question}</p>
+                            <div>
+                                <input required name="rows[q-${question.id}]" type="radio" id="q-${question.id}-1" value="0-25%">
+                                <label for="q-${question.id}-1">0-25%</label>
+                            </div>
+                            <div>
+                                <input name="rows[q-${question.id}]" type="radio" id="q-${question.id}-2" value="0-25%">
+                                <label for="q-${question.id}-2">26-50%</label>
+                            </div>
+                            <div>
+                                <input name="rows[q-${question.id}]" type="radio" id="q-${question.id}-3" value="26-50%">
+                                <label for="q-${question.id}-3">51-75%</label>
+                            </div>
+                            <div>
+                                <input name="rows[q-${question.id}]" type="radio" id="q-${question.id}-4" value="76-100%">
+                                <label for="q-${question.id}-4">76-100%</label>
+                            </div>
+                        </div>
+                    `
+                } else {
+                    return `
+                        <div>
+                            <label for="q-${question.id}">${question.question}</label>
+                            <textarea required id="q-${question.id}" name="rows[q-${question.id}]"></textarea>
+                        </div>
+                    `
+                }
+            })
+            const booking = data.data.data.booking
+
+            const data_modal = {
+                    title: "Pesquisa de satisfação",
+                    content: `
+                        <h2>Aniversariante ${booking.name_birthdayperson}</h2>
+                        <br>
+                        <form action="{{ route('survey.answer') }}" method="POST">
+                            @csrf
+                            ${questions.join('<br>')}
+                            <input type="hidden" value="${booking.id}" name="booking_id">
+                            <button type="submit">Enviar pesquisa</button>
+                        </form>
+                    `
+                }
+
+            html(data_modal)
+
+            console.log(data.data)
+        }
+        execute()
+
     </script>
 </x-app-layout>

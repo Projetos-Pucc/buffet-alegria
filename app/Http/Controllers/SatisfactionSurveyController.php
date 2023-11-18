@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\SatisfactionSurveys\CreateSatisfactionAnswerDTO;
 use App\DTO\SatisfactionSurveys\CreateSatisfactionQuestionDTO;
+use App\DTO\SatisfactionSurveys\UpdateSatisfactionQuestionDTO;
+use App\Enums\BookingStatus;
+use App\Http\Requests\SatisfactionSurveys\SatisfactionAnswerUpdateRequest;
 use App\Http\Requests\SatisfactionSurveys\SatisfactionQuestionUpdateRequest;
+use App\Services\BookingService;
 use App\Services\SatisfactionSurveyService;
 use Illuminate\Http\Request;
 
 class SatisfactionSurveyController extends Controller
 {
     public function __construct(
+        protected BookingService $bookings,
         protected SatisfactionSurveyService $service
         ){}
     public function index(Request $request)
@@ -42,5 +48,46 @@ class SatisfactionSurveyController extends Controller
             return back();
         }
         return view('satisfaction_survey.show', compact('question'));
+    }
+
+    public function get_questions_by_user_id(Request $request) {
+        $bookings = $this->bookings->getUserBookings($request->id);
+        $booking_did_not_answered = null;
+        if(!$bookings) return response()->json();
+        foreach($bookings as $booking)
+        {
+            if($booking['status'] === BookingStatus::E->name){
+                $booking_did_not_answered = $booking;
+            }
+        }
+        if(!$booking_did_not_answered) return response()->json();
+        $questions = $this->service->get_questions_in_random_order(10);
+
+        return response()->json(['questions'=>$questions, 'data'=>['booking'=>$booking]]);
+    }
+
+    public function answer(SatisfactionAnswerUpdateRequest $request) {
+       $this->service->submit_answers(CreateSatisfactionAnswerDTO::makeFromRequest($request));
+
+        return redirect()->route('dashboard');
+    }
+
+    public function edit_question(Request $request) {
+        if(!$question = $this->service->find_question_by_id($request->id)){
+            return back();
+        }
+
+        return view('satisfaction_survey.update_question',compact('question'));
+    }
+
+    public function update_question(SatisfactionQuestionUpdateRequest $request){
+        $question= $this->service->update(
+            UpdateSatisfactionQuestionDTO::makeFromRequest($request)
+        );
+        if(!$question){
+            return redirect()->route('survey.not_found');
+        }
+
+        return redirect()->route('survey.show_question', $request->id);
     }
 }

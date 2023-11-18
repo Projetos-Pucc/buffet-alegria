@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SatisfactionAnswer extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     public function question(){
         return $this->belongsTo(SatisfactionQuestion::class, 'question_id');
     }

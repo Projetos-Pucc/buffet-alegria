@@ -3,9 +3,8 @@
 namespace App\Http\Requests\SatisfactionSurveys;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
-class SatisfactionQuestionUpdateRequest extends FormRequest
+class SatisfactionAnswerUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +22,10 @@ class SatisfactionQuestionUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => "required",
-            'question_type' => [new Enum(QuestionType::class)],
+            // 'rows' => 'required|array',
+            // 'rows.question_id' => 'required|int',
+            // 'rows.booking_id' => 'required|int',
+            // 'rows.answer' => 'required',
         ];
     }
 }
