@@ -67,10 +67,13 @@ class EloquentORMPackageRepository implements PackageRepository
         return (object) $package->toArray();
     }
 
-    public function delete(string $id): void
+    public function delete(string $id): bool|null
     {
-        //validate if package exists
-        $this->package->destroy($id);
+        if (!$package = $this->findOneById($id)) {
+            return null;
+        }
+        return $this->package->where('id', $id)->update(['status'=>false]);
+        // $this->package->destroy($id);
     }
 
     public function create(CreatePackageDTO $dto): stdClass

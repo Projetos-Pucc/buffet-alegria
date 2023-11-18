@@ -45,6 +45,7 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('packages.show', $value['slug']) }}" title="Visualizar '{{$value['name_package']}}'">👁️</a>
                                         <a href="{{ route('packages.edit', $value['slug']) }}" title="Editar '{{$value['name_package']}}'">✏️</a>
+                                        <!-- Se a pessoa está vendo esta página, ela por padrão ja é ADM ou comercial, logo nao preciso validar aqui! -->
                                         <form action="{{ route('packages.delete', ['slug'=>$value['slug']]) }}" method="POST" class="inline">
                                             @csrf
                                             @method('delete')

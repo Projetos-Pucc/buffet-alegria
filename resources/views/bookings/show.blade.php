@@ -30,13 +30,14 @@
                             @php
                                 $user = auth()->user();
                             @endphp
+                            @if(($booking->status === "P" || $booking->status === "A") && $user->id === $booking->user_id || $user->hasRole('administrative'))
+                            <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline form">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" title="Deletar '{{$booking->name_birthdayperson}}'" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">Cancelar Reserva</button>
+                            </form>
+                            @endif
                             @if(($booking->status === "P" || $booking->status === "A") && $user->id === $booking->user_id || $user->hasRole('administrative') || $user->hasRole('commercial'))
-                                <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline form">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" title="Deletar '{{$booking->name_birthdayperson}}'" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4">Cancelar Reserva</button>
-                                </form>
-                                <br><br>
                                 <div class="flex items-center ml-auto float-down">
                                     <a href="{{ route('bookings.edit', [$booking->id]) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
                                         <div class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4">

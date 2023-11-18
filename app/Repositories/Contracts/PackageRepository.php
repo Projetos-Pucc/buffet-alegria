@@ -14,7 +14,7 @@ interface PackageRepository {
     public function findOneById(string $id): stdClass|null;
     public function findOneBySlug(string $slug): stdClass|null;
     public function findOne(...$filters): stdClass|null;
-    public function delete(string $id): void;
+    public function delete(string $id): bool|null;
     public function create(CreatePackageDTO $dto): stdClass;
     public function update(UpdatePackageDTO $dto): bool|null;
     public function updateImage(UpdatePackageImageDTO $dto): stdClass|null;

@@ -57,7 +57,7 @@ class PackageController extends Controller
     public function delete(Request $request)
     {
         if (!$package = $this->service->findBySlug($request->slug)) {
-            return back();
+            return redirect()->route('packages.not_found');
         }
 
         $this->service->delete($package->id);
@@ -65,7 +65,7 @@ class PackageController extends Controller
         return redirect()->route('packages.index');
     }
     public function edit(Request $request, string $slug)
-    {
+    {      
         if (!$package = $this->service->findBySlug($request->slug)) {
             return redirect()->route('packages.not_found');
         }

@@ -79,6 +79,11 @@ class PackageService {
     }
 
     public function update(UpdatePackageDTO $dto) {
+        $user = auth()->user();
+        if($user->hasRole('user') || $user->hasRole('operational')) {
+            abort(403);
+        }
+
         $package_exists = $this->get_by_slug($dto->slug);
 
         if($package_exists && $package_exists->id != $dto->id) throw new ValueError('Slug already exists');
