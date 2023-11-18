@@ -175,8 +175,8 @@
                         <p><b>Bebidas:</b></p>
                         ${pk.beverages_description}
 
-                        <img class="w-full" src="{{asset('storage/packages/${pk.photo_1}')}}">
-                        <img class="w-full" src="{{asset('storage/packages/${pk.photo_2}')}}">
+                        <img class="w-full" src="{{asset('storage/packages/${pk.photo_1}')}}"><br>
+                        <img class="w-full" src="{{asset('storage/packages/${pk.photo_2}')}}"><br>
                         <img class="w-full" src="{{asset('storage/packages/${pk.photo_3}')}}">
                     `
                 }

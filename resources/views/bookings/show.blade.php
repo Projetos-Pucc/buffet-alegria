@@ -11,6 +11,7 @@
                             <p><strong>Quantidade de Convidados:</strong> {{ $booking->qnt_invited }}</p><br>
                             <p><strong>Pacote Selecionado:</strong> {{ $booking->package['name_package'] }}</p><br>
                             <p><strong>Data:</strong> {{ date('d/m/Y',strtotime($booking->party_day)) }} das {{ date("H:i", strtotime($booking->open_schedule['time'])) }} as {{ date("H:i", strtotime($booking->open_schedule['time']) + $booking->open_schedule['hours'] * 3600) }}</p><br>
+                            <p><strong>Preço total:</strong> R${{ $booking->package['price'] * $booking->qnt_invited }}</p><br>
                             @php
                                 $class = '';
                                 if ($booking->status === 'A') {
@@ -72,7 +73,6 @@
                     <div>
                         @if($booking->status === "F" || $booking->status === "E" || $booking->status === "P" || $booking->status === "A")
                             <h1><strong>Lista de Convidados:</strong></h1>
-                            <h2>! Caso deseje bloquear alguém aperte no X</h2>
                             <br>
                             <table class="w-full">
                                 <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -84,7 +84,6 @@
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">CPF</th>
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">Idade</th>
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
-                                        <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">
@@ -103,7 +102,6 @@
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ mb_strimwidth($value['cpf'], 0, $limite_char, " ...") }}</td>
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$value['idade'] }}</td>
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ App\Enums\GuestStatus::fromValue($value['status']) }}</td>
-                                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
                                         </tr>
                                         @endforeach
                                     @endif

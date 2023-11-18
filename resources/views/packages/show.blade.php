@@ -16,7 +16,8 @@
                         <br>
                         <br>
                         <p>Descricao das bebidas:</p>
-                        {!! $package->beverages_description !!}
+                        {!! $package->beverages_description !!}<br><br>
+                        <p>Preço p/pessoa: R${{ $package->price }}</p>
                     </div>
                     <br><br>
                     @role('administrative|commercial')
@@ -32,8 +33,8 @@
 
                 <div class="p-6 text-gray-900 float-right" style="width: 50%;">
                     <!-- Imagens -->
-                    <img src="{{asset('storage/packages/'.$package->photo_1)}}" alt="foto1">
-                    <img src="{{asset('storage/packages/'.$package->photo_2)}}" alt="foto2">
+                    <img src="{{asset('storage/packages/'.$package->photo_1)}}" alt="foto1"><br>
+                    <img src="{{asset('storage/packages/'.$package->photo_2)}}" alt="foto2"><br>
                     <img src="{{asset('storage/packages/'.$package->photo_3)}}" alt="foto3">
                 </div>
             </div>
