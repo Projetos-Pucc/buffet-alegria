@@ -1,6 +1,4 @@
-<x-app-layout>
-    @include('layouts.header_general')
-
+<x-guest-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -80,11 +78,11 @@
                 input.value = '';
             });
 
-            novoCampos.querySelectorAll('.cpfs').forEach((input) => {
-                input.addEventListener('input', function (e) {
-                    formatCPFInput(e.target.value, e.data, e.target.id)
-                });
-            });
+            // novoCampos.querySelectorAll('.cpfs').forEach((input) => {
+            //     input.addEventListener('input', function (e) {
+            //         formatCPFInput(e.target.value, e.data, e.target.id)
+            //     });
+            // });
 
             novoCampos.querySelectorAll('label').forEach((label) => {
                 const novoFor = label.getAttribute('for').replace(/\d+/, contadorCampos);
@@ -96,29 +94,29 @@
             contadorCampos++;
         }
 
-        cpf.addEventListener('input', (e) => {
-            formatCPFInput(e.target.value, e.data, e.target.id)
-        });
+        // cpf.addEventListener('input', (e) => {
+        //     formatCPFInput(e.target.value, e.data, e.target.id)
+        // });
 
-        function formatCPFInput(cpf, key, container) {
-            const cpf_container = document.querySelector(`#${container}`)
-            const possible_values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', null];
-            let inputLength = cpf.length;
+        // function formatCPFInput(cpf, key, container) {
+        //     const cpf_container = document.querySelector(`#${container}`)
+        //     const possible_values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', null];
+        //     let inputLength = cpf.length;
 
-            if(inputLength <= 14) {
-                if (possible_values.includes(key)) {
-                    if (inputLength === 3 || inputLength === 7) {
-                        cpf_container.value += '.';
-                    } else if (inputLength === 11) {
-                        cpf_container.value += '-';
-                    }
-                } else {
-                    cpf_container.value = cpf.slice(0, -1);
-                }
-            } else {
-                cpf_container.value = cpf.slice(0, -1);
-            }
-        }
+        //     if(inputLength <= 14) {
+        //         if (possible_values.includes(key)) {
+        //             if (inputLength === 3 || inputLength === 7) {
+        //                 cpf_container.value += '.';
+        //             } else if (inputLength === 11) {
+        //                 cpf_container.value += '-';
+        //             }
+        //         } else {
+        //             cpf_container.value = cpf.slice(0, -1);
+        //         }
+        //     } else {
+        //         cpf_container.value = cpf.slice(0, -1);
+        //     }
+        // }
         
         function validarCPF(cpf) {
             cpf = cpf.replace(/[^\d]/g, '');
@@ -164,7 +162,7 @@
             cpfs.forEach(cpf => {
                 const cpf_valid = validarCPF(cpf.value)
                 if(!cpf_valid) {
-                    alert("O cpf é invalido")
+                    error("O cpf é invalido")
                     erro = true
                     return;
                 }
@@ -174,4 +172,4 @@
         })
 
     </script>
-</x-app-layout>
+</x-guest-layout>

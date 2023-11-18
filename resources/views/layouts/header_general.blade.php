@@ -92,6 +92,18 @@
             @php
                 $name = 'Convidados';
             @endphp   
+        @elseif(request()->routeIs('survey.create_question'))
+            @php
+                $name = 'Pesquisa de Satisfação';
+            @endphp   
+        @elseif(request()->routeIs('survey.show_question'))
+            @php
+                $name = 'Pesquisa de Satisfação';
+            @endphp   
+        @elseif(request()->routeIs('survey.edit_question'))
+            @php
+                $name = 'Pesquisa de Satisfação';
+            @endphp   
         @endif
 
         <div class="flex justify-between items-center w-100">

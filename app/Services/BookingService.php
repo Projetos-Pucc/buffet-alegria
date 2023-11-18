@@ -133,6 +133,11 @@ class BookingService
             throw $error;
         }
     }
+    public function getGuestsByBookingId($booking_id)
+    {   
+        return $this->booking->getGuestsByBookingId($booking_id);
+
+    }
 
     public function getAll(): array
     {

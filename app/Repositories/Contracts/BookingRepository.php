@@ -30,6 +30,28 @@ interface BookingRepository {
      */
     public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;
     /**
+     * Paginate Bookings.
+     *
+     * Esta função retorna todas as reservas criadas no formato de paginação.
+     *
+     * @param $id ID da reserva 
+     * @return array Retorna um array com os guests de determinada reserva
+     */
+    public function getGuestsByBookingId(int $id): array;
+    /**
+     * Paginate Guests by Booking ID.
+     *
+     * Esta função retorna os convidados com base na reserva.
+     *
+     * OBS.: Esta função em algum momento será substituida pela paginate.
+     *
+     * @param int $id Qual ID da reserva.
+     * @param int $page Determina a página de visualização.
+     * @param int $totalPerPage Determina quantos valores aparecem por página.
+     * @return LengthAwarePaginator Retorna um conjunto de reservas no formato de paginação.
+     */
+    public function getGuestsByBookingIdPaginate(int $id, int $page = 1, int $totalPerPage = 15): LengthAwarePaginator;
+    /**
      * Paginate Bookings by Status.
      *
      * Esta função retorna as próximas reservas de ordem crescente a partir do dia de hoje com base no status.

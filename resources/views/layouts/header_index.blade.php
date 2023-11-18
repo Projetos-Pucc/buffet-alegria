@@ -22,6 +22,13 @@
             $route = route('packages.create');
             $role = "commercial|administrative";
             @endphp
+        @elseif(request()->routeIs('survey.index'))
+            @php
+            $name = 'Pesquisa de satisfação';
+            $create = 'Criar Pergunta';
+            $route = route('survey.create_question');
+            $role = "administrative";
+            @endphp
         @elseif(request()->routeIs('recommendations.index'))
             @php
             $name = 'Recomendações';

@@ -6,6 +6,7 @@ use App\Http\Controllers\OpenScheduleController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\SatisfactionSurveyController;
 use App\Http\Controllers\SiteController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -62,8 +63,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/guests', [GuestController::class, 'index'])->name('guests.index');
     });
 
+    Route::middleware(['role:administrative'])->group(function(){
+        Route::get('/survey', [SatisfactionSurveyController::class, 'index'])->name('survey.index');
+        Route::get('/survey/create', [SatisfactionSurveyController::class, 'create_question'])->name('survey.create_question');
+        Route::post('/survey/store', [SatisfactionSurveyController::class, 'store_question'])->name('survey.store_question');
+        Route::get('/survey/{id}', [SatisfactionSurveyController::class, 'find_question'])->name('survey.show_question');
+        Route::patch('/survey/status/{id}', [SatisfactionSurveyController::class,'change_question_status'])->name('survey.change_question_status');
+        Route::get('/survey/{id}/edit', [SatisfactionSurveyController::class, 'edit_question'])->name('survey.edit_question');
+    });
+
     Route::middleware(['role:administrative|commercial|operational'])->group(function(){
         Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/party_mode/{id}', [BookingController::class, 'party_mode'])->name('bookings.party_mode');
     });
 
 
