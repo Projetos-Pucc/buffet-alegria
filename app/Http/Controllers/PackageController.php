@@ -75,15 +75,12 @@ class PackageController extends Controller
 
     public function update(PackagesUpdateRequest $request)
     {
-        $package= $this->service->update(
+        $package = $this->service->update(
             UpdatePackageDTO::makeFromRequest($request)
         );
         if(!$package){
             return redirect()->route('packages.not_found');
         }
-        $this->service->update(
-            UpdatePackageDTO::makeFromRequest($request)
-        );
 
         $package = $this->service->find($request->id);
 

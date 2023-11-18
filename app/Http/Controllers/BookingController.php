@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\Bookings\CreateBookingDTO;
 use App\DTO\Bookings\UpdateBookingDTO;
 use App\Enums\BookingStatus;
+use App\Enums\GuestStatus;
 use App\Http\Requests\Bookings\BookingsUpdateRequest;
 use App\Models\Booking;
 use App\Services\BookingService;
@@ -12,6 +13,7 @@ use App\Services\GuestService;
 use App\Services\OpenScheduleService;
 use App\Services\PackageService;
 use App\Services\RecommendationService;
+use Carbon\Carbon;
 use DateTime;
 use Exception;
 use Illuminate\Http\Request;
@@ -49,12 +51,33 @@ class BookingController extends Controller
     }
     
     public function index(Request $request)
-    {
+    {   
+        $dataAgora = Carbon::now()->locale('pt-BR');
+        
         // Lista somente as próximas reservas
         $bookings = $this->service->paginate_next_bookings(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5));
-        $min_days = $this->service::$min_days; 
+        $min_days = $this->service::$min_days;
 
-        return view('bookings.index', compact('bookings', 'min_days'));
+        $current_party = null;
+        
+        foreach($bookings->items() as $key => $booking)
+        {
+            $booking_start = \Illuminate\Support\Carbon::parse($booking->party_day . ' ' . $booking->open_schedule['time']);
+            $booking_end = \Illuminate\Support\Carbon::parse($booking->party_day . ' ' . $booking->open_schedule['time']);
+            $booking_end->addHours($booking->open_schedule['hours']);
+
+            if($dataAgora < $booking_end && $dataAgora > $booking_start){
+                $current_party = $booking;
+                return;
+            }
+
+        }
+
+        return view('bookings.index', compact('bookings', 'min_days', 'current_party'));
+    }
+
+    public function party_mode() {
+        return view('bookings.party_mode');
     }
 
     public function create()
@@ -64,6 +87,12 @@ class BookingController extends Controller
         return view('bookings.create', compact('packages'));
     }
 
+    private function filterGuestConfirmed($guest)
+    {
+        return $guest->status == GuestStatus::C->name;
+    }
+
+    
     public function find(string $id, Request $request)
     {
         if (!$booking = $this->service->find($id)) {
@@ -80,8 +109,18 @@ class BookingController extends Controller
         $recommendations = array_slice($recommendations, 0, 10);
 
         $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);
+        
+        $filteredGuests = [];
+        foreach ($guests->items() as $guest) {
+            if ($this->filterGuestConfirmed($guest)) {
+                $filteredGuests[] = $guest;
+            }
+        }
 
-        return view('bookings.show', compact('booking', 'recommendations', 'guests'));
+        $guest_counter = ['confirmed'=>count($filteredGuests), 'total'=>count($guests->items())];
+    
+
+        return view('bookings.show', compact('booking', 'recommendations', 'guests', 'guest_counter'));
     }
 
     public function store(BookingsUpdateRequest $request)
@@ -156,4 +195,5 @@ class BookingController extends Controller
     public function not_found(){
         return view('bookings.booking-not-found');
     }
+
 }

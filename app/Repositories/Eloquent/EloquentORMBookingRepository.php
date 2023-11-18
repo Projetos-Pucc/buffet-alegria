@@ -6,13 +6,15 @@ use App\DTO\Bookings\CreateBookingDTO;
 use App\DTO\Bookings\UpdateBookingDTO;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
+use App\Models\Guest;
 use App\Repositories\Contract\BookingRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 
 class EloquentORMBookingRepository implements BookingRepository {
     public function __construct(
-        protected Booking $booking
+        protected Booking $booking,
+        protected Guest $guest
     ){}
 
     public function getAll(string $filter = null): array {
@@ -59,6 +61,15 @@ class EloquentORMBookingRepository implements BookingRepository {
             return null;
         }
         return (object) $booking->toArray();
+    }
+    public function getGuestsByBookingIdPaginate(int $id, int $page = 1, int $totalPerPage = 15): LengthAwarePaginator
+    {
+        return $this->guest->where('booking_id', $id)->paginate($totalPerPage, ['*'], 'page', $page);
+    }
+
+    public function getGuestsByBookingId(int $id): array {
+        return $this->guest->where('booking_id', $id)->get()->toArray();
+
     }
 
     public function findByUser(int $userId): array {

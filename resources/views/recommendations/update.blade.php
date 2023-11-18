@@ -14,7 +14,7 @@
                         @endforeach
                     @endif
 
-                    <form class="w-full max-w-lg" action="{{ route('recommendations.update', $recommendation->id) }}" method="POST" enctype="multipart/form-data">
+                    <form class="w-full max-w-lg" action="{{ route('recommendations.update', $recommendation->id) }}" id="form" method="POST" enctype="multipart/form-data">
 
                         @csrf
                         @method('put')
@@ -38,6 +38,18 @@
     </div>
 
     <script>
+        const form = document.querySelector("#form")
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault()
+            const userConfirmed = await confirm(`Deseja atualizar esta recomendação?`)
+
+            if (userConfirmed) {
+                this.submit();
+            } else {
+                error("Ocorreu um erro!")
+            }
+        })
         document.addEventListener('DOMContentLoaded', (event) => {
         ClassicEditor
             .create(document.querySelector('#content'))
