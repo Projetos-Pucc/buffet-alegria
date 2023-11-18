@@ -28,6 +28,7 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
                 $join->on('open_schedules.id', '=', 'bookings.open_schedule_id')
                     ->where('bookings.party_day', '=', $day);
             })
+            ->where('open_schedules.status', true)
             ->where(function ($query) {
                 $query->whereNull('bookings.open_schedule_id')
                     ->orWhere('bookings.status', '=', 'N');
@@ -45,6 +46,7 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
                 $join->on('open_schedules.id', '=', 'bookings.open_schedule_id')
                     ->where('bookings.party_day', '=', $day);
             })
+            ->where('open_schedules.status', true)
             ->where(function ($query) use ($booking_id) {
                 $query->whereNull('bookings.open_schedule_id')
                     ->orWhere('bookings.id', '=', $booking_id);

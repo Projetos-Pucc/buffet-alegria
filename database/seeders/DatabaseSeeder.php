@@ -71,13 +71,13 @@ class DatabaseSeeder extends Seeder
         $user->assignRole('user');
 
         OpenSchedule::create(
-            ['time'=>"12:00:00", 'hours'=>3]
+            ['time'=>"12:00:00", 'hours'=>3, 'status'=>true]
         );
         OpenSchedule::create(
-            ['time'=>"16:00:00", 'hours'=>2]
+            ['time'=>"16:00:00", 'hours'=>2, 'status'=>true]
         );
         OpenSchedule::create(
-            ['time'=>"19:00:00", 'hours'=>3]
+            ['time'=>"19:00:00", 'hours'=>3, 'status'=>true]
         );
 
         Booking::create([

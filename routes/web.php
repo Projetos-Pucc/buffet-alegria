@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/guests/delete/{id}', [GuestController::class,'delete'])->name('guests.delete');
 
         Route::get('/packages/{slug}/edit', [PackageController::class, 'edit'])->name('packages.edit');
+        Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
         Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
         Route::post('/packages/store', [PackageController::class, 'store'])->name('packages.store');
         Route::delete('/packages/delete', [PackageController::class,'delete'])->name('packages.delete');
@@ -57,6 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/recommendations/delete/{id}', [RecommendationController::class,'delete'])->name('recommendations.delete');
         Route::put('/recommendations/{id}',[RecommendationController::class,'update'])->name('recommendations.update');
         Route::get('/recommendations/{id}', [RecommendationController::class, 'find'])->name('recommendations.show');
+    
+        Route::get('/guests', [GuestController::class, 'index'])->name('guests.index');
     });
 
     Route::middleware(['role:administrative|commercial|operational'])->group(function(){
@@ -70,16 +73,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
     Route::get('/packages/not_found', [PackageController::class, 'not_found'])->name('packages.not_found');
     Route::get('/packages/{slug}', [PackageController::class, 'find'])->name('packages.show');
     
-    Route::get('/guests', [GuestController::class, 'index'])->name('guests.index');
     Route::get('/guests/not_found', [GuestController::class, 'not_found'])->name('guests.not_found');
     Route::get('/guests/{booking}/approved', [GuestController::class, 'approved'])->name('guests.approved');
     Route::get('/guests/{booking}/invite', [GuestController::class, 'invite'])->name('guests.invite');
     Route::post('/guests/store', [GuestController::class, 'store'])->name('guests.store');
-    Route::get('/guests/{id}', [GuestController::class, 'find'])->name('guests.show');
     Route::patch('/guests/{id}/status', [GuestController::class,'updateStatus'])->name('guests.updateStatus');
 
     // Aniversariante

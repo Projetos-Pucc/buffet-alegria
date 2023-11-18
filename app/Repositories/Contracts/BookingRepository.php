@@ -30,19 +30,6 @@ interface BookingRepository {
      */
     public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;
     /**
-     * Paginate Next Bookings.
-     *
-     * Esta função retorna todas as próximas reservas ativas no formato de paginação.
-     * 
-     * OBS.: Esta função em algum momento será substituida pela paginate.
-     *
-     * @param int $page Determina a página de visualização.
-     * @param int $totalPerPage Determina quantos valores aparecem por página.
-     * @param string $filter Um filtro para as requisições.
-     * @return LengthAwarePaginator Retorna um conjunto de reservas no formato de paginação.
-     */
-    public function paginate_bookings_by_status(BookingStatus $status, int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;
-    /**
      * Paginate Bookings by Status.
      *
      * Esta função retorna as próximas reservas de ordem crescente a partir do dia de hoje com base no status.
@@ -54,6 +41,17 @@ interface BookingRepository {
      * @param int $totalPerPage Determina quantos valores aparecem por página.
      * @param string $filter Um filtro para as requisições.
      * @return LengthAwarePaginator Retorna um conjunto de reservas no formato de paginação.
+     */
+    public function paginate_bookings_by_status(BookingStatus $status, int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;
+    /**
+     * Find Booking By Id.
+     *
+     * Esta função retorna uma reserva com base no ID da reserva.
+     * 
+     * OBS.: Esta função será substituida em algum momento pela findOne
+     *
+     * @param string $id Qual ID da reserva.
+     * @return stdClass|null Retorna um stdClass caso exista, ou null caso não exista
      */
     public function findOneById(string $id): stdClass|null;
     /**

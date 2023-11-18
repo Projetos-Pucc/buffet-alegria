@@ -24,45 +24,45 @@ class PermissionsSeeder extends Seeder
             Role::create(['name' => $role]);
         }
 
-        // Package
-        $permissionsWithRole = [
-            'create package' => [
-                'administrative',
-                'commercial'
-            ],
-            'edit package'=>[
-                'administrative',
-                'commercial'
-            ],
-            'delete package'=>[
-                'administrative',
-                'commercial'
-            ],
-            'get packages'=>[
-                'administrative',
-                'commercial',
-                'operational',
-                'user'
-            ],
-            'show package'=>[
-                'administrative',
-                'commercial',
-                'operational',
-                'user'
-            ]
-        ];
+        // // Package
+        // $permissionsWithRole = [
+        //     'create package' => [
+        //         'administrative',
+        //         'commercial'
+        //     ],
+        //     'edit package'=>[
+        //         'administrative',
+        //         'commercial'
+        //     ],
+        //     'delete package'=>[
+        //         'administrative',
+        //         'commercial'
+        //     ],
+        //     'get packages'=>[
+        //         'administrative',
+        //         'commercial',
+        //         'operational',
+        //         'user'
+        //     ],
+        //     'show package'=>[
+        //         'administrative',
+        //         'commercial',
+        //         'operational',
+        //         'user'
+        //     ]
+        // ];
 
-        foreach ($permissionsWithRole as $permission => $roles_permission) {
-            $createdPermission = Permission::create(['name' => $permission]);
+        // foreach ($permissionsWithRole as $permission => $roles_permission) {
+        //     $createdPermission = Permission::create(['name' => $permission]);
 
-            foreach ($roles_permission as $roleName) {
-                $role = Role::findByName($roleName);
+        //     foreach ($roles_permission as $roleName) {
+        //         $role = Role::findByName($roleName);
         
-                if ($role) {
-                    $role->givePermissionTo($createdPermission);
-                }
-            }
-        }
+        //         if ($role) {
+        //             $role->givePermissionTo($createdPermission);
+        //         }
+        //     }
+        // }
         
     }
 }

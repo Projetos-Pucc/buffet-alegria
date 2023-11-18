@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->time('time')->unique();
             $table->integer('hours');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

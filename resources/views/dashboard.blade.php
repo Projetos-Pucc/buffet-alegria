@@ -28,10 +28,10 @@
                                     <td colspan="8" class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">Nenhuma reserva encontrada</td>
                                 </tr>
                                 @else
-                                    @foreach($bookings->items() as $booking)
+                                    @foreach($bookings->items() as $key=>$booking)
                                     <tr class="bg-gray-100">
                                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                            <a href="{{ route('bookings.show', [$booking->id]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking->id }}</a>
+                                            <a href="{{ route('bookings.show', [$booking->id]) }}" class="font-bold text-blue-500 hover:underline">{{ $key+1 }}</a>
                                         </td>
                                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                                             <a href="{{ route('bookings.show', [$booking->id]) }}" class="font-bold text-blue-500 hover:underline">{{ $booking->name_birthdayperson }}</a>

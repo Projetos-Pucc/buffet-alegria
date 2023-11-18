@@ -172,26 +172,42 @@ class BookingService
 
     public function delete($id)
     {
+        if (!$booking = $this->find($id)) {
+            throw new TypeError("Booking not found");
+        }
+        $user = auth()->user();
+        if(($user->hasRole('user') || $user->hasRole('operational')) && $user->id !== $booking->user_id) {
+            // Todos podem acessar as reservas, desde que não seja um usuário comum e que este usuário seja diferente do usuário da reserva
+            abort(403);
+        }
         return $this->booking->delete($id);
     }
     public function negar($id)
     {
+        if (!$booking = $this->find($id)) {
+            throw new TypeError("Booking not found");
+        }
+        $user = auth()->user();
+        if(($user->hasRole('user') || $user->hasRole('operational')) && $user->id !== $booking->user_id) {
+            // Todos podem acessar as reservas, desde que não seja um usuário comum e que este usuário seja diferente do usuário da reserva
+            abort(403);
+        }
         return $this->booking->changeStatus($id, BookingStatus::N);
     }
     
     public function update(UpdateBookingDTO $dto)
     {
         try{
+            if (!$booking = $this->find($dto->id)) {
+                throw new TypeError("Booking not found");
+            }
+            $user = auth()->user();
+            if(($user->hasRole('user') || $user->hasRole('operational')) && $user->id !== $booking->user_id) {
+                // Todos podem acessar as reservas, desde que não seja um usuário comum e que este usuário seja diferente do usuário da reserva
+                abort(403);
+            }
+
             $this->validate($dto);
-
-            $booking = $this->find($dto->id); 
-
-            if(!$booking) throw new TypeError("Booking not found");
-
-            // $user = auth()->user();
-            // if($user->hasRole('administrative')  $user->hasRole('commercial')  $user->id === $dto->id) {
-            //     throw new TypeError("Unauthorized");
-            // }
 
             $data = [
                 "id"=>$dto->id,
