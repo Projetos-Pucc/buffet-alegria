@@ -30,6 +30,8 @@
                             @else
                                 @php
                                     $limite_char = 30; // O número de caracteres que você deseja exibir
+                                    $class_active = "p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50";
+                                    $class_unactive = 'p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50';
                                 @endphp
                                 @foreach($packages as $value)
                                 <tr class="bg-white">
@@ -41,15 +43,21 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{!! mb_strimwidth($value['beverages_description'], 0, $limite_char, " ...") !!}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">R$ {{ (float)$value['price'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['slug'] }}</td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['status'] }}</td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                        <span class="{{ $value['status'] == 1 ? $class_active : $class_unactive }}">{{ $value['status'] == 1 ? "Ativado" : "Desativado" }}</span>
+                                    </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('packages.show', $value['slug']) }}" title="Visualizar '{{$value['name_package']}}'">👁️</a>
                                         <a href="{{ route('packages.edit', $value['slug']) }}" title="Editar '{{$value['name_package']}}'">✏️</a>
                                         <!-- Se a pessoa está vendo esta página, ela por padrão ja é ADM ou comercial, logo nao preciso validar aqui! -->
-                                        <form action="{{ route('packages.delete', ['slug'=>$value['slug']]) }}" method="POST" class="inline">
+                                        <form action="{{ route('packages.change_status', ['slug'=>$value['slug']]) }}" method="post" class="inline">
                                             @csrf
-                                            @method('delete')
-                                            <button type="submit" title="Deletar '{{$value['name_package']}}'">❌</button>
+                                            @method('patch')
+                                            @if($value['status'] == true)
+                                                <button type="submit" title="Deletar '{{$value['name_package']}}'">❌</button>
+                                            @else
+                                                <button type="submit" title="Ativar '{{$value['name_package']}}'">✅</button>
+                                            @endif
                                         </form>
                                     </td>
                                 </tr>

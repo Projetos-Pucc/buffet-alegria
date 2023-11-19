@@ -62,8 +62,8 @@ class BookingController extends Controller
 
         foreach($bookings->items() as $key => $booking)
         {
-            $booking_start = \Illuminate\Support\Carbon::parse($booking->party_day . ' ' . $booking->open_schedule['time']);
-            $booking_end = \Illuminate\Support\Carbon::parse($booking->party_day . ' ' . $booking->open_schedule['time']);
+            $booking_start = Carbon::parse($booking->party_day . ' ' . $booking->open_schedule['time']);
+            $booking_end = Carbon::parse($booking->party_day . ' ' . $booking->open_schedule['time']);
             $booking_end->addHours($booking->open_schedule['hours']);
 
             if($dataAgora < $booking_end && $dataAgora > $booking_start){
@@ -166,8 +166,10 @@ class BookingController extends Controller
         }
         
         $guest_counter = ['arrived'=>count($arrivedGuests), 'unblocked'=>count($unblockGuests), 'total'=>count($arrivedGuests)+count($confirmedGuests)];
+
+        $min_days = $this->service::$min_days;
     
-        return view('bookings.show', compact('booking', 'recommendations', 'guests', 'guest_counter'));
+        return view('bookings.show', compact('booking', 'recommendations', 'guests', 'guest_counter', 'min_days'));
     }
 
     public function store(BookingsUpdateRequest $request)

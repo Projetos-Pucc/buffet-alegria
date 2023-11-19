@@ -32,7 +32,7 @@
                                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="cpf0">
                                             CPF
                                         </label>
-                                        <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf0" type="text" placeholder="CPF do fulano" name="rows[0][cpf]" value="{{old('cpf')}}">
+                                        <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf0" type="text" placeholder="CPF do fulano" name="rows[0][cpf]" value="{{old('cpf[0]')}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (XXX.XXX.XXX-XX)">
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap -mx-3 mb-6">
@@ -47,7 +47,7 @@
                             
                         </div>
 
-                        <button type="button" id="clone-button">+</button>
+                        <button type="button" id="clone-button" style="width: 50px; height: 50px;" class="bg-amber-300 rounded-md text-xl">+</button>
                         
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Adicionar convidado
@@ -78,12 +78,6 @@
                 input.value = '';
             });
 
-            // novoCampos.querySelectorAll('.cpfs').forEach((input) => {
-            //     input.addEventListener('input', function (e) {
-            //         formatCPFInput(e.target.value, e.data, e.target.id)
-            //     });
-            // });
-
             novoCampos.querySelectorAll('label').forEach((label) => {
                 const novoFor = label.getAttribute('for').replace(/\d+/, contadorCampos);
                 label.setAttribute('for', novoFor);
@@ -93,30 +87,6 @@
             document.getElementById('form-rows').appendChild(novoCampos);
             contadorCampos++;
         }
-
-        // cpf.addEventListener('input', (e) => {
-        //     formatCPFInput(e.target.value, e.data, e.target.id)
-        // });
-
-        // function formatCPFInput(cpf, key, container) {
-        //     const cpf_container = document.querySelector(`#${container}`)
-        //     const possible_values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', null];
-        //     let inputLength = cpf.length;
-
-        //     if(inputLength <= 14) {
-        //         if (possible_values.includes(key)) {
-        //             if (inputLength === 3 || inputLength === 7) {
-        //                 cpf_container.value += '.';
-        //             } else if (inputLength === 11) {
-        //                 cpf_container.value += '-';
-        //             }
-        //         } else {
-        //             cpf_container.value = cpf.slice(0, -1);
-        //         }
-        //     } else {
-        //         cpf_container.value = cpf.slice(0, -1);
-        //     }
-        // }
         
         function validarCPF(cpf) {
             cpf = cpf.replace(/[^\d]/g, '');

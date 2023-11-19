@@ -8,7 +8,7 @@
                     <div class="overflow-auto">
                         <div class="flex justify-between">
                             <h1 class="inline-flex items-center border border-transparent text-lg leading-4 font-semi-bold">Listagem de todas as reservas {{$format == 'pendent' ? 'pendentes' : ''}}</h1>
-                            <a href="?format={{$format == 'pendent' ? 'all' : 'pendent'}}">Ver reservas {{$format == 'pendent' ? '' : 'pendentes'}}</a>
+                            <a href="?format={{$format == 'pendent' ? 'all' : 'pendent'}}" class="text-black-300 bg-amber-300 hover:bg-amber-500 hover:text-black rounded-md px-3 py-2 text-sm font-medium">Ver reservas {{$format == 'pendent' ? '' : 'pendentes'}}</a>
                         </div>
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -16,7 +16,7 @@
                                 <!-- w-24 p-3 text-sm font-semibold tracking-wide text-left -->
                                 <th class="w-20 p-3 text-sm font-semibold tracking-wide text-center">ID</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left">Nome Aniversariante</th>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Convidados</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Máx. Convidados</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Pacote</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Dia da festa</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Inicio</th>
@@ -70,11 +70,12 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('bookings.show', $booking->id) }}" title="Visualizar '{{$booking->name_birthdayperson}}'">👁️</a>
                                         @php
-                                            $date = new DateTime(date('Y-m-d', strtotime($booking->open_schedule['time'] . " +".$min_days." days")));
+                                            // $date = \Illuminate\Support\Carbon::parse($booking->party_day.' '.$booking->open_schedule['time']);
+                                            // $date = $date->subDays($min_days);
                                         @endphp
-                                        @if($date > new DateTime(date(`Y-m-d`)))
+                                        {{-- @if($date > \Illuminate\Support\Carbon::now() || $date == \Illuminate\Support\Carbon::now()) --}}
                                             <a href="{{ route('bookings.edit', $booking->id) }}" title="Editar '{{$booking->name_birthdayperson}}'">✏️</a>
-                                        @endif
+                                        {{-- @endif --}}
                                         @if($booking->status === 'P')
                                             <form action="{{ route('bookings.negar', $booking->id) }}" method="post" class="inline">
                                                 @csrf

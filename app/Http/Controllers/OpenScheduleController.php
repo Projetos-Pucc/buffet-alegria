@@ -24,7 +24,7 @@ class OpenScheduleController extends Controller
         $dataFormatada = DateTime::createFromFormat("Y-m-d", $request->day);
         if(!$dataFormatada) throw new Error('Invalid time');
 
-        $update = $request->query('update'); // Se existir valor para update retorna o dia junto
+        $update = $request->get('update'); // Se existir valor para update retorna o dia junto
         if(isset($update)) {
             $schedules = $this->open_schedules->getSchedulesByDayUpdate($dataFormatada, (int) $update);
         } else {
@@ -54,14 +54,14 @@ class OpenScheduleController extends Controller
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());
             return back()->withErrors($retornos);
-        } catch (mixed $e) {
+        } catch (Exception $e) {
             // Captura outras exceções
             $retornos->add('errors', $e->getMessage());
             return back()->withErrors($retornos);
         }
     }
-    public function delete(Request $request){
-        $this->open_schedules->delete($request->id);
+    public function change_status(Request $request){
+        $this->open_schedules->change_status($request->id);
 
         return redirect()->route('schedules.index');
     }

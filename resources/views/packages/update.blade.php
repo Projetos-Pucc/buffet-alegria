@@ -70,6 +70,42 @@
                             Salvar 
                         </button>
                     </form>
+
+                    <style>
+                        .input_file {
+                            display: none;
+                        }
+                    </style>
+
+                    <div class="images bg-yellow-100">
+                        <form action="{{ route('packages.update_image', $package->slug) }}" method="post" enctype="multipart/form-data" >
+                            @csrf
+                            @method('patch')
+                            <input type="hidden" name="image_id" value="1">
+                            <input type="file" name="photo" id="photo_1" class="input_file" required onchange="this.form.submit()">
+                            <label for="photo_1">
+                                <img src="{{asset('storage/packages/'.$package->photo_1)}}" alt="foto1">
+                            </label>
+                        </form>
+                        <form action="{{ route('packages.update_image', $package->slug) }}" method="post" enctype="multipart/form-data" >
+                            @csrf
+                            @method('patch')
+                            <input type="hidden" name="image_id" value="2">
+                            <input type="file" name="photo" id="photo_2" class="input_file" required onchange="this.form.submit()">
+                            <label for="photo_2">
+                                <img src="{{asset('storage/packages/'.$package->photo_2)}}" alt="foto2">
+                            </label>
+                        </form>
+                        <form action="{{ route('packages.update_image', $package->slug) }}" method="post" enctype="multipart/form-data" >
+                            @csrf
+                            @method('patch')
+                            <input type="hidden" name="image_id" value="3">
+                            <input type="file" name="photo" id="photo_3" class="input_file" required onchange="this.form.submit()">
+                            <label for="photo_3">
+                                <img src="{{asset('storage/packages/'.$package->photo_3)}}" alt="foto3">
+                            </label>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -33,8 +33,11 @@
                             <br>
                             @php
                                 $user = auth()->user();
+                                $date = \Illuminate\Support\Carbon::parse($booking->party_day.' '.$booking->open_schedule['time']);
+                                $date = $date->subDays($min_days);
+                                $date_valid = $date > \Illuminate\Support\Carbon::now();
                             @endphp
-                            @if(($booking->status === "P" || $booking->status === "A") && ($user->id === $booking->user_id || $user->hasRole('administrative')))
+                            @if(($booking->status === "P" || $booking->status === "A") && ($user->id === $booking->user_id || $user->hasRole('administrative')) && $date_valid)
                             <form action="{{ route('bookings.delete', $booking->id) }}" method="post" class="inline form">
                                 @csrf
                                 @method('delete')
@@ -42,7 +45,11 @@
                             </form>
                             
                             @endif
-                            @if(($booking->status === "P" || $booking->status === "A") && ($user->id === $booking->user_id || $user->hasRole('administrative') || $user->hasRole('commercial')))
+                            @php
+                                // $edit_status = $booking->status === "P" || $booking->status === "A";
+                                $edit_permission = $user->id === $booking->user_id || $user->hasRole('administrative') || $user->hasRole('commercial');
+                            @endphp
+                            @if($edit_permission && $date_valid)
                                 <br>
                                 <div class="flex items-center ml-auto float-down">
                                     <a href="{{ route('bookings.edit', [$booking->id]) }}" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded">
@@ -52,7 +59,7 @@
                                     </a>
                                 </div>
                             @endif
-                            @if(($booking->status === "A") && auth()->user()->id === $booking->user_id)
+                            @if(($booking->status === "A") && auth()->user()->id === $booking->user_id && $date_valid)
                             <br>
                             <h1><strong>Link lista de convidados:</strong></h1>
                             <div class="flex">
@@ -67,7 +74,11 @@
                         </div>
 
                         <div  style="width: 50%">
-                            @if($booking->status === "A" && count($recommendations) !== 0)
+                            @php
+                            $date = $date->addDays($min_days);
+                            $date_valid2 = $date > \Illuminate\Support\Carbon::now();
+                            @endphp
+                            @if($booking->status === "A" && count($recommendations) !== 0 && $date_valid2)
                                 <div>
                                     <h2><strong>Recomendações para a festa:</strong></h2>
                                     @foreach($recommendations as $value)
@@ -112,7 +123,12 @@
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                                 <div class="flex flex-wrap -mx-3 mb-6">
                                                 <div class="w-full  px-3 mb-6 md:mb-0">
-        
+                                                    @php
+                                                        $date = \Illuminate\Support\Carbon::parse($booking->party_day.' '.$booking->open_schedule['time']);
+                                                        // $date = $date->addDays(1);
+                                                        $date_valid3 = $date > \Illuminate\Support\Carbon::now();
+                                                    @endphp
+                                                    @if($booking->status === "A" && $date_valid3)
                                                     <form action="{{route('guests.updateStatus',$value['id'])}}" method="POST">
                                                         @csrf
                                                         @method('PATCH')
@@ -125,7 +141,9 @@
                                                             <!-- <option value="invalid2"  disabled>Nenhum horario disponivel neste dia, tente novamente!</option> -->
                                                         </select>
                                                     </form>
-                                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
+                                                    @else
+                                                        {{ App\Enums\GuestStatus::fromValue($value->status) }}
+                                                    @endif
                     
                                                     <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
                                                 </div>

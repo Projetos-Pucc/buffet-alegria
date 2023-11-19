@@ -235,7 +235,6 @@
 
             if (party_day.value) {
                 const dates = await getDates(party_day.value)
-
                 printDates(dates)
             }
         }
@@ -315,7 +314,9 @@
                 option.text = options[i].msg;
                 option.value = options[i].value
                 party_time.appendChild(option);
+                console.log(options[i])
                 if(options[i].value == Number(original_schedule)) {
+                    console.log('a')
                     option.selected = true
                 }
             }

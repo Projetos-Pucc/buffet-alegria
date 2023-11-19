@@ -33,6 +33,7 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
                 $query->whereNull('bookings.open_schedule_id')
                     ->orWhere('bookings.status', '=', 'N');
             })
+            ->orderBy('open_schedules.time', 'asc')
             ->select('open_schedules.*')
             ->get()
             ->toArray();
@@ -51,6 +52,7 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
                 $query->whereNull('bookings.open_schedule_id')
                     ->orWhere('bookings.id', '=', $booking_id);
             })
+            ->orderBy('open_schedules.time', 'asc')
             ->select('open_schedules.*')
             ->get()
             ->map(function ($item) use ($booking_id) {
@@ -71,10 +73,10 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
     }
 
     public function getAll(string $filter = null): array {
-        return $this->open_schedules->get()->toArray();
+        return $this->open_schedules->orderBy('time', 'asc')->get()->toArray();
     }
     public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator {
-        return $this->open_schedules->paginate($totalPerPage, ['*'], 'page', $page);
+        return $this->open_schedules->orderBy('time', 'asc')->paginate($totalPerPage, ['*'], 'page', $page);
     }
     public function findOneById(string $id): ?stdClass
     {
@@ -110,12 +112,12 @@ class EloquentORMOpenScheduleRepository implements OpenScheduleRepository
         return $open_schedules->update((array)$dto);
     }
 
-    public function delete(string $id): bool|null
+    public function change_status(string $id): bool|null
     {
-        if(!$this->findOneById($id)){
+        if(!$schedule = $this->findOneById($id)){
             return null;
         }
-        return $this->open_schedules->destroy($id);
+        return $this->open_schedules->where('id', $id)->update(['status'=>!$schedule->status]);
         
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTO\Packages\CreatePackageDTO;
 use App\DTO\Packages\UpdatePackageDTO;
+use App\DTO\Packages\UpdatePackageImageDTO;
 use App\Http\Requests\Packages\PackagesUpdateRequest;
 use App\Services\PackageService;
 use Illuminate\Http\Request;
@@ -13,6 +14,18 @@ class PackageController extends Controller
     public function __construct(
         protected PackageService $service
         ){}
+
+    public function update_image(Request $request) {
+        if (isset($request->files)) {
+            // $image_index = 1;
+            // foreach ($request->files as $image) {
+            //     $img_db = 'photo_' . $image_index;
+            //     $image_index++;
+            //     $dto->$img_db = $this->service->uploadImage($image);
+            // }
+        }
+        dd(UpdatePackageImageDTO::makeFromRequest($request));
+    }
     
     public function index(Request $request)
     {
@@ -54,13 +67,13 @@ class PackageController extends Controller
 
         return redirect()->route('packages.show', $package->slug);
     }
-    public function delete(Request $request)
+    public function change_status(Request $request)
     {
         if (!$package = $this->service->findBySlug($request->slug)) {
             return redirect()->route('packages.not_found');
         }
 
-        $this->service->delete($package->id);
+        $this->service->change_status($package->id);
 
         return redirect()->route('packages.index');
     }

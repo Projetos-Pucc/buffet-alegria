@@ -13,13 +13,10 @@ class UpdatePackageImageDTO {
     ) {}
 
     public static function makeFromRequest(Request $request):self {
-        // $request->validate([
-            
-        // ]);
         return new self(
-        $request->id,
-        $request->photo,
-        $request->image_id,
-    );
+            $request->id,
+            $request->photo,
+            $request->image_id,
+        );
     }
 }

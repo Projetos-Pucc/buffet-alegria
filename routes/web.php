@@ -39,17 +39,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
         Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
         Route::post('/packages/store', [PackageController::class, 'store'])->name('packages.store');
-        Route::delete('/packages/delete', [PackageController::class,'delete'])->name('packages.delete');
+        Route::patch('/packages/{slug}/change_status', [PackageController::class,'change_status'])->name('packages.change_status');
         Route::put('/packages/{id}',[PackageController::class,'update'])->name('packages.update');
-
+        Route::patch('/packages/{slug}/photo',[PackageController::class,'update_image'])->name('packages.update_image');
+        
         Route::delete('/bookings/negar/{id}', [BookingController::class,'negar'])->name('bookings.negar');
         Route::get('/bookings/list', [BookingController::class, 'list'])->name('bookings.list');
-
+        
         Route::get('/schedules', [OpenScheduleController::class, 'index'])->name('schedules.index');
         Route::get('/schedules/{id}/edit', [OpenScheduleController::class, 'edit'])->name('schedules.edit');
         Route::get('/schedules/create', [OpenScheduleController::class, 'create'])->name('schedules.create');
         Route::post('/schedules/store', [OpenScheduleController::class, 'store'])->name('schedules.store');
-        Route::delete('/schedules/delete/{id}', [OpenScheduleController::class,'delete'])->name('schedules.delete');
+        Route::patch('/schedules/delete/{id}', [OpenScheduleController::class,'change_status'])->name('schedules.change_status');
         Route::put('/schedules/{id}',[OpenScheduleController::class,'update'])->name('schedules.update');
 
         Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
@@ -75,6 +76,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['role:administrative|commercial|operational'])->group(function(){
         Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/party_mode/{id}', [BookingController::class, 'party_mode'])->name('bookings.party_mode');
+    });
+    Route::middleware(['role:administrative|operational'])->group(function(){
         Route::get('/bookings/party_mode/{id}', [BookingController::class, 'party_mode'])->name('bookings.party_mode');
     });
 
