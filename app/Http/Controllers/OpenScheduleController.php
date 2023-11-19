@@ -43,20 +43,13 @@ class OpenScheduleController extends Controller
     {
         return view('schedules.create');
     }
-    public function find(string $id)
-    {
-        if(!$schedule = $this->open_schedules->find($id)){
-            return back();
-        }
-        return view('schedules.show', compact('schedule'));
-    }
     public function store(OpenSchedulesUpdateRequest $request){
         $retornos = new MessageBag();
     
         try {
             $schedule = $this->open_schedules->create(CreateOpenScheduleDTO::makeFromRequest($request));
             $retornos->add('msg', 'Horario atualizado com sucesso!');
-            return redirect()->route('schedules.show', $schedule->id);
+            return redirect()->route('schedules.index');
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());
@@ -87,7 +80,7 @@ class OpenScheduleController extends Controller
         try {
             $this->open_schedules->update(UpdateOpenScheduleDTO::makeFromRequest($request));
             $retornos->add('msg', 'Horario atualizado com sucesso!');
-            return redirect()->route('schedules.show', $request->id);
+            return redirect()->route('schedules.index');
         } catch (TypeError $e) {
             // Captura uma exceção de tipo (TypeError)
             $retornos->add('errors', $e->getMessage());

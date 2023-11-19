@@ -75,11 +75,6 @@
                 $name = 'Criar Horário';
             @endphp  
 
-        @elseif(request()->routeIs('schedules.show'))
-            @php
-                $name = 'Horário';
-            @endphp 
-
         @elseif(request()->routeIs('schedules.update'))
             @php
                 $name = 'Horários';

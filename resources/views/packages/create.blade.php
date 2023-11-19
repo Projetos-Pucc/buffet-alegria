@@ -61,7 +61,7 @@
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
                         <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
 
-                        <button type="submit" class="bg-amber-300 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button type="submit" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Criar pacote de comida
                         </button>
                     </form>

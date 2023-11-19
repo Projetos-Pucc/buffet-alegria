@@ -27,13 +27,12 @@
                                 <tr class="bg-white">
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['id'] }}</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{ route('schedules.show', [$value['id']]) }}" class="font-bold text-blue-500 hover:underline">{{ $value['time'] }}</a>
+                                       {{ $value['time'] }}
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         {{ $value['hours']}}
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                        <a href="{{ route('schedules.show', $value['id']) }}" title="Visualizar '{{$value['time']}}'">👁️</a>
                                         <a href="{{ route('schedules.edit', $value['id']) }}" title="Editar '{{$value['time']}}'">✏️</a>
                                         <form action="{{ route('schedules.delete', $value['id']) }}" method="post" class="inline">
                                             @csrf
