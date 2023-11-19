@@ -121,7 +121,7 @@
                 if(question.question_type == "M") {
                     return `
                         <div>
-                            <p>${question.question}</p>
+                            <p><strong>${question.question}</strong></p>
                             <div>
                                 <input required name="rows[q-${question.id}]" type="radio" id="q-${question.id}-1" value="0-25%">
                                 <label for="q-${question.id}-1">0-25%</label>
@@ -143,7 +143,8 @@
                 } else {
                     return `
                         <div>
-                            <label for="q-${question.id}">${question.question}</label>
+                            <label for="q-${question.id}"><strong>${question.question}</strong></label>
+                            <br>
                             <textarea required id="q-${question.id}" name="rows[q-${question.id}]"></textarea>
                         </div>
                     `
@@ -154,13 +155,14 @@
             const data_modal = {
                     title: "Pesquisa de satisfação",
                     content: `
-                        <h2>Aniversariante ${booking.name_birthdayperson}</h2>
+                        <p class="font-size-20px"><strong>Aniversariante ${booking.name_birthdayperson}</strong></p>
                         <br>
                         <form action="{{ route('survey.answer') }}" method="POST">
                             @csrf
                             ${questions.join('<br>')}
                             <input type="hidden" value="${booking.id}" name="booking_id">
-                            <button type="submit">Enviar pesquisa</button>
+                            <br>
+                            <button type="submit" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Enviar pesquisa</button>
                         </form>
                     `
                 }

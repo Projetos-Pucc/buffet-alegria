@@ -51,7 +51,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/schedules/store', [OpenScheduleController::class, 'store'])->name('schedules.store');
         Route::delete('/schedules/delete/{id}', [OpenScheduleController::class,'delete'])->name('schedules.delete');
         Route::put('/schedules/{id}',[OpenScheduleController::class,'update'])->name('schedules.update');
-        Route::get('/schedules/{id}', [OpenScheduleController::class, 'find'])->name('schedules.show');
 
         Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
         Route::get('/recommendations/{id}/edit', [RecommendationController::class, 'edit'])->name('recommendations.edit');

@@ -25,6 +25,11 @@
                 $name = 'Edição da Reserva';
             @endphp  
 
+        @elseif(request()->routeIs('bookings.party_mode'))
+            @php
+                $name = 'Modo festa';
+            @endphp  
+
         @elseif(request()->routeIs('packages.create'))
             @php
                 $name = 'Criar Pacote';
@@ -69,11 +74,6 @@
             @php
                 $name = 'Criar Horário';
             @endphp  
-
-        @elseif(request()->routeIs('schedules.show'))
-            @php
-                $name = 'Horário';
-            @endphp 
 
         @elseif(request()->routeIs('schedules.update'))
             @php

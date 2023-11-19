@@ -59,7 +59,7 @@ class BookingController extends Controller
         $min_days = $this->service::$min_days;
 
         $current_party = null;
-        
+
         foreach($bookings->items() as $key => $booking)
         {
             $booking_start = \Illuminate\Support\Carbon::parse($booking->party_day . ' ' . $booking->open_schedule['time']);
@@ -68,7 +68,7 @@ class BookingController extends Controller
 
             if($dataAgora < $booking_end && $dataAgora > $booking_start){
                 $current_party = $booking;
-                return;
+                break;
             }
 
         }
@@ -76,8 +76,37 @@ class BookingController extends Controller
         return view('bookings.index', compact('bookings', 'min_days', 'current_party'));
     }
 
-    public function party_mode() {
-        return view('bookings.party_mode');
+    public function party_mode(string $id, Request $request) {
+        if (!$booking = $this->service->find($id)) {
+            return redirect()->route('bookings.not_found');
+        }
+
+        $user = auth()->user();
+        if($user->hasRole('user') && $user->id !== $booking->user_id) {
+            // Todos podem acessar as reservas, desde que não seja um usuário comum e que este usuário seja diferente do usuário da reserva
+            abort(403);
+        }
+
+        $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);       
+
+        $unblockGuests = [];
+        foreach ($guests->items() as $guest) {
+            if (!($this->filterGuestBlocked($guest))) {
+                $unblockGuests[] = $guest;
+            }
+        }
+
+
+        $arrivedGuests = [];
+        foreach ($guests->items() as $guest) {
+            if ($this->filterGuestArrived($guest)) {
+                $arrivedGuests[] = $guest;
+            }
+        }
+        
+        $guest_counter = ['arrived'=>count($arrivedGuests), 'unblocked'=>count($unblockGuests)];
+
+        return view('bookings.party_mode', compact('booking', 'guests', 'guest_counter'));
     }
 
     public function create()
@@ -92,6 +121,15 @@ class BookingController extends Controller
         return $guest->status == GuestStatus::C->name;
     }
 
+    private function filterGuestArrived($guest)
+    {
+        return $guest->status == GuestStatus::P->name;
+    }
+
+    private function filterGuestBlocked($guest)
+    {
+        return $guest->status == GuestStatus::B->name;
+    }
     
     public function find(string $id, Request $request)
     {
@@ -110,16 +148,25 @@ class BookingController extends Controller
 
         $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);
         
-        $filteredGuests = [];
+        $unblockGuests = [];
         foreach ($guests->items() as $guest) {
-            if ($this->filterGuestConfirmed($guest)) {
-                $filteredGuests[] = $guest;
+            if (!($this->filterGuestBlocked($guest))) {
+                $unblockGuests[] = $guest;
             }
         }
-
-        $guest_counter = ['confirmed'=>count($filteredGuests), 'total'=>count($guests->items())];
+        
+        $confirmedGuests = [];
+        $arrivedGuests = [];
+        foreach ($guests->items() as $guest) {
+            if ($this->filterGuestArrived($guest)) {
+                $arrivedGuests[] = $guest;
+            } else if($this->filterGuestConfirmed($guest)) {
+                $confirmedGuests[] = $guest;
+            }
+        }
+        
+        $guest_counter = ['arrived'=>count($arrivedGuests), 'unblocked'=>count($unblockGuests), 'total'=>count($arrivedGuests)+count($confirmedGuests)];
     
-
         return view('bookings.show', compact('booking', 'recommendations', 'guests', 'guest_counter'));
     }
 
