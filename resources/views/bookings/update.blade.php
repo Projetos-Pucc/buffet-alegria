@@ -56,7 +56,7 @@
                                 <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="qnt_invited" type="number" placeholder="Número de Convidados" name="qnt_invited" value="{{old('qnt_invited') ?? $booking->qnt_invited}}"  min="1" step="1">
                             </div>
                         </div>
-                        @role('commercial|administrative')
+                        @role('administrative')
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full  px-3 mb-6 md:mb-0">                            
                                 <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Status da Reserva</label>

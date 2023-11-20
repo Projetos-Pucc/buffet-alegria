@@ -9,12 +9,18 @@
                         <div style="width: 50%">
                             <div class="border-b-2 border-gray-200">
                                 <h1>
-                                    <strong>Quantidade de convidados chegaram:</strong><p>{{$guest_counter['arrived']}} de {{$guest_counter['unblocked']}}</p>
+                                    <strong>Nome do aniversariante:</strong>
                                 </h1>
+                                <h2>{{$booking->name_birthdayperson}}</h2>
+                                <br>
+                                <h1>
+                                    <strong>Quantidade de convidados que chegaram:</strong>
+                                </h1>
+                                <h2>{{$guest_counter['arrived']}} de {{$guest_counter['unblocked']}}</h2>
                             </div>
                             <div>
                                 <!-- show package -->
-                                <div style="padding-bottom: 10%;" border-gray-200">
+                                <div style="padding-bottom: 10%;" class="border-gray-200">
                                     <p><strong>{{ $booking->package['name_package'] }}</strong></p>
                                     <br>
                                     <p><strong>Slug:</strong> {{ $booking->package['slug'] }}</p>
@@ -52,7 +58,7 @@
                                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nome">
                                                         Nome do convidado
                                                     </label>
-                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="nome" type="text" placeholder="Fulano" name="rows[0][nome]" value="{{old('nome')}}">
+                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="nome" type="text" placeholder="Nome do Convidado" name="rows[0][nome]" value="{{old('nome')}}">
                                                 </div>
                                             </div>
                                             <div class="flex flex-wrap -mx-3 mb-6">
@@ -60,7 +66,7 @@
                                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="cpf">
                                                         CPF
                                                     </label>
-                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf" type="text" placeholder="CPF do fulano" name="rows[0][cpf]" value="{{old('cpf')}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (XXX.XXX.XXX-XX)">
+                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf" type="text" placeholder="CPF do Convidado" name="rows[0][cpf]" value="{{old('cpf')}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (XXX.XXX.XXX-XX)">
                                                 </div>
                                             </div>
                                             <div class="flex flex-wrap -mx-3 mb-6">
@@ -68,7 +74,7 @@
                                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="idade">
                                                         Idade 
                                                     </label>
-                                                <input required type="number" id="idade" name="rows[0][idade]" placeholder="Idade do Fulano">{{old('idade')}}
+                                                <input required type="number" id="idade" name="rows[0][idade]" placeholder="Idade do Convidado">{{old('idade')}}
                                                 </div>
                                             </div>
                                         </div>
@@ -101,6 +107,7 @@
                                             <th class="p-3 text-sm font-semibold tracking-wide text-center">CPF</th>
                                             <th class="p-3 text-sm font-semibold tracking-wide text-center">Idade</th>
                                             <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
+                                            <th class="p-3 text-sm font-semibold tracking-wide text-center">Aterar Status</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-100">
@@ -114,10 +121,11 @@
                                             @endphp
                                             @foreach($guests as $key=>$value)
                                             <tr class="bg-white">
-                                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $key+1 }}</td>
+                                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ $value['id'] }}</td>
                                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-left">{{ $value['nome'] }}</td>
                                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ mb_strimwidth($value['cpf'], 0, $limite_char, " ...") }}</td>
                                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$value['idade'] }}</td>
+                                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ App\Enums\GuestStatus::fromValue($value->status) }}</td>
                                                 <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                                     <div class="flex flex-wrap -mx-3 mb-6">
                                                     <div class="w-full  px-3 mb-6 md:mb-0">

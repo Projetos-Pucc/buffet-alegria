@@ -5,8 +5,10 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Enums\BookingStatus;
+use App\Enums\GuestStatus;
 use App\Enums\QuestionType;
 use App\Models\Booking;
+use App\Models\Guest;
 use App\Models\OpenSchedule;
 use App\Models\Recommendation;
 use App\Models\SatisfactionAnswer;
@@ -76,36 +78,133 @@ class DatabaseSeeder extends Seeder
         $user->assignRole('user');
 
         OpenSchedule::create(
+            ['time'=>"08:00:00", 'hours'=>3, 'status'=>true]
+        );
+        OpenSchedule::create(
             ['time'=>"12:00:00", 'hours'=>3, 'status'=>true]
         );
         OpenSchedule::create(
             ['time'=>"16:00:00", 'hours'=>2, 'status'=>true]
         );
         OpenSchedule::create(
-            ['time'=>"19:00:00", 'hours'=>3, 'status'=>true]
+            ['time'=>"18:00:00", 'hours'=>3, 'status'=>true]
         );
 
         Booking::create([
-            "name_birthdayperson"=>"nome1",
-            "years_birthdayperson"=>5,
-            "qnt_invited"=>5,
+            "name_birthdayperson"=>"Ximenes",
+            "years_birthdayperson"=>19,
+            "qnt_invited"=>51,
+            "party_day"=>date('Y-m-d', strtotime("2023-11-25")),
+            "open_schedule_id"=>2,
+            "status"=>"N",
+            "user_id"=>5,
+            "package_id"=>1,
+            "price"=>55.5 * 51,
+        ]);
+        Booking::create([
+            "name_birthdayperson"=>"Andrade",
+            "years_birthdayperson"=>19,
+            "qnt_invited"=>54,
             "party_day"=>date('Y-m-d', strtotime("2023-11-22")),
             "open_schedule_id"=>1,
             "status"=>"A",
-            "user_id"=>1,
+            "user_id"=>5,
             "package_id"=>1,
-            "price"=>50,
+            "price"=>55.5 * 54,
         ]);
         Booking::create([
-            "name_birthdayperson"=>"nome1",
-            "years_birthdayperson"=>5,
-            "qnt_invited"=>5,
-            "party_day"=>date('Y-m-d', strtotime("2023-11-22")),
-            "open_schedule_id"=>3,
-            "status"=>"A",
-            "user_id"=>1,
+            "name_birthdayperson"=>"Andrade",
+            "years_birthdayperson"=>19,
+            "qnt_invited"=>54,
+            "party_day"=>date('Y-m-d', strtotime("2023-11-21")),
+            "open_schedule_id"=>1,
+            "status"=>"C",
+            "user_id"=>5,
             "package_id"=>1,
-            "price"=>50,
+            "price"=>55.5 * 54,
+        ]);
+        Booking::create([
+            "name_birthdayperson"=>"Luiza",
+            "years_birthdayperson"=>22,
+            "qnt_invited"=>27,
+            "party_day"=>date('Y-m-d', strtotime("2023-11-28")),
+            "open_schedule_id"=>2,
+            "status"=>"P",
+            "user_id"=>5,
+            "package_id"=>2,
+            "price"=>58 * 27,
+        ]);
+        Booking::create([
+            "name_birthdayperson"=>"Luigi",
+            "years_birthdayperson"=>20,
+            "qnt_invited"=>3,
+            "party_day"=>date('Y-m-d', strtotime("2023-11-30")),
+            "open_schedule_id"=>2,
+            "status"=>"A",
+            "user_id"=>5,
+            "package_id"=>2,
+            "price"=>58 * 3,
+        ]);
+
+        Booking::create([
+            "name_birthdayperson"=>"Rafael",
+            "years_birthdayperson"=>21,
+            "qnt_invited"=>21,
+            "party_day"=>date('Y-m-d', strtotime("2023-12-01")),
+            "open_schedule_id"=>3,
+            "status"=>"P",
+            "user_id"=>5,
+            "package_id"=>3,
+            "price"=>52 * 21,
+        ]);
+
+        Booking::create([
+            "name_birthdayperson"=>"Maria Paula",
+            "years_birthdayperson"=>19,
+            "qnt_invited"=>98,
+            "party_day"=>date('Y-m-d', strtotime("2023-11-20")),
+            "open_schedule_id"=>4,
+            "status"=>"F",
+            "user_id"=>5,
+            "package_id"=>3,
+            "price"=>52 * 98,
+        ]);
+
+        $booking_id_active = 2;
+        Guest::create([
+            'nome'=>'João',
+            'idade'=>17,
+            'cpf'=> '976.250.050-46',
+            'status'=>GuestStatus::C->name,
+            'booking_id'=> $booking_id_active
+        ]);
+        Guest::create([
+            'nome'=>'Pedro',
+            'idade'=>17,
+            'cpf'=> '491.890.710-50',
+            'status'=>GuestStatus::B->name,
+            'booking_id'=> $booking_id_active
+        ]);
+        Guest::create([
+            'nome'=>'Gabriel',
+            'idade'=>17,
+            'cpf'=> '410.876.860-40',
+            'status'=>GuestStatus::P->name,
+            'booking_id'=> $booking_id_active
+        ]);
+        Guest::create([
+            'nome'=>'Matheus',
+            'idade'=>17,
+            'cpf'=> '288.254.090-60',
+            'status'=>GuestStatus::E->name,
+            'booking_id'=> $booking_id_active
+        ]);
+        Guest::create([
+            'nome'=>'Lucas',
+            'idade'=>17,
+            'cpf'=> '797.432.430-97',
+            'status'=>GuestStatus::C->name,
+            'booking_id'=> $booking_id_active
         ]);
 
         Recommendation::create([

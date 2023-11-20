@@ -12,7 +12,6 @@
                     <a href="{{ route('packages.index') }}" class="{{ request()->routeIs('packages.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('packages') ? 'page' : '' }}">{{ __('Pacotes') }}</a>
                     <a href="{{ route('recommendations.index') }}" class="{{ request()->routeIs('recommendations.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('recommendations') ? 'page' : '' }}">{{ __('Recomendações') }}</a>
                     <a href="{{ route('schedules.index') }}" class="{{ request()->routeIs('schedules.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('schedules') ? 'page' : '' }}">{{ __('Horários') }}</a>
-                    <a href="{{ route('guests.index') }}" class="{{ request()->routeIs('guests.index') ? 'bg-amber-500 text-black' : 'text-black-300 hover:bg-amber-300 hover:text-black' }} rounded-md px-3 py-2 text-sm font-medium" aria-current="{{ request()->routeIs('guests') ? 'page' : '' }}">{{ __('Convidados') }}</a>
                     @endrole
                     
                     @role('administrative')

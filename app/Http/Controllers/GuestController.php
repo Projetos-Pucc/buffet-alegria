@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\Guests\CreateGuestDTO;
 use App\DTO\Guests\UpdateGuestDTO;
 use App\Enums\BookingStatus;
+use App\Enums\GuestStatus;
 use App\Http\Requests\Guests\GuestsUpdateRequest;
 use App\Services\BookingService;
 use App\Services\GuestService;
@@ -55,7 +56,7 @@ class GuestController extends Controller
     }
     public function store_party_mode(GuestsUpdateRequest $request)
     {
-        $guest = $this->service->create(CreateGuestDTO::makeFromRequest($request));
+        $guest = $this->service->create(CreateGuestDTO::makeFromRequest($request), GuestStatus::P);
 
         return back();
     }

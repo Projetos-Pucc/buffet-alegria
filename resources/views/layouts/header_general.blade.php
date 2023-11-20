@@ -77,12 +77,12 @@
 
         @elseif(request()->routeIs('schedules.update'))
             @php
-                $name = 'Horários';
+                $name = 'Atualizar Horário';
             @endphp   
 
         @elseif(request()->routeIs('schedules.edit'))
             @php
-                $name = 'Horários';
+                $name = 'Atualizar Horário';
             @endphp   
         @elseif(request()->routeIs('guests.index'))
             @php

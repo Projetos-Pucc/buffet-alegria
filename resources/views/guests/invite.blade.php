@@ -9,7 +9,8 @@
                     @endforeach
                     @endif
 
-                    <h1>Bem vindo a festa</h1>
+                    <h1>Bem vindo a festa de <strong>{{$booking->name_birthdayperson}}</strong></h1>
+                    <br>
 
                     <form class="w-full max-w-lg" action="{{ route('guests.store') }}" method="POST" enctype="multipart/form-data" id="form">
 
