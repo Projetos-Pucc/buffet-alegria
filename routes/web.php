@@ -92,10 +92,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/packages/not_found', [PackageController::class, 'not_found'])->name('packages.not_found');
     Route::get('/packages/{slug}', [PackageController::class, 'find'])->name('packages.show');
     
+    Route::get('/guests/{booking}/invite', [GuestController::class, 'invite'])->name('guests.invite');
     Route::get('/guests/not_found', [GuestController::class, 'not_found'])->name('guests.not_found');
     Route::get('/guests/{booking}/approved', [GuestController::class, 'approved'])->name('guests.approved');
-    Route::get('/guests/{booking}/invite', [GuestController::class, 'invite'])->name('guests.invite');
     Route::post('/guests/store', [GuestController::class, 'store'])->name('guests.store');
+    Route::post('/guests/store_party_mode', [GuestController::class, 'store_party_mode'])->name('guests.store_party_mode');
     Route::patch('/guests/{id}/status', [GuestController::class,'updateStatus'])->name('guests.updateStatus');
     
     // Aniversariante
@@ -106,6 +107,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/bookings/delete/{id}', [BookingController::class,'delete'])->name('bookings.delete');
     Route::get('/bookings/{id}', [BookingController::class, 'find'])->name('bookings.show');
     Route::put('/bookings/{id}',[BookingController::class,'update'])->name('bookings.update');
+    Route::patch('/bookings/{id}/status', [BookingController::class, 'changeStatus'])->name('bookings.changeStatus');
     
     Route::post('/survey/answer', [SatisfactionSurveyController::class, 'answer'])->name('survey.answer');
     Route::get('/survey/not_found', [SatisfactionSurveyController::class, 'not_found'])->name('survey.not_found');

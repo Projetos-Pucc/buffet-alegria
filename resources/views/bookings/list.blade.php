@@ -22,7 +22,9 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Inicio</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Fim</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Alterar Status</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
+
 
                             </tr>
                         </thead>
@@ -67,6 +69,23 @@
                                         @endphp
                                         <span class="{{ $class }}">{{ App\Enums\BookingStatus::fromValue($booking->status) }}</span>
                                     </td>
+                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
+                                        <div class="flex flex-wrap -mx-3 mb-6">
+                                        <div class="w-full  px-3 mb-6 md:mb-0">
+
+                                            <form action="{{route('bookings.changeStatus',$booking['id'])}}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                                                <select name="status" id="status" required onchange="this.form.submit()">
+                                                    @foreach( App\Enums\BookingStatus::array() as $key => $value )
+                                                        <option value="{{$value}}" {{ $booking->status == $value ? 'selected' : ""}}>{{$key}}</option>
+                                                    @endforeach
+                                                    <!-- <option value="invalid2"  disabled>Nenhum horario disponivel neste dia, tente novamente!</option> -->
+                                                </select>
+                                            </form>
+                                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{ route('bookings.show', $booking->id) }}" title="Visualizar '{{$booking->name_birthdayperson}}'">👁️</a>
                                         @php

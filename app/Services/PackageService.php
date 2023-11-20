@@ -100,9 +100,6 @@ class PackageService {
 
         $dto->photo = $imageName;
 
-        unset($dto->photo);
-        unset($dto->image_id);
-
         return $this->package->updateImage($dto);
     }
 

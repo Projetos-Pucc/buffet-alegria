@@ -59,7 +59,11 @@
                                     </a>
                                 </div>
                             @endif
-                            @if(($booking->status === "A") && auth()->user()->id === $booking->user_id && $date_valid)
+                            @php
+                            $date = $date->addDays($min_days);
+                            $date_valid2 = $date > \Illuminate\Support\Carbon::now();
+                            @endphp
+                            @if(($booking->status === "A") && auth()->user()->id === $booking->user_id && $date_valid2)
                             <br>
                             <h1><strong>Link lista de convidados:</strong></h1>
                             <div class="flex">
@@ -73,11 +77,8 @@
                         @endif
                         </div>
 
-                        <div  style="width: 50%">
-                            @php
-                            $date = $date->addDays($min_days);
-                            $date_valid2 = $date > \Illuminate\Support\Carbon::now();
-                            @endphp
+                        <div style="width: 50%">
+
                             @if($booking->status === "A" && count($recommendations) !== 0 && $date_valid2)
                                 <div>
                                     <h2><strong>Recomendações para a festa:</strong></h2>
@@ -89,6 +90,11 @@
                         </div>
                     </div>
                     <div>
+                        @php
+                            $date = \Illuminate\Support\Carbon::parse($booking->party_day.' '.$booking->open_schedule['time']);
+                            // $date = $date->addDays(1);
+                            $date_valid3 = $date > \Illuminate\Support\Carbon::now();
+                        @endphp
                         @if($booking->status === "F" || $booking->status === "E"  || $booking->status === "A")
                             <br>
                             <h1><strong>Lista de Convidados:</strong></h1>
@@ -103,6 +109,9 @@
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">CPF</th>
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">Idade</th>
                                         <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
+                                        @if($booking->status === "A" && $date_valid3)
+                                            <th class="p-3 text-sm font-semibold tracking-wide text-center">Alterar Status</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">
@@ -120,19 +129,13 @@
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-left">{{ $value['nome'] }}</td>
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ mb_strimwidth($value['cpf'], 0, $limite_char, " ...") }}</td>
                                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ (int)$value['idade'] }}</td>
-                                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                                                <div class="flex flex-wrap -mx-3 mb-6">
-                                                <div class="w-full  px-3 mb-6 md:mb-0">
-                                                    @php
-                                                        $date = \Illuminate\Support\Carbon::parse($booking->party_day.' '.$booking->open_schedule['time']);
-                                                        // $date = $date->addDays(1);
-                                                        $date_valid3 = $date > \Illuminate\Support\Carbon::now();
-                                                    @endphp
-                                                    @if($booking->status === "A" && $date_valid3)
+                                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">{{ App\Enums\GuestStatus::fromValue($value->status) }}</td>
+                                            @if($booking->status === "A" && $date_valid3)
+                                                <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                                     <form action="{{route('guests.updateStatus',$value['id'])}}" method="POST">
                                                         @csrf
                                                         @method('PATCH')
-        
+
                                                         <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
                                                         <select name="status" id="status" required onchange="this.form.submit()">
                                                             @foreach( App\Enums\GuestStatus::array() as $key => $status )
@@ -141,16 +144,11 @@
                                                             <!-- <option value="invalid2"  disabled>Nenhum horario disponivel neste dia, tente novamente!</option> -->
                                                         </select>
                                                     </form>
-                                                    @else
-                                                        {{ App\Enums\GuestStatus::fromValue($value->status) }}
-                                                    @endif
-                    
-                                                    <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
-                                                </div>
+                                                </td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     @endif
-
                                 </tbody>
                             </table>
                             {{ $guests->links('components.pagination') }}

@@ -114,6 +114,8 @@
                 }
             })
 
+            console.log(data.data)
+
             if(data.data.length == 0) return;
 
             const questions = data.data.questions.map((question, index)=>{

@@ -24,7 +24,7 @@
                                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nome0">
                                             Nome do convidado
                                         </label>
-                                        <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="nome0" type="text" placeholder="Fulano" name="rows[0][nome]" value="{{old('nome')}}">
+                                        <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="nome0" type="text" placeholder="Nome" name="rows[0][nome]" value="{{old('nome')}}">
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap -mx-3 mb-6">
@@ -32,7 +32,7 @@
                                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="cpf0">
                                             CPF
                                         </label>
-                                        <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf0" type="text" placeholder="CPF do fulano" name="rows[0][cpf]" value="{{old('cpf[0]')}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (XXX.XXX.XXX-XX)">
+                                        <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf0" type="text" placeholder="CPF" name="rows[0][cpf]" value="{{old('cpf[0]')}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (XXX.XXX.XXX-XX)">
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap -mx-3 mb-6">
@@ -40,7 +40,7 @@
                                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="idade0">
                                             Idade 
                                         </label>
-                                    <input required type="number" id="idade0" name="rows[0][idade]" placeholder="Idade do Fulano">{{old('idade')}}
+                                    <input required type="number" id="idade0" name="rows[0][idade]" placeholder="Idade">{{old('idade')}}
                                     </div>
                                 </div>
                             </div>

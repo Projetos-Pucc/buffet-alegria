@@ -39,7 +39,7 @@
             
                                 <h1><strong>Convidados Extras:</strong></h1>
             
-                                <form class="w-full max-w-lg" action="{{ route('guests.store') }}" method="POST" enctype="multipart/form-data" id="form">
+                                <form class="w-full max-w-lg" action="{{ route('guests.store_party_mode') }}" method="POST" enctype="multipart/form-data" id="form">
             
                                     @csrf
             
@@ -52,7 +52,7 @@
                                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nome">
                                                         Nome do convidado
                                                     </label>
-                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="nome" type="text" placeholder="Fulano" name="nome" value="{{old('nome')}}">
+                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="nome" type="text" placeholder="Fulano" name="rows[0][nome]" value="{{old('nome')}}">
                                                 </div>
                                             </div>
                                             <div class="flex flex-wrap -mx-3 mb-6">
@@ -60,15 +60,15 @@
                                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="cpf">
                                                         CPF
                                                     </label>
-                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf" type="text" placeholder="CPF do fulano" name="cpf" value="{{old('cpf')}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (XXX.XXX.XXX-XX)">
+                                                    <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cpfs" id="cpf" type="text" placeholder="CPF do fulano" name="rows[0][cpf]" value="{{old('cpf')}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (XXX.XXX.XXX-XX)">
                                                 </div>
                                             </div>
                                             <div class="flex flex-wrap -mx-3 mb-6">
                                                 <div class="w-full  px-3 mb-6 md:mb-0">
-                                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="idade0">
+                                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="idade">
                                                         Idade 
                                                     </label>
-                                                <input required type="number" id="idade0" name="rows[0][idade]" placeholder="Idade do Fulano">{{old('idade')}}
+                                                <input required type="number" id="idade" name="rows[0][idade]" placeholder="Idade do Fulano">{{old('idade')}}
                                                 </div>
                                             </div>
                                         </div>
@@ -144,8 +144,8 @@
 
                                     </tbody>
                                 </table>
+                                {{ $guests->links('components.pagination') }}
                             </div>
-                            {{ $guests->links('components.pagination') }}
                         @endif
                     </div>
                 </div>
@@ -193,7 +193,7 @@
             return true;
         }
 
-        form.addEventListener('submit', function (e){
+        form.addEventListener('submit', async function (e){
             e.preventDefault()
             const cpf = document.querySelector('#cpf')
 
@@ -202,7 +202,14 @@
                 error("O cpf é invalido")
                 return;
             }
-            this.submit();
+            const userConfirmed = await confirm(`Deseja cadastrar este usuário na festa?`)
+
+            if (userConfirmed) {
+                this.submit();
+                basic("Usuário cadastrado com sucesso")
+            } else {
+                error("Ocorreu um erro!")
+            }
         })
     </script>
 

@@ -17,7 +17,7 @@ interface PackageRepository {
     public function change_status(int $id): bool|null;
     public function create(CreatePackageDTO $dto): stdClass;
     public function update(UpdatePackageDTO $dto): bool|null;
-    public function updateImage(UpdatePackageImageDTO $dto): stdClass|null;
+    public function updateImage(UpdatePackageImageDTO $dto): bool|null;
     public function getAllByStatus(bool $status = true): array;
     // add change status
 }

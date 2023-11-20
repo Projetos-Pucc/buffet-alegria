@@ -245,4 +245,8 @@ class BookingService
         string $filter = null) {
         return $this->booking->findByUserPaginate(userId: $user_id, page: $page, totalPerPage: $totalPerPage, filter: $filter);
     }
+
+    public function changeStatus($status,$id){
+        return $this->booking->changeStatus($id,$status);
+    }
 }

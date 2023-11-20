@@ -7,7 +7,10 @@ use App\DTO\Packages\UpdatePackageDTO;
 use App\DTO\Packages\UpdatePackageImageDTO;
 use App\Http\Requests\Packages\PackagesUpdateRequest;
 use App\Services\PackageService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use TypeError;
 
 class PackageController extends Controller
 {
@@ -17,14 +20,15 @@ class PackageController extends Controller
 
     public function update_image(Request $request) {
         if (isset($request->files)) {
-            // $image_index = 1;
-            // foreach ($request->files as $image) {
-            //     $img_db = 'photo_' . $image_index;
-            //     $image_index++;
-            //     $dto->$img_db = $this->service->uploadImage($image);
-            // }
+            if(!$this->service->findBySlug($request->slug)){
+                return redirect()->route('packages.not_found');
+            }
+            $this->service->updateImage(UpdatePackageImageDTO::makeFromRequest($request));
+            return back();
         }
-        dd(UpdatePackageImageDTO::makeFromRequest($request));
+        $retornos = new MessageBag();
+        $retornos->add('errors', 'Imagem não enviada');
+        return back()->withErrors($retornos);
     }
     
     public function index(Request $request)
@@ -63,9 +67,31 @@ class PackageController extends Controller
 
     public function store(PackagesUpdateRequest $request)
     {
-        $package = $this->service->create(CreatePackageDTO::makeFromRequest($request));
+        $retornos = new MessageBag();
+    
+        try {
+            $package = $this->service->findBySlug($request->slug);
+            if($package) {
+                $retornos->add('errors', 'Slug já existe');
+                return back()->withErrors($retornos);
+            }
 
-        return redirect()->route('packages.show', $package->slug);
+            if(!isset($request->images) || count($request->images) != 3) {
+                $retornos->add('errors', 'Não existem 3 fotos na requisição');
+                return back()->withErrors($retornos);
+            }
+            $package = $this->service->create(CreatePackageDTO::makeFromRequest($request));
+
+            return redirect()->route('packages.show', $package->slug);
+        } catch (TypeError $e) {
+            // Captura uma exceção de tipo (TypeError)
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
+        } catch (Exception $e) {
+            // Captura outras exceções
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
+        }
     }
     public function change_status(Request $request)
     {
@@ -88,15 +114,31 @@ class PackageController extends Controller
 
     public function update(PackagesUpdateRequest $request)
     {
-        $package = $this->service->update(
-            UpdatePackageDTO::makeFromRequest($request)
-        );
-        if(!$package){
-            return redirect()->route('packages.not_found');
+        $retornos = new MessageBag();
+    
+        try {
+            $package = $this->service->update(
+                UpdatePackageDTO::makeFromRequest($request)
+            );
+            if(!$package){
+                return redirect()->route('packages.not_found');
+            }
+    
+            $package = $this->service->find($request->id);
+    
+            return redirect()->route('packages.show', $package->slug);
+        } catch (TypeError $e) {
+            // Captura uma exceção de tipo (TypeError)
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
+        } catch (Exception $e) {
+            // Captura outras exceções
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
+        } catch (TypeError $e) {
+            // Captura outras exceções
+            $retornos->add('errors', $e->getMessage());
+            return back()->withErrors($retornos);
         }
-
-        $package = $this->service->find($request->id);
-
-        return redirect()->route('packages.show', $package->slug);
     }
 }

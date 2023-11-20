@@ -58,6 +58,7 @@ class SatisfactionSurveyController extends Controller
         {
             if($booking['status'] === BookingStatus::E->name){
                 $booking_did_not_answered = $booking;
+                break;
             }
         }
         if(!$booking_did_not_answered) return response()->json();

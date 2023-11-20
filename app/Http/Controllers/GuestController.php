@@ -53,6 +53,12 @@ class GuestController extends Controller
 
         return redirect()->route('guests.approved', $guest['booking_id']);
     }
+    public function store_party_mode(GuestsUpdateRequest $request)
+    {
+        $guest = $this->service->create(CreateGuestDTO::makeFromRequest($request));
+
+        return back();
+    }
 
     public function delete(Request $request)
     {

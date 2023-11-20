@@ -88,12 +88,15 @@ class EloquentORMPackageRepository implements PackageRepository
         return $package->update((array)$dto);
     }
 
-    public function updateImage(UpdatePackageImageDTO $dto): stdClass|null
+    public function updateImage(UpdatePackageImageDTO $dto): bool|null
     {
-        if (!$package = $this->package->find($dto->id)) {
+        if (!$package = $this->package->where('slug', $dto->slug)) {
             return null;
         }
-        return $package->update((array)$dto);
+        
+        $photo = 'photo_'.$dto->image_id;
+
+        return $package->where('slug',$dto->slug)->update([$photo=>$dto->photo]);
     }
 
     public function findOne(...$filters): stdClass|null

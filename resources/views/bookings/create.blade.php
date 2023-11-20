@@ -41,7 +41,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name_birthdayperson">
                                     Nome do aniversariante
                                 </label>
-                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name_birthdayperson" type="text" placeholder="Guilherme" name="name_birthdayperson" value="{{old('name_birthdayperson')}}">
+                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name_birthdayperson" type="text" placeholder="Nome" name="name_birthdayperson" value="{{old('name_birthdayperson')}}">
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -49,7 +49,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="years_birthdayperson">
                                     Idade do aniversariante
                                 </label>
-                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="years_birthdayperson" type="number" placeholder="19" name="years_birthdayperson" value="{{old('years_birthdayperson')}}" min="1" step="1">
+                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="years_birthdayperson" type="number" placeholder="Idade" name="years_birthdayperson" value="{{old('years_birthdayperson')}}" min="1" step="1">
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -57,7 +57,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Quantidade de convidados
                                 </label>
-                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="qnt_invited" type="number" placeholder="0" name="qnt_invited" value="{{old('qnt_invited')}}" min="1" step="1">
+                                <input required class="appearance-none block w-full bg-amber-100 text-gray-700 border border-amber-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="qnt_invited" type="number" placeholder="Número de Convidados" name="qnt_invited" value="{{old('qnt_invited')}}" min="1" step="1">
                             </div>
                         </div>
 
@@ -268,7 +268,7 @@
 
         party_day.addEventListener('change', async function() {
             const agora = new Date();
-            const escolhida = new Date(this.value);
+            const escolhida = new Date(this.value + 'T00:00:00');
             while (party_time.options.length > 1) {
                 party_time.remove(1); // Remova a segunda opção em diante (índice 1)
             }

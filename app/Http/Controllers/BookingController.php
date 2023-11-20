@@ -87,10 +87,10 @@ class BookingController extends Controller
             abort(403);
         }
 
-        $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);       
-
+        $guests = $this->guests->getByBooking(id: $id);
+        
         $unblockGuests = [];
-        foreach ($guests->items() as $guest) {
+        foreach ($guests as $guest) {
             if (!($this->filterGuestBlocked($guest))) {
                 $unblockGuests[] = $guest;
             }
@@ -98,11 +98,13 @@ class BookingController extends Controller
 
 
         $arrivedGuests = [];
-        foreach ($guests->items() as $guest) {
+        foreach ($guests as $guest) {
             if ($this->filterGuestArrived($guest)) {
                 $arrivedGuests[] = $guest;
             }
         }
+        
+        $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);
         
         $guest_counter = ['arrived'=>count($arrivedGuests), 'unblocked'=>count($unblockGuests)];
 
@@ -118,17 +120,17 @@ class BookingController extends Controller
 
     private function filterGuestConfirmed($guest)
     {
-        return $guest->status == GuestStatus::C->name;
+        return $guest['status'] == GuestStatus::C->name;
     }
 
     private function filterGuestArrived($guest)
     {
-        return $guest->status == GuestStatus::P->name;
+        return $guest['status'] == GuestStatus::P->name;
     }
 
     private function filterGuestBlocked($guest)
     {
-        return $guest->status == GuestStatus::B->name;
+        return $guest['status'] == GuestStatus::B->name;
     }
     
     public function find(string $id, Request $request)
@@ -146,10 +148,10 @@ class BookingController extends Controller
         $recommendations = $this->recommendations->getAll();
         $recommendations = array_slice($recommendations, 0, 10);
 
-        $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);
+        $guests = $this->guests->getByBooking(id: $id);
         
         $unblockGuests = [];
-        foreach ($guests->items() as $guest) {
+        foreach ($guests as $guest) {
             if (!($this->filterGuestBlocked($guest))) {
                 $unblockGuests[] = $guest;
             }
@@ -157,13 +159,15 @@ class BookingController extends Controller
         
         $confirmedGuests = [];
         $arrivedGuests = [];
-        foreach ($guests->items() as $guest) {
+        foreach ($guests as $guest) {
             if ($this->filterGuestArrived($guest)) {
                 $arrivedGuests[] = $guest;
             } else if($this->filterGuestConfirmed($guest)) {
                 $confirmedGuests[] = $guest;
             }
         }
+        
+        $guests = $this->guests->getByBookingPaginate(page: $request->get('page', 1), totalPerPage: $request->get('per_page', 5), id: $id);
         
         $guest_counter = ['arrived'=>count($arrivedGuests), 'unblocked'=>count($unblockGuests), 'total'=>count($arrivedGuests)+count($confirmedGuests)];
 
@@ -243,6 +247,12 @@ class BookingController extends Controller
 
     public function not_found(){
         return view('bookings.booking-not-found');
+    }
+    
+    public function changeStatus(Request $request, $id){
+
+        $this->service->changeStatus(BookingStatus::getEnumByName($request->status), $id);
+        return back();
     }
 
 }
