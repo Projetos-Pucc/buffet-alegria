@@ -23,7 +23,7 @@ class GuestService
         return $this->guest->updateStatus($id,$status);
     }
 
-    public function create(CreateGuestDTO $dto)
+    public function create(CreateGuestDTO $dto, GuestStatus $status=GuestStatus::E)
     {
         $rows = [];
         foreach ($dto->rows as $value) {
@@ -31,7 +31,7 @@ class GuestService
                 "nome" => $value['nome'],
                 "cpf" => $value['cpf'],
                 "idade" => $value['idade'],
-                "status" => GuestStatus::E->name,
+                "status" => $status->name,
                 "booking_id" => $dto->booking_id
             ];
             
