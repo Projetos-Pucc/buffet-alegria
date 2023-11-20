@@ -9,11 +9,17 @@ class Booking extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function user() {
         return $this->belongsTo(User::class);
     }
 
     public function package() {
-        return $this->hasOne(Package::class);
+        return $this->belongsTo(Package::class);
+    }
+
+    public function open_schedule() {
+        return $this->belongsTo(OpenSchedule::class);
     }
 }

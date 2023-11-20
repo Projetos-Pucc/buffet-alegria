@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Repositories\Contract;
+
+use App\DTO\OpenSchedules\CreateOpenScheduleDTO;
+use App\DTO\OpenSchedules\UpdateOpenScheduleDTO;
+use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
+use stdClass;
+
+interface OpenScheduleRepository {
+    public function getOpenSchedulesByDay(DateTime $day): array;
+    public function getOpenSchedulesByDayUpdate(DateTime $day, int $booking_id): array;
+    public function findByHour(string $time): stdClass|null;
+
+    public function getAll(string $filter = null): array;
+    public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;
+    public function findOneById(string $id): stdClass|null;
+    public function findOne(...$filters): stdClass|null;
+    public function change_status(string $id): bool|null;
+    public function create(CreateOpenScheduleDTO $dto): stdClass;
+    public function update(UpdateOpenScheduleDTO $dto): bool|null;
+}
