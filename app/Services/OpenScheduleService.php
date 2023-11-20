@@ -44,12 +44,15 @@ class OpenScheduleService
     }
     public function create(CreateOpenScheduleDTO $dto)
     {
+        $time_exists = $this->validate_time_exists($dto->time);
+        if(isset($time_exists)) {
+            throw new Exception('Time already exists');
+        }
         return $this->open_schedules->create($dto);
     }
 
-    public function delete($id)
-    {
-        return $this->open_schedules->delete($id);
+    public function change_status(int $id) {
+        return $this->open_schedules->change_status($id);
     }
 
     private function validate_time_exists(string $time) {

@@ -17,7 +17,7 @@ interface OpenScheduleRepository {
     public function paginate(int $page=1, int $totalPerPage=15, string $filter = null): LengthAwarePaginator;
     public function findOneById(string $id): stdClass|null;
     public function findOne(...$filters): stdClass|null;
-    public function delete(string $id): bool|null;
+    public function change_status(string $id): bool|null;
     public function create(CreateOpenScheduleDTO $dto): stdClass;
     public function update(UpdateOpenScheduleDTO $dto): bool|null;
 }

@@ -23,4 +23,13 @@ enum BookingStatus: string {
 
         throw new \ValueError("$status is not valid");
     }
+    public static function getEnumByName(string $name): self {
+        foreach (self::cases() as $status) {
+            if($name === $status->name) {
+                return $status;
+            }
+        }
+
+        throw new \ValueError("$status is not valid");
+    }
 }

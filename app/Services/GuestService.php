@@ -73,5 +73,8 @@ class GuestService
     public function getByBookingPaginate(string $id, int $page=1, int $totalPerPage=15, string $filter = null) {
         return $this->guest->getByBookingPaginate(page: $page, totalPerPage: $totalPerPage, filter: $filter, id: $id);
     }
+    public function getByBooking(string $id) {
+        return $this->guest->getByBooking(id: $id);
+    }
 
 }

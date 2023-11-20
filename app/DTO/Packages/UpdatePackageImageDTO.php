@@ -7,19 +7,16 @@ use Illuminate\Http\Request;
 
 class UpdatePackageImageDTO {
     public function __construct(
-        public string $id,
-        public string $photo,
+        public string $slug,
+        public mixed $photo,
         public int $image_id
     ) {}
 
     public static function makeFromRequest(Request $request):self {
-        // $request->validate([
-            
-        // ]);
         return new self(
-        $request->id,
-        $request->photo,
-        $request->image_id,
-    );
+            $request->slug,
+            $request->photo,
+            $request->image_id,
+        );
     }
 }

@@ -74,8 +74,8 @@ class PackageService {
         return $this->package->findOneBySlug($id);
     }
 
-    public function delete(string $slug) {
-        return $this->package->delete($slug);
+    public function change_status(int $id) {
+        return $this->package->change_status($id);
     }
 
     public function update(UpdatePackageDTO $dto) {
@@ -99,9 +99,6 @@ class PackageService {
         $photo = $dto->photo . $dto->image_id;
 
         $dto->photo = $imageName;
-
-        unset($dto->photo);
-        unset($dto->image_id);
 
         return $this->package->updateImage($dto);
     }

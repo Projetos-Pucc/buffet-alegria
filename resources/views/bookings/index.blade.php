@@ -6,9 +6,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="overflow-auto">
-                        @if(isset($current_party))
-                            <div>
-                                <h1>Há uma festa em andamento! Clique <a href="{{route('bookings.party_mode', $current_party->id)}}">aqui</a></h1>
+                        @php
+                            $user = auth()->user();
+                        @endphp
+                        @if(isset($current_party) && ($user->hasRole('operational') || $user->hasRole('administrative')))
+                            <div class="bg-amber-400 p-4 text-white rounded-md my-3">
+                                <h1>Há uma festa em andamento! <a href="{{route('bookings.party_mode', $current_party->id)}}" class="font-bold">Clique aqui</a></h1>
                             </div>
                         @endif
                     <h1 class="inline-flex items-center border border-transparent text-lg leading-4 font-semi-bold">Listagem das próximas reservas ativas</h1>
@@ -18,7 +21,7 @@
                                 <!-- w-24 p-3 text-sm font-semibold tracking-wide text-left -->
                                 <th class="w-20 p-3 text-sm font-semibold tracking-wide text-center">ID</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left">Nome Aniversariante</th>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Convidados</th>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Máx. Convidados</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Pacote</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Dia da festa</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Inicio</th>

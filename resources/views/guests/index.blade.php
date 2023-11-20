@@ -19,7 +19,6 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Idade</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Status</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Booking</th>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-center">Ações</th>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Alterar Status</th>
 
 
@@ -44,7 +43,6 @@
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <a href="{{route('bookings.show', [$values['booking_id']])}}" class="font-bold text-blue-500 hover:underline">{{ $values['booking']['name_birthdayperson']}}</a>
                                     </td>
-                                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">X</td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                                         <div class="flex flex-wrap -mx-3 mb-6">
                                         <div class="w-full  px-3 mb-6 md:mb-0">

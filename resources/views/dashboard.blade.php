@@ -12,7 +12,7 @@
                                     <!-- w-24 p-3 text-sm font-semibold tracking-wide text-left -->
                                     <th class="w-20 p-3 text-sm font-semibold tracking-wide text-center">ID</th>
                                     <th class="p-3 text-sm font-semibold tracking-wide text-left">Nome Aniversariante</th>
-                                    <th class="p-3 text-sm font-semibold tracking-wide text-center">Convidados</th>
+                                    <th class="p-3 text-sm font-semibold tracking-wide text-center">Máx. Convidados</th>
                                     <th class="p-3 text-sm font-semibold tracking-wide text-center">Pacote</th>
                                     <th class="p-3 text-sm font-semibold tracking-wide text-center">Dia da festa</th>
                                     <th class="p-3 text-sm font-semibold tracking-wide text-center">Inicio</th>
@@ -113,6 +113,8 @@
                     'X-CSRF-TOKEN': csrf
                 }
             })
+
+            console.log(data.data)
 
             if(data.data.length == 0) return;
 

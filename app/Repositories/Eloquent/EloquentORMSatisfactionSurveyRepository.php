@@ -60,7 +60,7 @@ class EloquentORMSatisfactionSurveyRepository implements SatisfactionSurveyRepos
         return $this->questions->where('id', $id)->update(['status'=>!$question->status]);
     }
     public function get_questions_in_random_order(int $qtd_questions=10): array {
-        return $this->questions->inRandomOrder()->get()->take(10)->toArray();
+        return $this->questions->inRandomOrder()->where('status', true)->get()->take(10)->toArray();
     }
     public function update_question(UpdateSatisfactionQuestionDTO $dto): bool|null{
         if (!$question = $this->questions->find($dto->id)) {

@@ -67,15 +67,13 @@ class EloquentORMPackageRepository implements PackageRepository
         return (object) $package->toArray();
     }
 
-    public function delete(string $id): bool|null
+    public function change_status(int $id): bool|null
     {
         if (!$package = $this->findOneById($id)) {
             return null;
         }
-        return $this->package->where('id', $id)->update(['status'=>false]);
-        // $this->package->destroy($id);
+        return $this->package->where('id', $id)->update(['status'=>!$package->status]);
     }
-
     public function create(CreatePackageDTO $dto): stdClass
     {
         $package = $this->package->create((array)$dto);
@@ -90,12 +88,15 @@ class EloquentORMPackageRepository implements PackageRepository
         return $package->update((array)$dto);
     }
 
-    public function updateImage(UpdatePackageImageDTO $dto): stdClass|null
+    public function updateImage(UpdatePackageImageDTO $dto): bool|null
     {
-        if (!$package = $this->package->find($dto->id)) {
+        if (!$package = $this->package->where('slug', $dto->slug)) {
             return null;
         }
-        return $package->update((array)$dto);
+        
+        $photo = 'photo_'.$dto->image_id;
+
+        return $package->where('slug',$dto->slug)->update([$photo=>$dto->photo]);
     }
 
     public function findOne(...$filters): stdClass|null

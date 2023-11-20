@@ -6,16 +6,19 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 float-left" style="width: 50%; border-right: 3px solid #000000;">
                     <div class="bg-gray-50 border-b-2 border-gray-200">
-                        <p>{{ $package->name_package }}</p>
-                        <br>
-                        <p>Slug {{$package->slug}}</p>
-                        <p>Preço {{$package->price}}</p>
-                        <br>
-                        <p>Descricao das comidas:</p>
+                        <p><strong>Nome do pacote:</strong> {{ $package->name_package }}</p><br>
+                        <p><strong>Slug:</strong> {{ $package->slug }}</p><br>
+                        <p><strong>Preço:</strong> {{ $package->price }}</p><br>
+                        @php
+                        $class_active = "p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50";
+                        $class_unactive = 'p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50';
+                        @endphp
+                        <p><strong>Status:</strong><span class="{{ $package->status == 1 ? $class_active : $class_unactive }}">{{ $package->status == 1 ? "Ativado" : "Desativado" }}</span></p><br>
+                        <p><strong>Descricao das comidas:</strong></p>
                         {!! $package->food_description !!}
                         <br>
                         <br>
-                        <p>Descricao das bebidas:</p>
+                        <p><strong>Descricao das bebidas:</strong></p>
                         {!! $package->beverages_description !!}
                     </div>
                     <br><br>

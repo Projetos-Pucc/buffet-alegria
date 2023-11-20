@@ -22,6 +22,12 @@ class EloquentORMGuestRepository implements GuestRepository {
         ->with('booking')
         ->paginate($totalPerPage, ['*'], 'page', $page);
     }
+    public function getByBooking(string $id): array{
+        return $this->guest
+        ->where('booking_id', $id)
+        ->with('booking')
+        ->get()->toArray();
+    }
 
     // Remover a função getByBookingPaginate e otimizar o filter, de forma a usar apenas a função paginate.
 

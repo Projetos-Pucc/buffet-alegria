@@ -22,7 +22,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name_package">
                                     Nome do pacote
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name_package" type="text" placeholder="Pacote Teste" name="name_package" value="{{old('name_package')}}">
+                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name_package" type="text" placeholder="Nome do Pacote" name="name_package" value="{{old('name_package')}}">
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -30,7 +30,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="slug">
                                     Slug
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="slug" type="text" placeholder="nome-com-hifens" name="slug" value="{{old('slug')}}">
+                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="slug" type="text" placeholder="nome-com-hífens" name="slug" value="{{old('slug')}}">
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -38,7 +38,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das comidas
                                 </label>
-                                <textarea name="food_description" id="food_description" cols="30" rows="5" placeholder="food_description">{{old('food_description')}}</textarea>
+                                <textarea name="food_description" id="food_description" cols="30" rows="5" placeholder="Descrição das Comidas">{{old('food_description')}}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -46,7 +46,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="qnt_invited">
                                     Descrição das bebidas
                                 </label>
-                                <textarea name="beverages_description" id="beverages_description" cols="30" rows="5" placeholder="beverages_description">{{old('beverages_description')}}</textarea>
+                                <textarea name="beverages_description" id="beverages_description" cols="30" rows="5" placeholder="Descrição das Bebidas">{{old('beverages_description')}}</textarea>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -54,12 +54,12 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="slug">
                                     Preço
                                 </label>
-                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" name="price" min="0.01" max="10000.00" step="0.01" placeholder="Insira o preco" value="{{ old('price') }}" />
+                                <input required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" name="price" min="0.01" max="10000.00" step="0.01" placeholder="Preço do Pacote" value="{{ old('price') }}" />
                             </div>
                         </div>
-                        <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
-                        <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
-                        <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" />
+                        <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" required/>
+                        <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" required/>
+                        <input type="file" name="images[]" id="" accept="image/png, image/gif, image/jpeg" required/>
 
                         <button type="submit" class="bg-amber-300 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                             Criar pacote de comida
