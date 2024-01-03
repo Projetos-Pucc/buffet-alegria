@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DecorationController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\OpenScheduleController;
 use App\Http\Controllers\PackageController;
@@ -42,6 +43,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/packages/{slug}/change_status', [PackageController::class,'change_status'])->name('packages.change_status');
         Route::put('/packages/{id}',[PackageController::class,'update'])->name('packages.update');
         Route::patch('/packages/{slug}/photo',[PackageController::class,'update_image'])->name('packages.update_image');
+
+        Route::get('/decorations', [DecorationController::class, 'index'])->name('decorations.index');
+        Route::get('/decorations/create', [DecorationController::class,'create'])->name('decorations.create');
+        Route::post('/decorations/store', [DecorationController::class,'store'])->name('decorations.store');
+        Route::get('/decorations/{slug}/show', [DecorationController::class, 'show'])->name('decoration.show');
+        Route::get('/decorations/{slug}/update', [DecorationController::class,'update'])->name('decorations.update');
+        Route::post('/decorations/{id}/edit', [DecorationController::class,'edit'])->name('decorations.edit');
+        Route::post('/decorations/{id}/delete',[DecorationController::class,'delete'])->name('decorations.delete');
+
+
+
         
         Route::delete('/bookings/negar/{id}', [BookingController::class,'negar'])->name('bookings.negar');
         Route::get('/bookings/list', [BookingController::class, 'list'])->name('bookings.list');

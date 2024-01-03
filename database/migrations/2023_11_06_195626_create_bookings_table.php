@@ -28,6 +28,9 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained(
                 table: 'packages', indexName: 'bookings_package_id'
             );
+            $table->foreignId('decoration_id')->constrained(
+                table: 'decorations', indexName: 'bookings_decoration-id'
+            );
             $table->float('price'); 
             $table->timestamps();
         });
